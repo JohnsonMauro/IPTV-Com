@@ -1,0 +1,54 @@
+.content-header {
+    width: 100%;
+    height: 83%;
+}
+
+.content-header-left {
+    height: 100%;
+    display: flex;
+    vertical-align: middle;
+    float: left;
+    text-align: center;
+}
+
+.content-header-right {
+    height: 100%;
+    display: flex;
+    vertical-align: middle;
+    float: right;
+    text-align: center;
+}
+
+.content-header-item {
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-header-image {
+    height: 60%;
+    width: auto;
+}
+
+.content-header-txt {
+    height: 40%;
+}
+
+.content-header-path {
+    padding-left: 10px;
+    overflow: hidden;
+    height: 17%;
+    border-top: 2px solid #efefef;
+    border-bottom: 2px solid #efefef;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.content-header-path p {
+    font-size: 1.5vh;
+}

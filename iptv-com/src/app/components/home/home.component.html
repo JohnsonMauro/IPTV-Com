@@ -1,0 +1,29 @@
+<div class="container-main">
+
+    <app-alert></app-alert>
+
+    <div class="content-main-header">
+        <app-header [path]="'Home'"></app-header>
+    </div>
+
+    <div class="content-main ">
+        <div class="content-main-left ">
+            <app-playlists></app-playlists>
+        </div>
+        <div class="content-main-right ">
+            <app-configuration (onAddPlaylistClick)="displayPlayslist() "></app-configuration>
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="isDisplayAddPlaylist" style="position: absolute;
+top: 50%;
+left: 50%;
+margin-right: -50%;
+transform: translate(-50%, -50%);
+width: 50%;
+height: 50%;">
+
+    <app-addPlaylist (onClose)="onCloseAddPlaylist()" (onSave)="onSaveAddPlaylist($event)"></app-addPlaylist>
+</div>

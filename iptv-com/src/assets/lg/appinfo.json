@@ -1,0 +1,11 @@
+{
+    "vendor": "JN",
+    "largeIcon": "largeIcon.png",
+    "icon": "icon.png",
+    "main": "index.html",
+    "id": "com.iptv-com.app",
+    "title": "IPTV-Com",
+    "type": "web",
+    "version": "0.0.1",
+    "disableBackHistoryAPI": true
+}

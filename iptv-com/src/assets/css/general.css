@@ -1,0 +1,75 @@
+.container-main {
+    position: relative;
+    width: 100%;
+    background-color: #292929;
+    min-width: 800px;
+    height: 100vh;
+}
+
+.content-main-header {
+    width: 100%;
+    height: 15%;
+}
+
+.content-main {
+    height: calc(85% - 15px);
+    margin-top: 15px;
+}
+
+.content-main-left {
+    float: left;
+    width: 50%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+.content-main-right {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.full-screen {
+    position: absolute;
+    text-align: right;
+    top: 0;
+    left: 0;
+    border: none;
+    width: 100%;
+    background-color: black;
+}
+
+.content-button {
+    border: 5px solid #efefef !important;
+    background-color: #efefef;
+    border-radius: 5px;
+    overflow: hidden;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    color: black;
+}
+
+.content-folder {
+    border: 5px solid #efefef !important;
+    color: #efefef;
+    background-color: transparent;
+    overflow: hidden;
+    text-align: left;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    vertical-align: middle;
+}
+
+.content-icon {
+    margin-right: 10px;
+}

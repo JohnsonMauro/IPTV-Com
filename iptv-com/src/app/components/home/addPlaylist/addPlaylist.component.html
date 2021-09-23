@@ -1,0 +1,54 @@
+<div style="border: 3px solid black; background-color: dimgray; border-radius: 15px; height: 100%;">
+
+
+    <div style="height: 10%; background-color: blue; border-top-right-radius: 15px; border-top-left-radius: 15px">
+        <label>Add playlist</label>
+    </div>
+
+    <div style="height: calc(18%);">
+        <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)" style="height: 50%;">
+            <input type="text" placeholder="Name" class="movable-txt-input" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" />
+        </div>
+    </div>
+
+    <div style="height: calc(18%);">
+        <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)" style="height: 50%;">
+            <input type="text" placeholder="User" class="movable-txt-input" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" />
+        </div>
+    </div>
+
+    <div style="height: calc(18%);">
+        <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)" style="height: 50%;">
+            <input type="text" placeholder="password" class="movable-txt-input" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" />
+        </div>
+    </div>
+
+    <div style="height: calc(18%);">
+        <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)" style="height: 50%;">
+            <input type="text" placeholder="Url" class="movable-txt-input" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" />
+        </div>
+    </div>
+
+    <table style="width: 100%; height: calc(18%);">
+        <tr>
+            <td style="border: 10px solid transparent;">
+                <button type="button" class="movable content-button movable-addplaylist" (click)="save()">
+                                <img alt="+ icon" class="content-icon" [img-lazy-src]="getImage('save_b.png')" />
+                                Save
+                            </button>
+            </td>
+            <td style="border: 10px solid transparent;">
+                <button type="button" class="movable content-button movable-addplaylist" (click)="onClose.emit()">
+                            <img alt="+ icon" class="content-icon" [img-lazy-src]="getImage('back_b.png')" />
+                            Cancel
+                        </button>
+            </td>
+        </tr>
+    </table>
+
+
+
+
+
+
+</div>

@@ -1,0 +1,17 @@
+<div class="content-right-item">
+    <div class="conten-right-center">
+        <button type="button" class="movable content-button" (click)="onAddPlaylistClick.emit()">
+                <img alt="+ icon" class="content-icon" [img-lazy-src]="getImage('plus_b.png')" />
+                Add playlist
+            </button>
+    </div>
+</div>
+
+<div class="content-right-item">
+    <div class="conten-right-center">
+        <button type="button" class="movable content-button" (click)="onSettingsClick.emit()">
+                <img alt="+ icon" class="content-icon" [img-lazy-src]="getImage('settings_b.png')" />
+                Settings
+            </button>
+    </div>
+</div>
