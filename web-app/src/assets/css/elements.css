@@ -2,7 +2,8 @@ label,
 p,
 a,
 button,
-input[type=text] {
+input[type=text] 
+input[type=password]{
     font-size: 2vh;
 }
 

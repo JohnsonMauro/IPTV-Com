@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
 import { SpacialNavigationService } from '../../services/spacialNavigationService';
@@ -34,10 +35,7 @@ export class HomeComponent implements OnInit {
   }
 
   onSaveAddPlaylist(playlist: Playlist){
-    this.alertService.createSuccess(JSON.stringify(playlist));
-    this.alertService.createError(JSON.stringify(playlist));
-    this.alertService.createInfo(JSON.stringify(playlist));
-    this.alertService.createWarning(JSON.stringify(playlist));
+    playlist.password = EncryptHelper.ecrypt(playlist.password);
     this.onCloseAddPlaylist();
   }
 }

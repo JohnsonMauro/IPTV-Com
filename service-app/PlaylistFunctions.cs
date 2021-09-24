@@ -15,7 +15,7 @@ namespace JN.IPTV.App
         [FunctionName("playlistget")]
         public static async Task<IActionResult> Get(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
-            ILogger log)
+            ILogger log, [Table("tbplaylist", Connection = "AzureWebJobsStorage")] IAsyncCollector<TodoTable> tablePlaylist)
         {
             log.LogInformation("Playlist get started");
 
@@ -31,7 +31,7 @@ namespace JN.IPTV.App
         [FunctionName("playlistpost")]
         public static async Task<IActionResult> Post(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
-            ILogger log)
+            ILogger log, [Table("tbplaylist", Connection = "AzureWebJobsStorage")] IAsyncCollector<TodoTable> tablePlaylist)
         {
             log.LogInformation("Playlist post started");
 
