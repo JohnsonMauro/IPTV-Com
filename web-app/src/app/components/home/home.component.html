@@ -8,10 +8,10 @@
 
     <div class="content-main ">
         <div class="content-main-left ">
-            <app-playlists></app-playlists>
+            <app-playlists [playlists]="playlists" (onSelect)="displayPlayslist()" ></app-playlists>
         </div>
         <div class="content-main-right ">
-            <app-configuration (onAddPlaylistClick)="displayPlayslist() "></app-configuration>
+            <app-configuration (onAddPlaylistClick)="displayPlayslist()"></app-configuration>
         </div>
     </div>
 

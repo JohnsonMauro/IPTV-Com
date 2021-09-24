@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit {
   constructor(private spatialNavigation: SpacialNavigationService, private alertService: AlertService) {
   }
 
+  playlists = new Array<Playlist>();
+
   ngOnInit(): void {
   }
   
@@ -36,6 +38,8 @@ export class HomeComponent implements OnInit {
 
   onSaveAddPlaylist(playlist: Playlist){
     playlist.password = EncryptHelper.ecrypt(playlist.password);
+    this.playlists.push(playlist)
     this.onCloseAddPlaylist();
+    this.alertService.createSuccess("Playlist added");
   }
 }
