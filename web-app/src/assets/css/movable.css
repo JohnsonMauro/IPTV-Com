@@ -1,12 +1,13 @@
+
 .movable:focus {
-    border: 5px solid #e00079 !important;
-    background-color: #e00079;
+    border: 5px solid #cf0652 !important;
+    background-color: #cf0652;
     color: #efefef;
 }
 
 .movable:hover {
-    border: 5px solid #e00079 !important;
-    background-color: #e00079;
+    border: 5px solid #cf0652 !important;
+    background-color: #cf0652;
     color: #efefef;
 }
 
