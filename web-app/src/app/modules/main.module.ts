@@ -12,6 +12,7 @@ import { SpacialNavigationService } from '../services/spacialNavigationService';
 import { AddPlaylistComponent } from '../components/home/addPlaylist/addPlaylist.component';
 import { AlertService } from '../services/alertService';
 import { AlertComponent } from '../components/alert/alert.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AlertComponent } from '../components/alert/alert.component';
   ],
   imports: [
     BrowserModule,
-    MainRoutingModule
+    MainRoutingModule,
+    FormsModule
   ],
   providers: [SpacialNavigationService, AlertService],
   bootstrap: [MainComponent]

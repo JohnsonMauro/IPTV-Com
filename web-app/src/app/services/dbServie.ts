@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import '../../assets/js/spatialNavigation';
+import AppInfo from '../../assets/lg/appinfo.json';
 declare var webOS: any;
 
 @Injectable()
@@ -16,7 +16,7 @@ export class DbService {
   }
 
   add(sectionId: string, selector: string) {
-     
+    
   }
 
 

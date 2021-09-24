@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import '../../assets/js/spatialNavigation';
 declare var SpatialNavigation: any;
 
 @Injectable()

@@ -1,9 +1,8 @@
 .notification-area {
     position: fixed;
-    top: 0px;
+    bottom: 10px;
     right: 10px;
     width: 30vw;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -11,14 +10,15 @@
 
 .notification-area .notification {
     position: relative;
-    padding: 15px 10px;
+    padding: 15px;
     background: #111;
     border-radius: 8px;
-    margin: 5px 0px;
     opacity: 0;
-    left: 20px;
-    animation: showNotification 500ms ease-in-out forwards;
+    animation: showNotification 800ms ease-in-out forwards;
     color: #3a433a;
+    max-height: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 @keyframes showNotification {
@@ -29,17 +29,17 @@
 }
 
 .notification-area .notification-success {
-    background: #ddffdd;
-}
-
-.notification-area .notification-error {
-    background: #ffdddd;
-}
-
-.notification-area .notification-warning {
-    background: #ffffcc;
+    background: #2DC4A2;
 }
 
 .notification-area .notification-info {
-    background: #ddffff;
+    background: #69CDFF;
+}
+
+.notification-area .notification-warning {
+    background: #FFB80D;
+}
+
+.notification-area .notification-error {
+    background: #FF4A4A;
 }

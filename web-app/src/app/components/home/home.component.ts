@@ -34,8 +34,10 @@ export class HomeComponent implements OnInit {
   }
 
   onSaveAddPlaylist(playlist: Playlist){
+    this.alertService.createSuccess(JSON.stringify(playlist));
+    this.alertService.createError(JSON.stringify(playlist));
+    this.alertService.createInfo(JSON.stringify(playlist));
+    this.alertService.createWarning(JSON.stringify(playlist));
     this.onCloseAddPlaylist();
-    this.alertService.createError("Playlist added");
   }
-
 }

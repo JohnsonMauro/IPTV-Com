@@ -15,7 +15,7 @@ export class AddPlaylistComponent implements OnInit {
   }
   
   movableSectionAddPlaylist = ".movable-addplaylist";
-  playlist: Playlist;
+  playlist: Playlist = new Playlist;
 
   executeWrapperTextKeyUp = MovableHelper.executeDefaultKeyUpForTextWrapper;
   executeTextKeyDown = MovableHelper.executeDefaultKeyDownForInputText;
@@ -40,7 +40,7 @@ export class AddPlaylistComponent implements OnInit {
   }
 
   save(){
-    this.playlist = { id: 1, name: "name", user: "user", password: "pass", lastSync: new Date, url: "url" };
+    //this.playlist = { id: 1, name: "name", user: "user", password: "pass", lastSync: new Date, url: "url" };
     this.onSave.emit(this.playlist);
   }
 
