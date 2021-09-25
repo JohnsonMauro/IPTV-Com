@@ -1,5 +1,5 @@
 <div class="container-videoplayer" [style.position]="isFullscreen ? 'absolute' : 'relative'">
-    <div class='container-videoplayer'>
+    <div class='container-videoplayer' (click)="onVideoClick()">
         <img [src]="getImage('video_loading.gif')" class="content-videoplayer-image" [style.display]="isCanPlay ? 'none' : 'block'">
         <video #videoPlayerElement class='content-videoplayer-video' (canplay)="onCanPlay()" [style.display]="isCanPlay ? 'block' : 'none'">
             <source [src]="source">
@@ -7,7 +7,7 @@
         </video>
     </div>
     
-    <div class='videoplayer-content-footer' [style.display]="isDisplayControls ? 'block' : 'none'" >
+    <div class='content-videoplayer-footer' [style.display]="isDisplayControls ? 'block' : 'none'" >
         <button *ngIf="!isLiveStream"  class='movable content-videoplayer-controls'>Play</button>
         <button  class='movable content-videoplayer-controls'>Hide</button>
     </div>

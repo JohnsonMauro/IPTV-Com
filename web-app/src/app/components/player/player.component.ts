@@ -35,21 +35,16 @@ export class PlayerComponent implements OnInit {
 	isDisplayControls: boolean;
 	isCanPlay: boolean;
 
-	constructor(private alertService: AlertService) { }
+	constructor() { }
 
 	ngOnInit(): void {
 	}
 
 	onCanPlay() {
-		try{
-			this.alertService.createInfo("canplay");
 			this.isCanPlay = true;
 			this.changeResolution();
 			this.videoPlayerEement.nativeElement.play();
-		}
-		catch(error:any){
-			this.alertService.createError(JSON.stringify(error));
-		}
+
 	}
 
 	getImage(name: string) {
@@ -69,6 +64,8 @@ export class PlayerComponent implements OnInit {
 	}
 
 	onVideoClick(){
+		console.log('click on video');
+		if(this.isFullscreen)
 		this.isDisplayControls = true;
 	}
 

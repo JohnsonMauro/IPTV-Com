@@ -1,72 +1,77 @@
-<div style="border: 3px solid black; background-color: dimgray; border-radius: 15px; height: 100%;">
+<div style="background-color: #262626; height: 100%; padding: 10px;">
 
-
-    <div style="height: 10%; background-color: blue; border-top-right-radius: 15px; border-top-left-radius: 15px">
+    <div style="height: 10%; border-bottom: solid 3px #efefef;">
         <label>Add playlist</label>
     </div>
 
     <table style="width: 100%; height: 70%;">
         <tr>
-            <td style="border: 10px solid transparent;">
+            <td>
                 <label>Name</label>
             </td>
-            <td style="border: 10px solid transparent; width: 100%;">
-                    <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)" style="height: 80%;">
-                        <input type="text" placeholder="Name" class="movable-txt-input" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.name" />
-                    </div>            
+            <td style="width: 100%;">
+                <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)">
+                    <input type="text" placeholder="Name" 
+                        (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)"
+                        [(ngModel)]="playlist.name" />
+                </div>
             </td>
         </tr>
-
         <tr>
-            <td style="border: 10px solid transparent;">
+            <td>
                 <label>User</label>
             </td>
-            <td style="border: 10px solid transparent; width: 100%;">
-                <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)" style="height: 80%;">
-                    <input type="text" placeholder="User" class="movable-txt-input" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.user" />
-                </div>       
+            <td>
+                <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)">
+                    <input type="text" placeholder="User"
+                        (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)"
+                        [(ngModel)]="playlist.user" />
+                </div>
             </td>
         </tr>
-
         <tr>
-            <td style="border: 10px solid transparent;">
+            <td>
                 <label>Pasword</label>
             </td>
-            <td style="border: 10px solid transparent; width: 100%;">
-                <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)" style="height: 80%;">
-                    <input type="password" placeholder="password" class="movable-txt-input" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.password" />
-                </div>          
+            <td>
+                <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)">
+                    <input type="password" placeholder="password" 
+                        (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)"
+                        [(ngModel)]="playlist.password" />
+                </div>
             </td>
         </tr>
-
         <tr>
-            <td style="border: 10px solid transparent;">
+            <td>
                 <label>Url</label>
             </td>
-            <td style="border: 10px solid transparent; width: 100%;">
-                <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)" style="height: 80%;">
-                    <input type="text" placeholder="Url" class="movable-txt-input" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.url" />
-                </div>     
+            <td>
+                <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)">
+                    <input type="text" placeholder="Url" 
+                        (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)"
+                        [(ngModel)]="playlist.url" />
+                </div>
             </td>
         </tr>
     </table>
 
+
     <table style="width: 100%; height: 20%;">
         <tr style="height: 100%;">
             <td style="border: 10px solid transparent; height: 100%;">
-                <button type="button" class="movable content-button movable-addPlaylist" (click)="save()">
-                    <div  class="content-button-center">
-                        <!-- <img alt="icon" [src]="getImage('save.png')" class="content-icon" /> -->
+                <button type="button" class="movable content-button movable-addplaylist" (click)="save()">
+                    <div class="content-button-center">
+                        <img alt="icon" [src]="getImage('save.png')" class="content-icon" />
                         Save
-                    </div> 
+                    </div>
                 </button>
             </td>
             <td style="border: 10px solid transparent; height: 100%;">
-                <button type="button" class="movable content-button movable-addPlaylist" (click)="onCancel.emit()">
-                    <div  class="content-button-center">
-                        <!-- <img alt="icon" [src]="getImage('back.png')" class="content-icon" /> -->
+                <button type="button" class="movable content-button movable-addplaylist" (click)="onCancel.emit()">
+                    <div class="content-button-center">
+                        <img alt="icon" [src]="getImage('back.png')" class="content-icon" />
                         Cancel
-                    </div> 
+                    </div>
                 </button>
             </td>
         </tr>
