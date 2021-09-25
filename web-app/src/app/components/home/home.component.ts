@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
+import { DbService } from 'src/app/services/dbServie';
 import { SpacialNavigationService } from '../../services/spacialNavigationService';
 
 @Component({
@@ -14,16 +16,29 @@ export class HomeComponent implements OnInit {
   private movableSectionIdHome = "movableSectionHome";
   isDisplayAddPlaylist: boolean = false;
 
-  constructor(private spatialNavigation: SpacialNavigationService, private alertService: AlertService) {
+  constructor(private spatialNavigation: SpacialNavigationService
+    ,private alertService: AlertService
+    ,private dbService: DbService
+    ,private route: Router) {
   }
 
   playlists = new Array<Playlist>();
 
   ngOnInit(): void {
+    try{
+      this.playlists = this.dbService.findPlaylists();
+    }
+   catch(error: any){
+    this.alertService.createError(JSON.stringify(error));
+   }   
   }
   
   ngAfterViewInit (){
     this.spatialNavigation.add(this.movableSectionIdHome, ".movable");
+  }
+
+  onSelectPlayslist(playlist: Playlist){
+    this.route.navigate(['/livestream', playlist._id]);
   }
 
   displayPlayslist(){
@@ -31,15 +46,16 @@ export class HomeComponent implements OnInit {
     this.isDisplayAddPlaylist = true;
   }
 
-  onCloseAddPlaylist(){
+  cancelAddPlaylist(){
     this.isDisplayAddPlaylist = false;
     this.spatialNavigation.enable(this.movableSectionIdHome);
   }
 
-  onSaveAddPlaylist(playlist: Playlist){
+  registerPlaylist(playlist: Playlist){
     playlist.password = EncryptHelper.ecrypt(playlist.password);
-    this.playlists.push(playlist)
-    this.onCloseAddPlaylist();
+    playlist = this.dbService.savePlaylist(playlist);
+    this.playlists.push(playlist);
+    this.cancelAddPlaylist();
     this.alertService.createSuccess("Playlist added");
   }
 }

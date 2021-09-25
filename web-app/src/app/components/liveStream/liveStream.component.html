@@ -1,0 +1,21 @@
+<div class="container-main">
+
+    <app-alert></app-alert>
+
+    <div class="content-main-header">
+        <app-header [path]="'Home -> Live stream'"></app-header>
+    </div>
+
+    <div class="content-main ">
+        <div class="content-main-left ">
+            <app-liveStreamItems [liveStreams]="liveStreams" (onSelect)="displayDetails($event)"></app-liveStreamItems>
+        </div>
+        <div class="content-main-right ">
+            
+            <div *ngIf="isDisplayVideo" style="width: 100%; height: 600px;">
+                <app-player [source]="source" [isLiveStream]="true" [isFullscreen]="isFullscreen" ></app-player>
+            </div>
+        </div>
+    </div>
+
+</div>

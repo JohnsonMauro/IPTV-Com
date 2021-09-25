@@ -26,7 +26,7 @@ export class AddPlaylistComponent implements OnInit {
   onSave = new EventEmitter<Playlist>();
 
   @Output()
-  onClose = new EventEmitter<null>();
+  onCancel = new EventEmitter<null>();
 
   @Input()
   id: number = null;

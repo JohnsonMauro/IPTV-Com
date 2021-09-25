@@ -2,7 +2,7 @@
     "vendor": "JN",
     "icon": "icon.png",
     "main": "index.html",
-    "id": "com.jn-iptv-com.app",
+    "id": "com.jn.app.jn-iptv-com",
     "title": "JN-IPTV-Com",
     "type": "web",
     "version": "0.0.1",

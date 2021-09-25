@@ -17,9 +17,8 @@ export class AlertComponent implements OnInit {
             .subscribe((alert) => {
                 this.alerts.push(alert);
                 setTimeout(() => {
-                    console.log('timeout');
                     this.alerts.splice(this.alerts.indexOf(alert), 1);
-                }, 3000);
+                }, 4000);
             });
     }
 

@@ -4,11 +4,13 @@ import { environment } from 'src/environments/environment';
 export class EncryptHelper {
 
   public static ecrypt(text: string): string {
-    return CryptoJS.AES.encrypt(text, environment.encryptSecret).toString();
+    let result = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(text), environment.encryptSecret).toString();
+    return result
   }
 
   public static decrypt(text: string): string {
-    return CryptoJS.AES.decrypt(text, environment.encryptSecret).toString();
+    let result = CryptoJS.AES.decrypt(text, environment.encryptSecret).toString(CryptoJS.enc.Utf8);
+    return result
   }
 }
 

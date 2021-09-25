@@ -1,0 +1,14 @@
+<div class="container-videoplayer" [style.position]="isFullscreen ? 'absolute' : 'relative'">
+    <div class='container-videoplayer'>
+        <img [src]="getImage('video_loading.gif')" class="content-videoplayer-image" [style.display]="isCanPlay ? 'none' : 'block'">
+        <video #videoPlayerElement class='content-videoplayer-video' (canplay)="onCanPlay()" [style.display]="isCanPlay ? 'block' : 'none'">
+            <source [src]="source">
+            Your browser does not support HTML5 video.
+        </video>
+    </div>
+    
+    <div class='videoplayer-content-footer' [style.display]="isDisplayControls ? 'block' : 'none'" >
+        <button *ngIf="!isLiveStream"  class='movable content-videoplayer-controls'>Play</button>
+        <button  class='movable content-videoplayer-controls'>Hide</button>
+    </div>
+</div>

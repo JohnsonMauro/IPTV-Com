@@ -1,17 +1,34 @@
-<div class="content-right-item">
-    <div class="conten-right-center">
+<div class="content-right-line">
+    <div class="content-right-center">
         <button type="button" class="movable content-button" (click)="onAddPlaylistClick.emit()">
-                <img alt="+ icon" class="content-icon" [img-lazy-src]="getImage('plus_b.png')" />
+            <div  class="content-button-center">
+                <img alt="icon" [src]="getImage('plus.png')" class="content-icon" />
                 Add playlist
-            </button>
+            </div> 
+        </button>
     </div>
 </div>
 
-<div class="content-right-item">
-    <div class="conten-right-center">
-        <button type="button" class="movable content-button" (click)="onSettingsClick.emit()">
-                <img alt="+ icon" class="content-icon" [img-lazy-src]="getImage('settings_b.png')" />
+<div class="content-right-line">
+    <div class="content-right-center">
+        <button type="button" class="movable content-button">
+            <div  class="content-button-center">
+                <img alt="icon" [src]="getImage('settings.png')" class="content-icon" />
                 Settings
-            </button>
+            </div> 
+        </button>
+    </div>
+</div>
+
+
+
+<div class="content-right-line">
+    <div class="content-right-center">
+        <button type="button" class="movable content-button" (click)="onDelete()">
+            <div  class="content-button-center">
+                <img alt="icon" [src]="getImage('settings.png')" class="content-icon" />
+                Delete
+            </div> 
+        </button>
     </div>
 </div>

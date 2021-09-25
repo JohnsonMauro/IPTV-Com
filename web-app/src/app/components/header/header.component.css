@@ -30,13 +30,13 @@
 }
 
 .content-header-image {
-    height: 60%;
+    height: 80%;
     width: auto;
     border-radius: 10px;
 }
 
 .content-header-txt {
-    height: 40%;
+    height: 50%;
 }
 
 .content-header-path {

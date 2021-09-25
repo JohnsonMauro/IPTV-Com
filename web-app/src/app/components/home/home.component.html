@@ -8,7 +8,7 @@
 
     <div class="content-main ">
         <div class="content-main-left ">
-            <app-playlists [playlists]="playlists" (onSelect)="displayPlayslist()" ></app-playlists>
+            <app-playlistItems [playlists]="playlists" (onSelect)="onSelectPlayslist($event)" ></app-playlistItems>
         </div>
         <div class="content-main-right ">
             <app-configuration (onAddPlaylistClick)="displayPlayslist()"></app-configuration>
@@ -25,5 +25,5 @@ transform: translate(-50%, -50%);
 width: 50%;
 height: 50%;">
 
-    <app-addPlaylist (onClose)="onCloseAddPlaylist()" (onSave)="onSaveAddPlaylist($event)"></app-addPlaylist>
+    <app-addPlaylist (onCancel)="cancelAddPlaylist()" (onSave)="registerPlaylist($event)"></app-addPlaylist>
 </div>

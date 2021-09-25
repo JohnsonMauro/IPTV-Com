@@ -1,0 +1,14 @@
+
+
+
+<div *ngFor="let liveStream of liveStreams" class="content-left-line">
+    <button type="button" class="movable content-folder" (click)="onClick(liveStream)">
+        <div  class="content-folder-left">
+            <img alt="icon" [src]="getImageLiveStream(liveStream)" class="content-icon" loading=lazy />
+            {{liveStream.name}}
+        </div>
+    </button>
+</div>
+
+
+<!-- [img-lazy-src]="getImageLiveStream(liveStream)" [img-lazy-src-error]="getImage('tv.png')" -->

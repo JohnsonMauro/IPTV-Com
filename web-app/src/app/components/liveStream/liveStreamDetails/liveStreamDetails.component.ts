@@ -1,12 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
-import { DbService } from 'src/app/services/dbServie';
 
 
 @Component({
-  selector: 'app-configuration',
-  templateUrl: './configuration.component.html'})
-export class ConfigurationComponent implements OnInit {
+  selector: 'app-liveStreamDetails',
+  templateUrl: './liveStreamDetails.component.html',
+  styleUrls: ['./liveStreamDetails.component.css']
+})
+export class LiveStreamDetailsComponent implements OnInit {
 
   @Output()
   onAddPlaylistClick: EventEmitter<null> = new EventEmitter();
@@ -14,7 +15,7 @@ export class ConfigurationComponent implements OnInit {
   @Output()
   onSettingsClick: EventEmitter<null>= new EventEmitter();
 
-  constructor(private dbService: DbService) {
+  constructor() {
     
   }
 
@@ -25,7 +26,4 @@ export class ConfigurationComponent implements OnInit {
     return DirectoryHelper.getImage(fileName);
   }
 
-  onDelete(){
-    this.dbService.deletePlaylists();
-  }
 }

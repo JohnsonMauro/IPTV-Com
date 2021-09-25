@@ -13,27 +13,24 @@ import { SortCode } from 'src/app/models/app/sortCode';
 export class HeaderComponent implements OnInit {
   constructor(private router: Router) { }
 
-  @Input('path') path: string;
+  @Input() path: string;
 
   @Output() onSearch = new EventEmitter<string>();
-  @Output() onSort: EventEmitter<SortCode>;
-  @Input() onBack: EventEmitter<any>;
+  @Output() onSort = new EventEmitter<SortCode>();
+  @Input() onBack = new EventEmitter();
   
-
   searchText:string;
   sortCode: SortCode;
 
   home(){
-    this.router.navigate(['home']);
+    this.router.navigate(['']);
   }
 
   search(){
-    this.router.navigate(['home']);
-    this.onSearch.emit();
+    this.onSearch.emit(this.searchText);
   }
 
   sort(){
-    this.router.navigate(['home']);
     this.onSort.emit(this.sortCode);
   }
 

@@ -1,9 +1,0 @@
-
-
-
-<div *ngFor="let playlist of playlists" class="content-left-item">
-    <button type="button" class="movable content-folder" (onClick)="onClick(playlist)">
-        <img alt="Save icon" class="content-icon" [img-lazy-src]="getImage('folder.png')" />
-        {{playlist.name}}
-    </button>
-</div>
