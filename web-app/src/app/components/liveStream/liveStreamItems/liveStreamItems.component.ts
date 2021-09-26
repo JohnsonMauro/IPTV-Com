@@ -9,8 +9,7 @@ import { DbService } from 'src/app/services/dbServie';
 
 @Component({
   selector: 'app-liveStreamItems',
-  templateUrl: './liveStreamItems.component.html',
-  styleUrls: ['./liveStreamItems.component.css']
+  templateUrl: './liveStreamItems.component.html'
 })
 export class LiveStreamItemsComponent implements OnInit {
 
@@ -24,10 +23,6 @@ export class LiveStreamItemsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  onClick(liveStream: LiveStream) {
-    this.onSelect.emit(liveStream);
   }
 
   getImage(name: string) {

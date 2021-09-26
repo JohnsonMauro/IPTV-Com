@@ -3,7 +3,7 @@
     <app-alert></app-alert>
 
     <div class="content-main-header">
-        <app-header [path]="'Home -> Live stream'"></app-header>
+        <app-header [siteMap]="'Home > Live stream'"></app-header>
     </div>
 
     <div class="content-main ">
@@ -11,10 +11,49 @@
             <app-liveStreamItems [liveStreams]="liveStreams" (onSelect)="displayDetails($event)"></app-liveStreamItems>
         </div>
         <div class="content-main-right ">
-            
-            <div *ngIf="isDisplayVideo" style="width: 100%; height: 600px;">
-                <app-player [source]="source" [isLiveStream]="true" [isFullscreen]="isFullscreen" ></app-player>
+
+
+            <div class="content-line" style="height: 5%;">
+                Live: {{liveStream?.name}}
             </div>
+
+            <div class="content-line content-line-tv" style="height: 40%;">
+                <app-player [source]="source" [isLiveStream]="true" [isFullscreen]="isFullscreen" [poster]="getImage('tv.png')" (onExitFullscreen)="setFullscreen(false)"></app-player>
+            </div>
+
+            <div class="content-line">
+                <table style="width: 100%; height: 20%;">
+                    <tr style="height: 100%;">
+                        <td style="border: 10px solid transparent; height: 100%;">
+                            <button type="button" class="movable content-button">
+                                <div class="content-button-center">
+                                    <img alt="icon" [src]="getImage('fullscreen.png')" class="content-icon" />
+                                    Fullscreen
+                                </div>
+                            </button>
+                        </td>
+                        <td style="border: 10px solid transparent; height: 100%;">
+                            <button type="button" class="movable content-button">
+                                <div class="content-button-center">
+                                    <img alt="icon" [src]="getImage('star.png')" class="content-icon" />
+                                    Add Favorites
+                                </div>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+            <div class="content-line" style="height: 5%;">
+                EPG:
+            </div>
+
+            <div class="content-line content-line-tv" style="height: 40%;">
+                Test
+            </div>
+
         </div>
     </div>
 

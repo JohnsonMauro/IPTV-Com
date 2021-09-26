@@ -13,10 +13,10 @@
             </div>
         </div>
         <div class="content-header-item">
-            <input type="image" [src]="getImage('search.png')" alt="icon" class="movable button content-header-image" (click)="search()" />
+            <input type="image" [src]="getImage('search.png')" alt="icon" class="movable button content-header-image" (click)="onSearch.emit(searchText)" />
         </div>
         <div class="content-header-item">
-            <input type="image" [src]="getImage('sort.png')" alt="icon" class="movable button content-header-image" (click)="sort()" />
+            <input type="image" [src]="getImage('sort.png')" alt="icon" class="movable button content-header-image" (click)="onSort.emit(sortCode)" />
         </div>
         <div class="content-header-item">
             <input type="image" [src]="getImage('back.png')" alt="icon" class="movable button content-header-image" (click)="back()" />
@@ -25,5 +25,5 @@
 </div>
 
 <div class="content-header-path">
-    <p>{{path}}</p>
+    <p>{{siteMap}}</p>
 </div>

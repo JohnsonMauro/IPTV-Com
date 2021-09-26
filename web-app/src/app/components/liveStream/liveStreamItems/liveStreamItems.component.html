@@ -1,8 +1,8 @@
 
 
 
-<div *ngFor="let liveStream of liveStreams" class="content-left-line">
-    <button type="button" class="movable content-folder" (click)="onClick(liveStream)">
+<div *ngFor="let liveStream of liveStreams" class="content-line">
+    <button type="button" class="movable content-folder" (click)="onSelect.emit(liveStream)">
         <div  class="content-folder-left">
             <img alt="icon" [src]="getImageLiveStream(liveStream)" class="content-icon" loading=lazy />
             {{liveStream.name}}

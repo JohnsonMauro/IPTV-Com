@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
+import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
+import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { LiveStream } from 'src/app/models/api/stream';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
@@ -16,18 +18,17 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 })
 export class LiveStreamComponent implements OnInit {
 
-  private movableSectionIdLive = "movableSectionIdLive";
-  isFullscreen = false;
-  isDisplayVideo = false;
   source: string;
   liveStreams = new Array<LiveStream>();
   playlist: Playlist;
+  liveStream: LiveStream;
+  isFullscreen = false;
 
   constructor(private activatedroute: ActivatedRoute
     , private alertService: AlertService
     , private dbService: DbService
     , private apiService: ApiService
-    , private spatialNavigationService: SpacialNavigationService) {
+    , private spatialNavigation: SpacialNavigationService) {
   }
 
   ngOnInit() {
@@ -47,30 +48,35 @@ export class LiveStreamComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.spatialNavigationService.add(this.movableSectionIdLive, ".movable");
+    this.spatialNavigation.add(MovableHelper.getMovableSectionIdGeneral(), ".movable");
   }
 
-  displayFullScreen() {
-    //this.spatialNavigationService.disable(this.movableSectionIdLive);
-    this.isFullscreen = true;
+  setFullscreen(isFullScreen: boolean) {   
+    if (isFullScreen)
+      this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
+    else
+      this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
+
+      this.isFullscreen = isFullScreen;
   }
 
-  count = false;
   displayDetails(liveStream: LiveStream) {
-    try{
-      this.isDisplayVideo = true;
+    try {
       let url = ApiHelper.generateLiveStreamUrl(this.playlist, liveStream.stream_id.toString());
-  
+
       if (this.source == url)
-        this.isFullscreen = true;
+      this.setFullscreen(true);
       else {
-        this.isFullscreen = false;
         this.source = url;
+        this.liveStream = liveStream;
       }
-      console.log(this.source);
-		}
-		catch(error:any){
-			this.alertService.createError(JSON.stringify(error));
-		}
+    }
+    catch (error: any) {
+      this.alertService.createError(JSON.stringify(error));
+    }
+  }
+
+  getImage(name: string) {
+    return DirectoryHelper.getImage(name);
   }
 }

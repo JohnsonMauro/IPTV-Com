@@ -1,4 +1,4 @@
-<div style="background-color: #262626; height: 100%; padding: 10px;">
+<div class="content-addplaylist-form">
 
     <div style="height: 10%; border-bottom: solid 3px #efefef;">
         <label>Add playlist</label>
@@ -10,10 +10,8 @@
                 <label>Name</label>
             </td>
             <td style="width: 100%;">
-                <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)">
-                    <input type="text" placeholder="Name" 
-                        (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)"
-                        [(ngModel)]="playlist.name" />
+                <div [className]="'movable movable-txt ' +movableSectionAddPlaylist" (keyup)="executeWrapperTextKeyUp($event)">
+                    <input type="text" placeholder="Name" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.name" />
                 </div>
             </td>
         </tr>
@@ -22,10 +20,8 @@
                 <label>User</label>
             </td>
             <td>
-                <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)">
-                    <input type="text" placeholder="User"
-                        (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)"
-                        [(ngModel)]="playlist.user" />
+                <div [className]="'movable movable-txt ' +movableSectionAddPlaylist" (keyup)="executeWrapperTextKeyUp($event)">
+                    <input type="text" placeholder="User" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.user" />
                 </div>
             </td>
         </tr>
@@ -34,10 +30,8 @@
                 <label>Pasword</label>
             </td>
             <td>
-                <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)">
-                    <input type="password" placeholder="password" 
-                        (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)"
-                        [(ngModel)]="playlist.password" />
+                <div [className]="'movable movable-txt ' +movableSectionAddPlaylist" (keyup)="executeWrapperTextKeyUp($event)">
+                    <input type="password" placeholder="password" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.password" />
                 </div>
             </td>
         </tr>
@@ -46,10 +40,8 @@
                 <label>Url</label>
             </td>
             <td>
-                <div class="movable movable-txt movable-addplaylist" (keyup)="executeWrapperTextKeyUp($event)">
-                    <input type="text" placeholder="Url" 
-                        (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)"
-                        [(ngModel)]="playlist.url" />
+                <div [className]="'movable movable-txt ' +movableSectionAddPlaylist" (keyup)="executeWrapperTextKeyUp($event)">
+                    <input type="text" placeholder="Url" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.url" />
                 </div>
             </td>
         </tr>
@@ -59,7 +51,7 @@
     <table style="width: 100%; height: 20%;">
         <tr style="height: 100%;">
             <td style="border: 10px solid transparent; height: 100%;">
-                <button type="button" class="movable content-button movable-addplaylist" (click)="save()">
+                <button type="button" [className]="'movable content-button ' + movableSectionAddPlaylist" (click)="save()">
                     <div class="content-button-center">
                         <img alt="icon" [src]="getImage('save.png')" class="content-icon" />
                         Save
@@ -67,7 +59,7 @@
                 </button>
             </td>
             <td style="border: 10px solid transparent; height: 100%;">
-                <button type="button" class="movable content-button movable-addplaylist" (click)="onCancel.emit()">
+                <button type="button" [className]="'movable content-button ' + movableSectionAddPlaylist" (click)="onCancel.emit()">
                     <div class="content-button-center">
                         <img alt="icon" [src]="getImage('back.png')" class="content-icon" />
                         Cancel

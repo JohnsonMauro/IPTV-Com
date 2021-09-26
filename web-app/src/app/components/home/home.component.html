@@ -3,34 +3,41 @@
     <app-alert></app-alert>
 
     <div class="content-main-header">
-        <app-header [path]="'Home'"></app-header>
+        <app-header [siteMap]="'Home'" (onSearch)="onSearch($event)"></app-header>
     </div>
 
     <div class="content-main ">
         <div class="content-main-left ">
-            <app-playlistItems [playlists]="playlists" (onSelect)="onSelectPlayslist($event)" ></app-playlistItems>
+            <app-playlistItems [playlists]="playlists" (onSelect)="onSelectPlayslist($event)"></app-playlistItems>
         </div>
         <div class="content-main-right ">
-            <app-configuration (onAddPlaylistClick)="displayPlayslist()"></app-configuration>
+
+            <div class="content-line-center">
+                <button type="button" class="movable content-button content-right-button " (click)="displayPlayslist()">
+                    <div class="content-button-center">
+                        <img alt="icon" [src]="getImage('plus.png')" class="content-icon" />
+                        Add playlist
+                    </div>
+                </button>
+            </div>
+
+            <div class="content-line-center">
+                <button type="button" class="movable content-button content-right-button ">
+                    <div class="content-button-center">
+                        <img alt="icon" [src]="getImage('settings.png')" class="content-icon" />
+                        Settings
+                    </div>
+                </button>
+            </div>
         </div>
     </div>
 
 </div>
 
-<div *ngIf="isDisplayAddPlaylist" style="position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: black;
-opacity: 0.8;">
-</div>
-<div *ngIf="isDisplayAddPlaylist" style="position: absolute;
-top: 50%;
-left: 50%;
-margin-right: -50%;
-transform: translate(-50%, -50%);
-width: 50%;
-height: 50%;">
-    <app-addPlaylist (onCancel)="cancelAddPlaylist()" (onSave)="registerPlaylist($event)"></app-addPlaylist>
+<div *ngIf="isDisplayAddPlaylist">
+    <div class="content-popup-shadow">
+    </div>
+    <div class="content-main-addplaylist">
+        <app-addPlaylist (onCancel)="cancelAddPlaylist()" (onSave)="registerPlaylist($event)"></app-addPlaylist>
+    </div>
 </div>

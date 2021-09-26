@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
+import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
 import { DbService } from 'src/app/services/dbServie';
@@ -13,7 +15,6 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 })
 export class HomeComponent implements OnInit {
 
-  private movableSectionIdHome = "movableSectionHome";
   isDisplayAddPlaylist: boolean = false;
 
   constructor(private spatialNavigation: SpacialNavigationService
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     try{
       this.playlists = this.dbService.findPlaylists();
+
     }
    catch(error: any){
     this.alertService.createError(JSON.stringify(error));
@@ -34,7 +36,7 @@ export class HomeComponent implements OnInit {
   }
   
   ngAfterViewInit (){
-    this.spatialNavigation.add(this.movableSectionIdHome, ".movable");
+    this.spatialNavigation.add(MovableHelper.getMovableSectionIdGeneral(), ".movable");
   }
 
   onSelectPlayslist(playlist: Playlist){
@@ -42,13 +44,13 @@ export class HomeComponent implements OnInit {
   }
 
   displayPlayslist(){
-    this.spatialNavigation.disable(this.movableSectionIdHome);
+    this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
     this.isDisplayAddPlaylist = true;
   }
 
   cancelAddPlaylist(){
     this.isDisplayAddPlaylist = false;
-    this.spatialNavigation.enable(this.movableSectionIdHome);
+    this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
   }
 
   registerPlaylist(playlist: Playlist){
@@ -57,5 +59,13 @@ export class HomeComponent implements OnInit {
     this.playlists.push(playlist);
     this.cancelAddPlaylist();
     this.alertService.createSuccess("Playlist added");
+  }
+
+  getImage(name: string)  {
+    return DirectoryHelper.getImage(name);
+  }
+
+  onSearch(searchText: string){
+    
   }
 }

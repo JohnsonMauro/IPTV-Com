@@ -1,7 +1,7 @@
 
 
 
-<div *ngFor="let playlist of playlists" class="content-left-line">
+<div *ngFor="let playlist of playlists" class="content-line">
     <button type="button" class="movable content-folder" (click)="onSelectClick(playlist)">
         <div  class="content-folder-left">
             <img alt="icon" [src]="getImage('play.png')" class="content-icon" />

@@ -8,7 +8,6 @@ import { MainComponent } from '../components/main/main.component';
 import { HomeComponent } from '../components/home/home.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { PlaylistItemsComponent } from '../components/home/playlistItems/playlistItems.component';
-import { ConfigurationComponent } from '../components/home/configuration/configuration.component';
 import { SpacialNavigationService } from '../services/spacialNavigationService';
 import { AddPlaylistComponent } from '../components/home/addPlaylist/addPlaylist.component';
 import { AlertService } from '../services/alertService';
@@ -27,7 +26,6 @@ import { PlayerComponent } from '../components/player/player.component';
     HeaderComponent,
     HomeComponent,
     PlaylistItemsComponent,
-    ConfigurationComponent,
     AddPlaylistComponent,
     LiveStreamComponent,
     LiveStreamItemsComponent,

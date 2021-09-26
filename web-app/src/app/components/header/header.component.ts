@@ -13,11 +13,11 @@ import { SortCode } from 'src/app/models/app/sortCode';
 export class HeaderComponent implements OnInit {
   constructor(private router: Router) { }
 
-  @Input() path: string;
+  @Input() backPath: string;
+  @Input() siteMap: string;
 
   @Output() onSearch = new EventEmitter<string>();
   @Output() onSort = new EventEmitter<SortCode>();
-  @Input() onBack = new EventEmitter();
   
   searchText:string;
   sortCode: SortCode;
@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['home']);
+    this.router.navigate(['backPath']);
   }
 
   executeWrapperTextKeyUp = MovableHelper.executeDefaultKeyUpForTextWrapper;

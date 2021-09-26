@@ -15,7 +15,8 @@ export class AddPlaylistComponent implements OnInit {
   constructor(private spatialNavigation: SpacialNavigationService) {
   }
   
-  movableSectionAddPlaylist = ".movable-addplaylist";
+  movableSectionAddPlaylist = "movable-addplaylist";
+
   playlist: Playlist = new Playlist;
 
   executeWrapperTextKeyUp = MovableHelper.executeDefaultKeyUpForTextWrapper;
@@ -37,7 +38,7 @@ export class AddPlaylistComponent implements OnInit {
 
   ngAfterViewInit (){
     this.spatialNavigation.remove(this.movableSectionAddPlaylist);
-    this.spatialNavigation.add(this.movableSectionAddPlaylist, this.movableSectionAddPlaylist);
+    this.spatialNavigation.add(this.movableSectionAddPlaylist, "."+this.movableSectionAddPlaylist);
   }
 
   save(){
