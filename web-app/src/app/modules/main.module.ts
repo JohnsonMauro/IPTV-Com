@@ -12,13 +12,13 @@ import { AddPlaylistComponent } from '../components/home/addPlaylist/addPlaylist
 import { AlertService } from '../services/alertService';
 import { AlertComponent } from '../components/alert/alert.component';
 import { FormsModule } from '@angular/forms';
-import { LiveStreamComponent } from '../components/liveStream/liveStream.component';
-import { LiveStreamDetailsComponent } from '../components/liveStream/liveStreamDetails/liveStreamDetails.component';
+import { LiveStreamComponent } from '../components/live/liveStream.component';
 import { DbService } from '../services/dbServie';
 import { ApiService } from '../services/apiService';
 import { PlayerComponent } from '../components/player/player.component';
 import { SpinnerComponent } from '../components/spinner/spinner.component';
 import { PlaylistComponent } from '../components/playlist/playlist.component';
+import { VodStreamComponent } from '../components/vod/vodStream.component';
 
 @NgModule({
   declarations: [
@@ -27,10 +27,9 @@ import { PlaylistComponent } from '../components/playlist/playlist.component';
     HomeComponent,
     AddPlaylistComponent,
     LiveStreamComponent,
-    LiveStreamDetailsComponent,
     PlayerComponent,
     PlaylistComponent,
-
+    VodStreamComponent,
 
 
     SpinnerComponent,

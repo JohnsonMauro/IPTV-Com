@@ -45,6 +45,18 @@ export class PlaylistComponent implements OnInit {
     this.route.navigate([route, this.playlist._id]);
   }
 
+  delete() {
+    try {
+      this.dbService.deletePlaylist(this.playlist);
+      this.alertService.createSuccess('Playlist deleted');
+      this.route.navigate(['']);
+    }
+    catch (error: any) {
+      this.alertService.createError(JSON.stringify(error));
+    }
+    finally {
+    }
+  }
 
   getImage(name: string) {
     return DirectoryHelper.getImage(name);

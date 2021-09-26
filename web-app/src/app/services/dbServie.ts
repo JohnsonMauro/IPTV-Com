@@ -41,8 +41,10 @@ export class DbService {
     return result;
   }
 
-  deletePlaylists(){
-    localStorage.removeItem(this.playlistKind);
+  deletePlaylist(playlist:Playlist){
+    let playlists = this.findPlaylists();
+    playlists.splice(playlists.indexOf(playlist), 1);
+    localStorage.setItem(this.playlistKind, JSON.stringify(playlists));
   }
 
 }

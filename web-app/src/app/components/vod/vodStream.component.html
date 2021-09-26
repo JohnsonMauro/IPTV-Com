@@ -1,0 +1,36 @@
+<div class="container-main">
+
+    <app-alert></app-alert>
+
+    <div class="content-main-header">
+        <app-header [siteMap]="'Home > ' + playlist.name + ' > Vod stream'"></app-header>
+    </div>
+
+    <div class="content-main ">
+        <div class="content-main-left ">
+
+            <div *ngFor="let streamItem of streams" class="content-line">
+                <button type="button" class="movable content-folder" (click)="selectLiveStream(streamItem)">
+                    <div  class="content-folder-left">
+                        <img alt="icon" [src]="getImageStream(streamItem)" class="content-icon" loading=lazy />
+                        {{streamItem.name}}
+                    </div>
+                </button>
+            </div>
+
+            <app-spinner [displaySpinner]="displaySpinnerLiveStream"></app-spinner>
+        </div>
+        <div class="content-main-right ">
+
+
+            <div class="content-line" style="height: 5%;">
+                Live: {{stream?.name}}
+            </div>
+
+          
+
+         
+        </div>
+    </div>
+
+</div>

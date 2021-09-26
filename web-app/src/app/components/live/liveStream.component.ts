@@ -4,7 +4,7 @@ import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
-import { LiveStream } from 'src/app/models/api/stream';
+import { LiveStream } from 'src/app/models/api/live';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
@@ -20,9 +20,9 @@ export class LiveStreamComponent implements OnInit {
 
   displaySpinnerLiveStream = true;
   source: string;
-  liveStreams = new Array<LiveStream>();
+  streams = new Array<LiveStream>();
   playlist: Playlist;
-  liveStream: LiveStream;
+  stream: LiveStream;
   isFullscreen = false;
 
   constructor(private activatedroute: ActivatedRoute
@@ -38,7 +38,7 @@ export class LiveStreamComponent implements OnInit {
       let playlistId = this.activatedroute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
-      this.liveStreams = await this.apiService.findLiveStreams(this.playlist).toPromise<Array<LiveStream>>();
+      this.streams = await this.apiService.findLiveStreams(this.playlist).toPromise<Array<LiveStream>>();
     }
     catch (error: any) {
       this.alertService.createError(JSON.stringify(error));
@@ -61,15 +61,15 @@ export class LiveStreamComponent implements OnInit {
       this.isFullscreen = isFullScreen;
   }
 
-  selectLiveStream(liveStream: LiveStream) {
+  selectStream(stream: LiveStream) {
     try {
-      let url = ApiHelper.generateLiveStreamUrl(this.playlist, liveStream.stream_id.toString());
+      let url = ApiHelper.generateLiveStreamUrl(this.playlist, stream.stream_id.toString());
 
       if (this.source == url)
       this.setFullscreen(true);
       else {
         this.source = url;
-        this.liveStream = liveStream;
+        this.stream = stream;
       }
     }
     catch (error: any) {
@@ -82,12 +82,12 @@ export class LiveStreamComponent implements OnInit {
   }
 
   
-  getImageLiveStream(liveStream: LiveStream) {
-    return (liveStream.stream_icon == null 
-      || liveStream.stream_icon == ""
-      || !liveStream.stream_icon.startsWith("http")) 
+  getImageStream(stream: LiveStream) {
+    return (stream.stream_icon == null 
+      || stream.stream_icon == ""
+      || !stream.stream_icon.startsWith("http")) 
       ? this.getImage('tv.png') 
-      : liveStream.stream_icon;
+      : stream.stream_icon;
   }
 
 }

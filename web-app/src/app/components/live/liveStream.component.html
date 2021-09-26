@@ -3,17 +3,17 @@
     <app-alert></app-alert>
 
     <div class="content-main-header">
-        <app-header [siteMap]="'Home > Live stream'"></app-header>
+        <app-header [siteMap]="'Home > ' + playlist.name + ' > Live stream'"></app-header>
     </div>
 
     <div class="content-main ">
         <div class="content-main-left ">
 
-            <div *ngFor="let liveStream of liveStreams" class="content-line">
-                <button type="button" class="movable content-folder" (click)="selectLiveStream(liveStream)">
+            <div *ngFor="let streamItem of streams" class="content-line">
+                <button type="button" class="movable content-folder" (click)="selectStream(streamItem)">
                     <div  class="content-folder-left">
-                        <img alt="icon" [src]="getImageLiveStream(liveStream)" class="content-icon" loading=lazy />
-                        {{liveStream.name}}
+                        <img alt="icon" [src]="getImageStream(streamItem)" class="content-icon" loading=lazy />
+                        {{streamItem.name}}
                     </div>
                 </button>
             </div>
@@ -24,7 +24,7 @@
 
 
             <div class="content-line" style="height: 5%;">
-                Live: {{liveStream?.name}}
+                Live: {{stream?.name}}
             </div>
 
             <div class="content-line content-line-tv" style="height: 40%;">
