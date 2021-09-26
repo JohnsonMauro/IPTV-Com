@@ -8,7 +8,17 @@
 
     <div class="content-main ">
         <div class="content-main-left ">
-            <app-liveStreamItems [liveStreams]="liveStreams" (onSelect)="displayDetails($event)"></app-liveStreamItems>
+
+            <div *ngFor="let liveStream of liveStreams" class="content-line">
+                <button type="button" class="movable content-folder" (click)="selectLiveStream(liveStream)">
+                    <div  class="content-folder-left">
+                        <img alt="icon" [src]="getImageLiveStream(liveStream)" class="content-icon" loading=lazy />
+                        {{liveStream.name}}
+                    </div>
+                </button>
+            </div>
+
+            <app-spinner [displaySpinner]="displaySpinnerLiveStream"></app-spinner>
         </div>
         <div class="content-main-right ">
 

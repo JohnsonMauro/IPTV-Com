@@ -18,6 +18,7 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 })
 export class LiveStreamComponent implements OnInit {
 
+  displaySpinnerLiveStream = true;
   source: string;
   liveStreams = new Array<LiveStream>();
   playlist: Playlist;
@@ -28,23 +29,23 @@ export class LiveStreamComponent implements OnInit {
     , private alertService: AlertService
     , private dbService: DbService
     , private apiService: ApiService
-    , private spatialNavigation: SpacialNavigationService) {
+    , private spatialNavigation: SpacialNavigationService
+    ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     try {
       let playlistId = this.activatedroute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
-      this.populateLiveStream();
+      this.liveStreams = await this.apiService.findLiveStreams(this.playlist).toPromise<Array<LiveStream>>();
     }
     catch (error: any) {
       this.alertService.createError(JSON.stringify(error));
     }
-  }
-
-  async populateLiveStream() {
-    this.liveStreams = await this.apiService.findLiveStreams(this.playlist).toPromise<Array<LiveStream>>();
+    finally{
+     this.displaySpinnerLiveStream = false;
+    }
   }
 
   ngAfterViewInit() {
@@ -60,7 +61,7 @@ export class LiveStreamComponent implements OnInit {
       this.isFullscreen = isFullScreen;
   }
 
-  displayDetails(liveStream: LiveStream) {
+  selectLiveStream(liveStream: LiveStream) {
     try {
       let url = ApiHelper.generateLiveStreamUrl(this.playlist, liveStream.stream_id.toString());
 
@@ -79,4 +80,14 @@ export class LiveStreamComponent implements OnInit {
   getImage(name: string) {
     return DirectoryHelper.getImage(name);
   }
+
+  
+  getImageLiveStream(liveStream: LiveStream) {
+    return (liveStream.stream_icon == null 
+      || liveStream.stream_icon == ""
+      || !liveStream.stream_icon.startsWith("http")) 
+      ? this.getImage('tv.png') 
+      : liveStream.stream_icon;
+  }
+
 }

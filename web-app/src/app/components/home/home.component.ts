@@ -15,6 +15,7 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 })
 export class HomeComponent implements OnInit {
 
+  displaySpinner = true;
   isDisplayAddPlaylist: boolean = false;
 
   constructor(private spatialNavigation: SpacialNavigationService
@@ -23,16 +24,18 @@ export class HomeComponent implements OnInit {
     ,private route: Router) {
   }
 
-  playlists = new Array<Playlist>();
+  playlists: Array<Playlist>;
 
   ngOnInit(): void {
     try{
       this.playlists = this.dbService.findPlaylists();
-
     }
    catch(error: any){
     this.alertService.createError(JSON.stringify(error));
    }   
+   finally{
+    this.displaySpinner = false;
+   }
   }
   
   ngAfterViewInit (){
@@ -40,7 +43,7 @@ export class HomeComponent implements OnInit {
   }
 
   onSelectPlayslist(playlist: Playlist){
-    this.route.navigate(['/livestream', playlist._id]);
+    this.route.navigate(['/playlist', playlist._id]);
   }
 
   displayPlayslist(){

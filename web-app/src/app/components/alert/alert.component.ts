@@ -49,7 +49,3 @@ export class AlertComponent implements OnInit {
         }
     }
 }
-
-function takeUntil(destroyStream$: any): import("rxjs").OperatorFunction<Alert, unknown> {
-    throw new Error('Function not implemented.');
-}

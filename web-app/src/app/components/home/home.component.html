@@ -8,7 +8,19 @@
 
     <div class="content-main ">
         <div class="content-main-left ">
-            <app-playlistItems [playlists]="playlists" (onSelect)="onSelectPlayslist($event)"></app-playlistItems>
+
+
+            <div *ngFor="let playlist of playlists" class="content-line">
+                <button type="button" class="movable content-folder" (click)="onSelectPlayslist(playlist)">
+        <div  class="content-folder-left">
+            <img alt="icon" [src]="getImage('play.png')" class="content-icon" />
+            {{playlist.name}}
+        </div>
+    </button>
+            </div>
+
+            <app-spinner [displaySpinner]="displaySpinner"></app-spinner>
+
         </div>
         <div class="content-main-right ">
 
