@@ -47,7 +47,7 @@ export class PlaylistComponent implements OnInit {
   delete() {
     try {
       this.dbService.deletePlaylist(this.playlist);
-      this.alertService.error('Playlist deleted');
+      this.alertService.success('Playlist deleted');
       this.route.navigate(['']);
     }
     catch (error: any) {
@@ -59,6 +59,10 @@ export class PlaylistComponent implements OnInit {
 
   getImage(name: string) {
     return DirectoryHelper.getImage(name);
+  }
+
+  ngAfterViewInit() {
+    this.spatialNavigation.focus();
   }
 
 }

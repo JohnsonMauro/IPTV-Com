@@ -6,6 +6,7 @@ import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
 import { DbService } from 'src/app/services/dbServie';
+import { HeaderService } from 'src/app/services/headerService';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../services/spacialNavigationService';
 
@@ -23,7 +24,8 @@ export class HomeComponent implements OnInit {
     ,private alertService: AlertService
     ,private dbService: DbService
     ,private route: Router
-    ,private spinnerService: SpinnerService) {
+    ,private spinnerService: SpinnerService
+    ,private headerService: HeaderService) {
   }
 
   playlists: Array<Playlist>;
@@ -32,6 +34,7 @@ export class HomeComponent implements OnInit {
     try{
       this.spinnerService.displaySpinner();
       this.playlists = this.dbService.findPlaylists();
+      this.headerService.setSiteMap('Home');
     }
    catch(error: any){
     this.alertService.error(JSON.stringify(error));
@@ -39,10 +42,6 @@ export class HomeComponent implements OnInit {
    finally{
     this.spinnerService.hideSpinner();
    }
-  }
-
-  ngAfterViewInit (){
-    this.spatialNavigation.focus();
   }
 
   onSelectPlayslist(playlist: Playlist){
@@ -81,7 +80,7 @@ export class HomeComponent implements OnInit {
     return DirectoryHelper.getImage(name);
   }
 
-  onSearch(searchText: string){
-    
+  ngAfterViewInit(){
+    this.spatialNavigation.focus();
   }
 }

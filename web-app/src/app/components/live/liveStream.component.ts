@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
@@ -25,6 +26,7 @@ export class LiveStreamComponent implements OnInit {
   playlist: Playlist;
   stream: LiveStream;
   isFullscreen = false;
+  searchSubscription: Subscription;
 
   constructor(private activatedroute: ActivatedRoute
     , private alertService: AlertService
@@ -43,7 +45,8 @@ export class LiveStreamComponent implements OnInit {
       this.playlist = this.dbService.getPlaylist(playlistId);
       this.headerService.setSiteMap('Home > ' + this.playlist.name + ' > Live');
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
-      this.streams = await this.apiService.findLiveStreams(this.playlist).toPromise<Array<LiveStream>>();
+      this.streams = await this.apiService.findLiveStreams(this.playlist).toPromise();
+      this.handleSearchListener(true);
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
@@ -53,8 +56,25 @@ export class LiveStreamComponent implements OnInit {
     }
   }
 
-  ngAfterViewInit() {
-    this.spatialNavigation.add(MovableHelper.getMovableSectionIdGeneral(), ".movable");
+  handleSearchListener(isAdd: boolean){
+    if(isAdd){
+      this.searchSubscription = this.headerService.getSearch()
+      .subscribe(async (searchText) => {
+        console.log('called on live')
+        this.spinnerService.displaySpinner();
+        try{
+          let resultS = await this.apiService.findLiveStreams(this.playlist).toPromise();
+          this.streams =  searchText == null || searchText == "" 
+          ? resultS
+          : resultS.filter(x =>  x.name.toLowerCase().includes(searchText.toLowerCase()));
+        }finally{
+          this.spinnerService.hideSpinner();
+        }
+        });
+    }
+    else{
+      this.searchSubscription.unsubscribe();
+    }
   }
 
   setFullscreen(isFullScreen: boolean) {   
@@ -95,4 +115,13 @@ export class LiveStreamComponent implements OnInit {
       : stream.stream_icon;
   }
 
+
+  ngAfterViewInit() {
+    this.spatialNavigation.focus();
+  }
+
+  ngOnDestroy(){
+    console.log('destroy');
+    this.handleSearchListener(false);
+  }
 }

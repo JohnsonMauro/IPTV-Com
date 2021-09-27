@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
@@ -27,6 +27,7 @@ export class VodStreamComponent implements OnInit {
   playlist: Playlist;
   stream: VOD;
   isFullscreen = false;
+  searchSubscription: Subscription;
 
   constructor(private activatedroute: ActivatedRoute
     , private alertService: AlertService
@@ -46,18 +47,14 @@ export class VodStreamComponent implements OnInit {
       this.headerService.setSiteMap('Home > ' + this.playlist.name + ' > VOD');
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
       this.streams = await this.apiService.findVodStreams(this.playlist).toPromise();
+      this.handleSearchListener(true);
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
     }
     finally{
-      console.log('finally');
       this.spinnerService.hideSpinner();
     }
-  }
-
-  ngAfterViewInit() {
-    this.spatialNavigation.add(MovableHelper.getMovableSectionIdGeneral(), ".movable");
   }
 
   setFullscreen(isFullScreen: boolean) {   
@@ -98,4 +95,31 @@ export class VodStreamComponent implements OnInit {
       : stream.stream_icon;
   }
 
+  handleSearchListener(isAdd: boolean){
+    if(isAdd){
+      this.searchSubscription = this.headerService.getSearch()
+      .subscribe(async (searchText) => {
+        console.log('called on vod')
+        this.spinnerService.displaySpinner();
+        try{
+          let resultS = await this.apiService.findVodStreams(this.playlist).toPromise();
+          this.streams =  searchText == null || searchText == "" 
+          ? resultS
+          : resultS.filter(x =>  x.name.toLowerCase().includes(searchText.toLowerCase()));
+        }finally{
+          this.spinnerService.hideSpinner();
+        }
+        });
+    }
+    else{
+      this.searchSubscription.unsubscribe();
+    }
+  }
+
+  ngAfterViewInit() {
+    this.spatialNavigation.focus();
+  }
+  ngOnDestroy(){
+    this.handleSearchListener(false);
+  }
 }

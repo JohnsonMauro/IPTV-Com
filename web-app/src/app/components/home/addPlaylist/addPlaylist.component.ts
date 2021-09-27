@@ -44,16 +44,22 @@ export class AddPlaylistComponent implements OnInit {
   }
 
   save(){
-    if(this.playlist.name == null
-      || this.playlist.user == null
-      || this.playlist.password == null
-      || this.playlist.url == null
-      )
+    if(this.isPlaylistValid())
     {
-      this.alertService.warning("All fields are required");
+      this.onSave.emit(this.playlist);
       return;
     }
-    this.onSave.emit(this.playlist);
+    this.alertService.warning("All fields are required");
+  }
+
+  isPlaylistValid(): boolean{
+    if(this.playlist.name
+    && this.playlist.user
+    && this.playlist.password
+    && this.playlist.url)
+    return true;
+
+    return false;
   }
 
   getImage(fileName: string){
