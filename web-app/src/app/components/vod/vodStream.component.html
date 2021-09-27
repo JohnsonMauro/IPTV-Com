@@ -6,7 +6,7 @@
             <div *ngFor="let streamItem of streams" class="content-line">
                 <button type="button" class="movable content-folder" (click)="selectLiveStream(streamItem)">
                     <div  class="content-folder-left">
-                        <img alt="icon" [src]="getImageStream(streamItem)" class="content-icon" loading=lazy />
+                        <img alt="icon" [src]="getImageStream(streamItem)" class="content-icon" style="height: 100%;" loading=lazy />
                         {{streamItem.name}}
                     </div>
                 </button>

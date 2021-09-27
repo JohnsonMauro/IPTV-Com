@@ -38,21 +38,18 @@ export class LiveStreamComponent implements OnInit {
     ) {
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     try {
       this.spinnerService.displaySpinner();
       let playlistId = this.activatedroute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
       this.headerService.setSiteMap('Home > ' + this.playlist.name + ' > Live');
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
-      this.streams = await this.apiService.findLiveStreams(this.playlist).toPromise();
+      this.apiService.findLiveStreams(this.playlist).subscribe(result => this.streams = result);
       this.handleSearchListener(true);
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
-    }
-    finally{
-      this.spinnerService.hideSpinner();
     }
   }
 

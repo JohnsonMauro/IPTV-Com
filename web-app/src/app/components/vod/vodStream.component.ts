@@ -46,14 +46,11 @@ export class VodStreamComponent implements OnInit {
       this.playlist = this.dbService.getPlaylist(playlistId);
       this.headerService.setSiteMap('Home > ' + this.playlist.name + ' > VOD');
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
-      this.streams = await this.apiService.findVodStreams(this.playlist).toPromise();
+      this.apiService.findVodStreams(this.playlist).subscribe(result =>  this.streams = result);
       this.handleSearchListener(true);
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
-    }
-    finally{
-      this.spinnerService.hideSpinner();
     }
   }
 

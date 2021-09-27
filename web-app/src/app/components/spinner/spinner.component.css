@@ -1,7 +1,24 @@
-.content-main-spinner{
-   width: 40%; height: 40%;
-   position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-60%, -60%);
-}
+.lds-dual-ring {
+   display: inline-block;
+   width: 300px;
+   height: 300px;
+ }
+ .lds-dual-ring:after {
+   content: " ";
+   display: block;
+   width: 50%;
+   height: 50%;
+   border-radius: 100%;
+   border: 20px solid #efefef;
+   border-color: #efefef transparent #efefef transparent;
+   animation: lds-dual-ring 2.5s linear infinite;
+ }
+ @keyframes lds-dual-ring {
+   0% {
+     transform: rotate(0deg);
+   }
+   100% {
+     transform: rotate(360deg);
+   }
+ }
+ 
