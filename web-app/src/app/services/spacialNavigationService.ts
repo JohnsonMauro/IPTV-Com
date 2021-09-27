@@ -12,12 +12,17 @@ export class SpacialNavigationService {
   }
 
   add(sectionId: string, selector: string) {
+    try{
       this.spatialNavigation.add(
         sectionId,
        { selector: selector}
        );
      this.spatialNavigation.makeFocusable();
      this.focus();
+    }
+    catch{
+      this.enable(sectionId);
+    }
   }
 
   remove(sectionId: string) {

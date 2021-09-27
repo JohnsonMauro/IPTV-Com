@@ -19,6 +19,8 @@ import { PlayerComponent } from '../components/player/player.component';
 import { SpinnerComponent } from '../components/spinner/spinner.component';
 import { PlaylistComponent } from '../components/playlist/playlist.component';
 import { VodStreamComponent } from '../components/vod/vodStream.component';
+import { SpinnerService } from '../services/spinnerService';
+import { HeaderService } from '../services/headerService';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,7 @@ import { VodStreamComponent } from '../components/vod/vodStream.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [SpacialNavigationService, AlertService, DbService, ApiService],
+  providers: [SpacialNavigationService, AlertService, SpinnerService, HeaderService, DbService, ApiService],
   bootstrap: [MainComponent]
 })
 export class MainModule { }

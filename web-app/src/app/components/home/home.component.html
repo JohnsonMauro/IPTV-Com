@@ -1,50 +1,44 @@
 
-    <div class="content-main-header">
-        <app-header [siteMap]="'Home'" (onSearch)="onSearch($event)"></app-header>
-    </div>
+<div class="content-main ">
+    <div class="content-main-left ">
 
-    <div class="content-main ">
-        <div class="content-main-left ">
-
-
-            <div *ngFor="let playlist of playlists" class="content-line">
-                <button type="button" class="movable content-folder" (click)="onSelectPlayslist(playlist)">
-        <div  class="content-folder-left">
-            <img alt="icon" [src]="getImage('play.png')" class="content-icon" />
-            {{playlist.name}}
-        </div>
-    </button>
-            </div>
-
-            <app-spinner [displaySpinner]="displaySpinner"></app-spinner>
-
-        </div>
-        <div class="content-main-right ">
-
-            <div class="content-line-center">
-                <button type="button" class="movable content-button content-right-button " (click)="displayPlayslist()">
-                    <div class="content-button-center">
-                        <img alt="icon" [src]="getImage('plus.png')" class="content-icon" />
-                        Add playlist
-                    </div>
-                </button>
-            </div>
-
-            <div class="content-line-center">
-                <button type="button" class="movable content-button content-right-button ">
-                    <div class="content-button-center">
-                        <img alt="icon" [src]="getImage('settings.png')" class="content-icon" />
-                        Settings
-                    </div>
-                </button>
-            </div>
+        <div *ngFor="let playlist of playlists" class="content-line">
+            <button type="button" class="movable content-folder" (click)="onSelectPlayslist(playlist)">
+                <div class="content-folder-left">
+                    <img alt="icon" [src]="getImage('play.png')" class="content-icon" />
+                    {{playlist.name}}
+                </div>
+            </button>
         </div>
     </div>
+    <div class="content-main-right ">
+
+        <div class="content-line-center">
+            <button type="button" class="movable content-button content-right-button " (click)="displayPlayslist()">
+                <div class="content-button-center">
+                    <img alt="icon" [src]="getImage('plus.png')" class="content-icon" />
+                    Add playlist
+                </div>
+            </button>
+        </div>
+
+        <div class="content-line-center">
+            <button type="button" class="movable content-button content-right-button ">
+                <div class="content-button-center">
+                    <img alt="icon" [src]="getImage('settings.png')" class="content-icon" />
+                    Settings
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
+
 
 <div *ngIf="isDisplayAddPlaylist">
-    <div class="content-popup-shadow">
+    <div class="content-amin-popup-shadow">
     </div>
-    <div class="content-main-addplaylist">
+    <div class="content-home-addplaylist">
         <app-addPlaylist (onCancel)="cancelAddPlaylist()" (onSave)="registerPlaylist($event)"></app-addPlaylist>
     </div>
 </div>

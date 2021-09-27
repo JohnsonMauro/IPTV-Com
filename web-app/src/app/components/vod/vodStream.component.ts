@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, of, Subject } from 'rxjs';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
@@ -10,6 +11,8 @@ import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
+import { HeaderService } from 'src/app/services/headerService';
+import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../services/spacialNavigationService';
 
 @Component({
@@ -19,9 +22,8 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 })
 export class VodStreamComponent implements OnInit {
 
-  displaySpinnerLiveStream = true;
   source: string;
-  streams = new Array<VOD>();
+  streams: VOD[];
   playlist: Playlist;
   stream: VOD;
   isFullscreen = false;
@@ -31,21 +33,26 @@ export class VodStreamComponent implements OnInit {
     , private dbService: DbService
     , private apiService: ApiService
     , private spatialNavigation: SpacialNavigationService
+    , private spinnerService: SpinnerService
+    ,private headerService: HeaderService
     ) {
   }
 
   async ngOnInit() {
     try {
+      this.spinnerService.displaySpinner();
       let playlistId = this.activatedroute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
+      this.headerService.setSiteMap('Home > ' + this.playlist.name + ' > VOD');
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
-      this.streams = await this.apiService.findVodStreams(this.playlist).toPromise<Array<VOD>>();
+      this.streams = await this.apiService.findVodStreams(this.playlist).toPromise();
     }
     catch (error: any) {
-      this.alertService.createError(JSON.stringify(error));
+      this.alertService.error(JSON.stringify(error));
     }
     finally{
-     this.displaySpinnerLiveStream = false;
+      console.log('finally');
+      this.spinnerService.hideSpinner();
     }
   }
 
@@ -73,8 +80,8 @@ export class VodStreamComponent implements OnInit {
         this.stream = stream;
       }
     }
-    catch (error: any) {
-      this.alertService.createError(JSON.stringify(error));
+    catch (error) {
+      this.alertService.error(JSON.stringify(error));
     }
   }
 

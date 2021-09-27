@@ -15,11 +15,11 @@ export class ApiService {
   constructor(private httpClient: HttpClient) {
   }
 
-  findLiveStreams(playlist: Playlist): Observable<Array<LiveStream>>{
+  findLiveStreams(playlist: Playlist): Observable<LiveStream[]>{
     return this.httpClient.get<Array<LiveStream>>(ApiHelper.generateApiUrl(playlist) + this.liveStreamActionParameter);
   }
 
-  findVodStreams(playlist: Playlist): Observable<Array<VOD>>{
+  findVodStreams(playlist: Playlist): Observable<VOD[]>{
     return this.httpClient.get<Array<VOD>>(ApiHelper.generateApiUrl(playlist) + this.vodStreamActionParameter);
   }
 

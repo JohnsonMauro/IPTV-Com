@@ -1,9 +1,9 @@
 
 export class MovableHelper {
 
-public static getMovableSectionIdGeneral(){
-  return "movableSectionIdGeneral";
-}
+  public static getMovableSectionIdGeneral(){
+    return "movableSectionIdGeneral";
+  }
 
   public static executeDefaultKeyUpForTextWrapper(event: KeyboardEvent) {
     let target = <HTMLElement>(event.target || event.currentTarget);
@@ -47,4 +47,3 @@ public static getMovableSectionIdGeneral(){
     }
   }
 }
-

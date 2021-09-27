@@ -9,7 +9,7 @@
         </video>
     </div>
 
-    <div class='content-videoplayer-footer' [style.zIndex]="isFullscreen && isDisplayControls ? 999 : -1">
+    <div class="content-videoplayer-footer">
         <button *ngIf="!isLiveStream" class='movable content-button content-videoplayer-controls'>Play</button>
 
         <button *ngIf="isDisplayControls" class='movable content-button content-videoplayer-controls' (click)="onExitFullscreen.emit()">

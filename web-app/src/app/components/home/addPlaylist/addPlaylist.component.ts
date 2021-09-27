@@ -3,6 +3,7 @@ import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { Playlist } from 'src/app/models/app/playlist';
+import { AlertService } from 'src/app/services/alertService';
 import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
 
 @Component({
@@ -12,7 +13,8 @@ import { SpacialNavigationService } from 'src/app/services/spacialNavigationServ
 })
 export class AddPlaylistComponent implements OnInit {
 
-  constructor(private spatialNavigation: SpacialNavigationService) {
+  constructor(private spatialNavigation: SpacialNavigationService
+    ,private alertService: AlertService) {
   }
   
   movableSectionAddPlaylist = "movable-addplaylist";
@@ -42,6 +44,15 @@ export class AddPlaylistComponent implements OnInit {
   }
 
   save(){
+    if(this.playlist.name == null
+      || this.playlist.user == null
+      || this.playlist.password == null
+      || this.playlist.url == null
+      )
+    {
+      this.alertService.warning("All fields are required");
+      return;
+    }
     this.onSave.emit(this.playlist);
   }
 

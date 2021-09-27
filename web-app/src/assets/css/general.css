@@ -31,14 +31,14 @@
     overflow-x: hidden;
 }
 
-.content-popup-shadow {
+.content-amin-popup-shadow {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #efefef;
-    opacity: 0.2;
+    background-color: #4d4d4d;
+    opacity: 0.8;
 }
 
 
@@ -48,8 +48,8 @@
 /* Content item */
 
 .content-folder {
-    border: 5px solid #4d4d4d;
-    background-color: #4d4d4d !important;
+    border: 5px solid #686868;
+    background-color: #686868 !important;
     color: #efefef;
     overflow: hidden;
     text-align: left;

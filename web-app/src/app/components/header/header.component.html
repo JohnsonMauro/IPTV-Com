@@ -8,15 +8,15 @@
 
     <div class="content-header-right">
         <div class="content-header-item">
-            <div class="movable movable-txt content-header-txt" (keyup)="executeWrapperTextKeyUp($event)">
-                <input type="text" placeholder="Search..." (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" />
+            <div [className]="'movable movable-txt'" (keyup)="executeWrapperTextKeyUp($event)">
+                <input type="text" placeholder="Name" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="searchText" />
             </div>
         </div>
         <div class="content-header-item">
-            <input type="image" [src]="getImage('search.png')" alt="icon" class="movable button content-header-image" (click)="onSearch.emit(searchText)" />
+            <input type="image" [src]="getImage('search.png')" alt="icon" class="movable button content-header-image" (click)="search()" />
         </div>
         <div class="content-header-item">
-            <input type="image" [src]="getImage('sort.png')" alt="icon" class="movable button content-header-image" (click)="onSort.emit(sortCode)" />
+            <input type="image" [src]="getImage('sort.png')" alt="icon" class="movable button content-header-image" (click)="sort()" />
         </div>
         <div class="content-header-item">
             <input type="image" [src]="getImage('back.png')" alt="icon" class="movable button content-header-image" (click)="back()" />
@@ -25,5 +25,5 @@
 </div>
 
 <div class="content-header-path">
-    <p>{{siteMap}}</p>
+    <p>{{getSiteMap()}}</p>
 </div>

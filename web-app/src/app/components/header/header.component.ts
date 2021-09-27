@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter }
 import { Router } from '@angular/router';
 import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
-import { SortCode } from 'src/app/models/app/sortCode';
+import { HeaderService, SortCode } from 'src/app/services/headerService';
 
 
 @Component({
@@ -11,15 +11,11 @@ import { SortCode } from 'src/app/models/app/sortCode';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  constructor(private router: Router) { }
+  constructor(private router: Router
+    , private headerService: HeaderService) { }
 
-  @Input() backPath: string;
-  @Input() siteMap: string;
-
-  @Output() onSearch = new EventEmitter<string>();
-  @Output() onSort = new EventEmitter<SortCode>();
-  
-  searchText:string;
+    siteMap: string;
+  searchText: string;
   sortCode: SortCode;
 
   home(){
@@ -27,15 +23,15 @@ export class HeaderComponent implements OnInit {
   }
 
   search(){
-    this.onSearch.emit(this.searchText);
+    this.headerService.getSearch().next(this.searchText);
   }
 
   sort(){
-    this.onSort.emit(this.sortCode);
+    this.headerService.getSort().next(this.sortCode);
   }
 
   back(){
-    this.router.navigate(['backPath']);
+    this.headerService.getBack().next();
   }
 
   executeWrapperTextKeyUp = MovableHelper.executeDefaultKeyUpForTextWrapper;
@@ -44,6 +40,10 @@ export class HeaderComponent implements OnInit {
 
   getImage(fileName: string){
     return DirectoryHelper.getImage(fileName);
+  }
+
+  getSiteMap(){
+    return this.headerService.getSiteMap();
   }
   
   ngOnInit(): void {

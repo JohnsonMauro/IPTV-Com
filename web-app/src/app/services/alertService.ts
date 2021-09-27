@@ -13,19 +13,19 @@ export class AlertService {
          return this.alerts;
     }
 
-    createSuccess(message: string) {
+    success(message: string) {
         this.createAlert(AlertTypeEnum.Success, message);
     }
 
-    createInfo(message: string) {
+    info(message: string) {
         this.createAlert(AlertTypeEnum.Info, message);
     }
 
-    createError(message: string) {
+    error(message: string) {
         this.createAlert(AlertTypeEnum.Error, message);
     }
 
-    createWarning(message: string) {
+    warning(message: string) {
         this.createAlert(AlertTypeEnum.Warning, message);
     }
 

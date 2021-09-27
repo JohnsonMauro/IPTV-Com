@@ -6,6 +6,7 @@ import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
 import { DbService } from 'src/app/services/dbServie';
+import { HeaderService } from 'src/app/services/headerService';
 import { SpacialNavigationService } from '../../services/spacialNavigationService';
 
 @Component({
@@ -20,7 +21,8 @@ export class PlaylistComponent implements OnInit {
     , private alertService: AlertService
     , private dbService: DbService
     , private route: Router
-    , private activatedroute: ActivatedRoute) {
+    , private activatedroute: ActivatedRoute
+    ,private headerService: HeaderService) {
   }
 
   playlist: Playlist;
@@ -29,16 +31,13 @@ export class PlaylistComponent implements OnInit {
     try {
       let playlistId = this.activatedroute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
+      this.headerService.setSiteMap('Home > ' + this.playlist.name);
     }
     catch (error: any) {
-      this.alertService.createError(JSON.stringify(error));
+      this.alertService.error(JSON.stringify(error));
     }
     finally {
     }
-  }
-
-  ngAfterViewInit() {
-    this.spatialNavigation.add(MovableHelper.getMovableSectionIdGeneral(), ".movable");
   }
 
   moveTo(route: string) {
@@ -48,11 +47,11 @@ export class PlaylistComponent implements OnInit {
   delete() {
     try {
       this.dbService.deletePlaylist(this.playlist);
-      this.alertService.createSuccess('Playlist deleted');
+      this.alertService.error('Playlist deleted');
       this.route.navigate(['']);
     }
     catch (error: any) {
-      this.alertService.createError(JSON.stringify(error));
+      this.alertService.error(JSON.stringify(error));
     }
     finally {
     }

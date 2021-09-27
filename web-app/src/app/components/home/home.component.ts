@@ -6,6 +6,7 @@ import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
 import { DbService } from 'src/app/services/dbServie';
+import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../services/spacialNavigationService';
 
 @Component({
@@ -21,25 +22,27 @@ export class HomeComponent implements OnInit {
   constructor(private spatialNavigation: SpacialNavigationService
     ,private alertService: AlertService
     ,private dbService: DbService
-    ,private route: Router) {
+    ,private route: Router
+    ,private spinnerService: SpinnerService) {
   }
 
   playlists: Array<Playlist>;
 
   ngOnInit(): void {
     try{
+      this.spinnerService.displaySpinner();
       this.playlists = this.dbService.findPlaylists();
     }
    catch(error: any){
-    this.alertService.createError(JSON.stringify(error));
+    this.alertService.error(JSON.stringify(error));
    }   
    finally{
-    this.displaySpinner = false;
+    this.spinnerService.hideSpinner();
    }
   }
-  
+
   ngAfterViewInit (){
-    this.spatialNavigation.add(MovableHelper.getMovableSectionIdGeneral(), ".movable");
+    this.spatialNavigation.focus();
   }
 
   onSelectPlayslist(playlist: Playlist){
@@ -57,11 +60,21 @@ export class HomeComponent implements OnInit {
   }
 
   registerPlaylist(playlist: Playlist){
-    playlist.password = EncryptHelper.ecrypt(playlist.password);
-    playlist = this.dbService.savePlaylist(playlist);
-    this.playlists.push(playlist);
-    this.cancelAddPlaylist();
-    this.alertService.createSuccess("Playlist added");
+    try{
+      this.spinnerService.displaySpinner();
+      playlist.password = EncryptHelper.ecrypt(playlist.password);
+      playlist = this.dbService.savePlaylist(playlist);
+      this.playlists.push(playlist);
+      this.cancelAddPlaylist();
+      this.alertService.success("Playlist added");
+    }
+    catch(error){
+      this.alertService.error(JSON.stringify(error));
+    }
+    finally{
+      this.spinnerService.hideSpinner();
+    }
+    
   }
 
   getImage(name: string)  {

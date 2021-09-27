@@ -21,7 +21,9 @@ export class AlertComponent implements OnInit {
                 }, 4000);
             });
     }
-
+    ngOnDestroy(){
+        this.alertService.getAlerts().unsubscribe();
+    }
 
     getTitle(type: AlertTypeEnum) {
         switch (type) {
