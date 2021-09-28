@@ -20,6 +20,7 @@ import { SpinnerComponent } from '../components/spinner/spinner.component';
 import { PlaylistComponent } from '../components/playlist/playlist.component';
 import { VodStreamComponent } from '../components/vod/vodStream.component';
 import { SpinnerService } from '../services/spinnerService';
+import { PageComponent } from '../components/page/page.component';
 
 @NgModule({
   declarations: [
@@ -28,11 +29,12 @@ import { SpinnerService } from '../services/spinnerService';
     HomeComponent,
     AddPlaylistComponent,
     LiveStreamComponent,
-    PlayerComponent,
     PlaylistComponent,
     VodStreamComponent,
 
 
+    PlayerComponent,
+    PageComponent,
     SpinnerComponent,
     AlertComponent
     ],

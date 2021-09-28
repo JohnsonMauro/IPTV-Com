@@ -21,8 +21,11 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 })
 export class VodStreamComponent implements OnInit {
 
+  currentPage = 1;
+
   source: string;
-  streams: VOD[];
+  streamsAll: VOD[] = [];
+  streams: VOD[] = [];
   playlist: Playlist;
   stream: VOD;
   isFullscreen = false;
@@ -43,11 +46,18 @@ export class VodStreamComponent implements OnInit {
       let playlistId = this.activatedroute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
-      this.apiService.findVodStreams(this.playlist).subscribe(result =>  this.streams = result);
+      this.populateAllStreams();
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
     }
+  }
+
+  populateAllStreams(){
+    this.apiService.findVodStreams(this.playlist).subscribe(result => {
+      this.streamsAll = result
+      this.streams = this.streamsAll.slice(0, this.apiService.getItemsOnPageNumber())
+    });
   }
 
   setFullscreen(isFullScreen: boolean) {   
@@ -89,13 +99,27 @@ export class VodStreamComponent implements OnInit {
   }
 
   search(searchText: string){
-    
-    this.apiService.findVodStreams(this.playlist).subscribe(result => {
-      this.streams =  searchText == null || searchText == "" 
-      ? result
-      : result.filter(x =>  x.name.toLowerCase().includes(searchText.toLowerCase()));
-    
-    });
+    this.currentPage = 1;
+    if(searchText == null || searchText == "")
+    {
+      this.streams = this.streamsAll.slice(0, this.apiService.getItemsOnPageNumber());
+      return;
+    }
+
+    this.streams = this.streamsAll
+    .filter(x =>  x.name.toLowerCase().includes(searchText.toLowerCase()))
+    .slice(0, this.apiService.getItemsOnPageNumber());
+  }
+
+  movePage(moveNext: boolean){
+    if(!moveNext && this.currentPage == 1)
+     return;
+
+    let from = this.currentPage * this.apiService.getItemsOnPageNumber();
+    let to = from + this.apiService.getItemsOnPageNumber();
+
+    this.streams = this.streamsAll.slice(from, to);
+    this.currentPage = moveNext ? this.currentPage + 1 : this.currentPage - 1;
   }
 
   ngAfterViewInit() {

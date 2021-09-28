@@ -1,0 +1,25 @@
+<div class="content-main-line-navigation" style="display: flex;
+justify-content: center;
+align-items: center;">           
+    <div style="float: left; overflow: hidden; width: 10%; height: 80%;">
+        <button type="button" class="movable content-button" (click)="onMove.emit(false)">
+            <div class="content-button-center">
+                <img alt="icon" src="images/left.png" class="content-icon" loading=lazy />
+            </div>
+        </button>
+    </div>
+
+    <div style="float: left; overflow: hidden; width: 80%; height: 80%; text-align: center;  display: flex;
+    justify-content: center;
+    align-items: center;">
+    Page: {{currentPage}}
+    </div>
+
+    <div style="float: right; overflow: hidden; width: 10%; height: 80%; text-align: right;">
+        <button type="button" class="movable content-button" (click)="onMove.emit(true)">
+            <div class="content-button-center">
+                <img alt="icon" src="images/right.png" class="content-icon" loading=lazy />
+            </div>
+        </button>
+    </div>     
+</div>

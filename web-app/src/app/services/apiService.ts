@@ -29,6 +29,9 @@ export class ApiService {
     return this.createDefaultPipesGet<VOD[]>(ApiHelper.generateApiUrl(playlist) + this.vodStreamActionParameter);
   }
 
+  getItemsOnPageNumber(): number{
+    return 8;
+  }
   private createDefaultPipesGet<T>(url: string): Observable<T> {
     this.spinnerService.displaySpinner();
     return this.httpClient.get<T>(url)

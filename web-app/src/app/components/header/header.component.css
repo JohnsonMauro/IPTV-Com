@@ -2,6 +2,7 @@
 .content-header {
     width: 100%;
     height: 100%;
+    border-bottom: 3px solid #efefef;
 }
 
 .content-header-left {
@@ -33,5 +34,9 @@
     height: 80%;
     width: auto;
     border-radius: 10px;
+}
+
+.content-header-end{
+    height: 10%;
 }
 

@@ -20,8 +20,11 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 })
 export class LiveStreamComponent implements OnInit {
 
+  currentPage = 1;
   source: string;
-  streams = new Array<LiveStream>();
+
+  streamsAll: LiveStream[] = [];
+  streams: LiveStream[] = [];
   playlist: Playlist;
   stream: LiveStream;
   isFullscreen = false;
@@ -42,7 +45,7 @@ export class LiveStreamComponent implements OnInit {
       let playlistId = this.activatedroute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
-      this.apiService.findLiveStreams(this.playlist).subscribe(result => this.streams = result);
+      this.populateAllStreams();
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
@@ -50,12 +53,22 @@ export class LiveStreamComponent implements OnInit {
   }
 
   search(searchText: string){
-    
+    this.currentPage = 1;
+    if(searchText == null || searchText == "")
+    {
+      this.streams = this.streamsAll.slice(0, this.apiService.getItemsOnPageNumber());
+      return;
+    }
+
+    this.streams = this.streamsAll
+    .filter(x =>  x.name.toLowerCase().includes(searchText.toLowerCase()))
+    .slice(0, this.apiService.getItemsOnPageNumber());
+  }
+
+  populateAllStreams(){
     this.apiService.findLiveStreams(this.playlist).subscribe(result => {
-      this.streams =  searchText == null || searchText == "" 
-      ? result
-      : result.filter(x =>  x.name.toLowerCase().includes(searchText.toLowerCase()));
-    
+      this.streamsAll = result
+      this.streams = this.streamsAll.slice(0, this.apiService.getItemsOnPageNumber())
     });
   }
 
@@ -98,11 +111,23 @@ export class LiveStreamComponent implements OnInit {
   }
 
 
+  movePage(moveNext: boolean){
+    if(!moveNext && this.currentPage == 1)
+     return;
+
+    let from = this.currentPage * this.apiService.getItemsOnPageNumber();
+    let to = from + this.apiService.getItemsOnPageNumber();
+
+    this.streams = this.streamsAll.slice(from, to);
+    this.currentPage = moveNext ? this.currentPage + 1 : this.currentPage - 1;
+  }
+
   ngAfterViewInit() {
     this.spatialNavigation.focus();
   }
 
   ngOnDestroy(){
-
+    this.streamsAll.length = 0;
+this.streams.length = 0;
   }
 }

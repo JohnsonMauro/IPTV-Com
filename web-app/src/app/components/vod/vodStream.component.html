@@ -5,18 +5,50 @@
 
 
     <div class="content-main ">
+
         <div class="content-main-left ">
 
-            <div *ngFor="let streamItem of streams" class="content-line">
-                <button type="button" class="movable content-folder" (click)="selectLiveStream(streamItem)">
+            <div class="content-main-line-top">          
+            </div>
+
+            <div class="content-main-line-navigation">           
+                <div style="float: left; overflow: hidden; width: 10%; height: 80%;">
+                    <button type="button" class="movable content-button">
+                        <div class="content-button-center">
+                            <img alt="icon" src="images/left.png" class="content-icon" loading=lazy />
+                        </div>
+                    </button>
+                </div>
+
+                <div style="float: left; overflow: hidden; width: 80%; height: 80%; text-align: center;  display: flex;
+                justify-content: center;
+                align-items: center;">
+                Folder: All
+                </div>
+
+                <div style="float: right; overflow: hidden; width: 10%; height: 80%; text-align: right;">
+                    <button type="button" class="movable content-button">
+                        <div class="content-button-center">
+                            <img alt="icon" src="images/right.png" class="content-icon" loading=lazy />
+                        </div>
+                    </button>
+                </div>     
+            </div>
+
+
+            <div *ngFor="let streamItem of streams" class="content-main-line">
+                <button type="button" class="movable content-folder">
                     <div  class="content-folder-left">
-                        <img alt="icon" [src]="getImageStream(streamItem)" class="content-icon" style="height: 100%;" loading=lazy />
+                        <img alt="icon" [src]="getImageStream(streamItem)" class="content-icon" loading=lazy />
                         {{streamItem.name}}
                     </div>
                 </button>
             </div>
-
+       
+            <app-page [currentPage]="currentPage" (onMove)="movePage($event)"></app-page>
+     
         </div>
+
         <div class="content-main-right ">
 
             <div class="content-line" style="height: 5%;">
@@ -24,4 +56,8 @@
             </div>
          
         </div>
+
+
+
+
     </div>

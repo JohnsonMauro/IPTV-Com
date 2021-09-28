@@ -1,5 +1,4 @@
-
- <div class="content-main-header">
+<div class="content-main-header">
     <app-header></app-header>
 </div>
 
@@ -7,41 +6,42 @@
 <div class="content-main">
     <div class="content-main-left ">
 
-        <div *ngFor="let playlist of playlists" class="content-line">
+        <div class="content-main-line-top">          
+        </div>
+
+        <div *ngFor="let playlist of playlists" class="content-main-line">
             <button type="button" class="movable content-folder" (click)="onSelectPlayslist(playlist)">
                 <div class="content-folder-left">
-                    <img alt="icon" [src]="getImage('play.png')" class="content-icon" />
+                    <img alt="icon" src="images/play.png" loading=lazy class="content-icon" />
                     {{playlist.name}}
                 </div>
             </button>
         </div>
     </div>
     <div class="content-main-right ">
-
-        <div  class="content-line">
+ <div class="content-main-line-top">          
+            </div>
             
-            <div style="float: left;  height: 100%; width: 40%;">
+        <div class="content-main-line">
+            <div class="content-main-line-left">
                 <button type="button" class="movable content-button" (click)="displayPlayslist()">
                     <div class="content-button-center">
-                        <img alt="icon" [src]="getImage('plus.png')" class="content-icon" />
+                        <img alt="icon" src="images/plus.png" loading=lazy class="content-icon" />
                         Add playlist
                     </div>
                 </button>
-        </div>
+            </div>
 
-        <div>
-            <div style="height: 100%; ">
+            <div class="content-main-line-right">
                 <button type="button" class="movable content-button">
                     <div class="content-button-center">
-                        <img alt="icon" [src]="getImage('settings.png')" class="content-icon" />
+                        <img alt="icon" src="images/settings.png" loading=lazy class="content-icon" />
                         Settings
                     </div>
                 </button>
             </div>
-               
         </div>
 
-        </div>
 
     </div>
 </div>
@@ -51,7 +51,7 @@
 <div *ngIf="isDisplayAddPlaylist">
     <div class="content-main-popup-shadow">
     </div>
-    <div class="content-home-addplaylist">
+    <div class="content-home-addplaylist-position">
         <app-addPlaylist (onCancel)="cancelAddPlaylist()" (onSave)="registerPlaylist($event)"></app-addPlaylist>
     </div>
 </div>

@@ -1,10 +1,10 @@
-<div class="container-addplaylist">
+<div class="content-addplaylist">
 
-    <div style="height: 10%; border-bottom: solid 3px #efefef;">
+    <div class="content-addplaylist-title">
         <label>Add playlist</label>
     </div>
 
-    <table style="width: 100%; height: 70%;">
+    <table class="content-addplaylist-form">
         <tr>
             <td>
                 <label>Name</label>
@@ -26,7 +26,7 @@
             </td>
         </tr>
         <tr>
-            <td style="border-right: 10px solid transparent;">
+            <td >
                 <label>Pasword</label>
             </td>
             <td>
@@ -48,26 +48,31 @@
     </table>
 
 
-    <table style="width: 100%; height: 20%;">
-        <tr style="height: 100%;">
-            <td style="border: 10px solid transparent; height: 100%;">
-                <button type="button" [className]="'movable content-button ' + movableSectionAddPlaylist" (click)="save()">
-                    <div class="content-button-center">
-                        <img alt="icon" [src]="getImage('save.png')" class="content-icon" />
-                        Save
-                    </div>
-                </button>
-            </td>
-            <td style="border: 10px solid transparent; height: 100%;">
-                <button type="button" [className]="'movable content-button ' + movableSectionAddPlaylist" (click)="onCancel.emit()">
-                    <div class="content-button-center">
-                        <img alt="icon" [src]="getImage('back.png')" class="content-icon" />
-                        Cancel
-                    </div>
-                </button>
-            </td>
-        </tr>
-    </table>
+   
+    <div class="content-addplaylist-controls">
+        <div class="content-main-line-left">
+            <button type="button" [className]="'movable content-button ' + movableSectionAddPlaylist" (click)="save()">
+                <div class="content-button-center">
+                    <img alt="icon" [src]="getImage('save.png')" class="content-icon" />
+                    Save
+                </div>
+            </button>
+        </div>
+
+        <div class="content-main-line-right">
+            <button type="button" [className]="'movable content-button ' + movableSectionAddPlaylist" (click)="onCancel.emit()">
+                <div class="content-button-center">
+                    <img alt="icon" [src]="getImage('back.png')" class="content-icon" />
+                    Cancel
+                </div>
+            </button>
+        </div>
+    </div>
+
+               
+      
+               
+
 
 
 

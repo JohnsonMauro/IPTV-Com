@@ -1,5 +1,24 @@
-.container-addplaylist {
+.content-addplaylist {
     background-color: #262626;
     height: 100%;
     padding: 10px;
+}
+
+.content-addplaylist-title{
+    height: 10%; border-bottom: solid 3px #efefef;
+    vertical-align: middle;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.content-addplaylist-form {
+    width: 100%; height: 75%;
+}
+
+.content-addplaylist-controls {
+    height: 15%;
+    max-height: 15%;
+    width: 98%;
+    margin-left: 1%;
 }

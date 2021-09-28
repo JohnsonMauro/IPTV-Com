@@ -10,8 +10,7 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 
 @Component({
   selector: 'app-playlist',
-  templateUrl: './playlist.component.html',
-  styleUrls: ['./playlist.component.css']
+  templateUrl: './playlist.component.html'
 })
 export class PlaylistComponent implements OnInit {
 

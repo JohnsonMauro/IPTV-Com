@@ -10,20 +10,18 @@
 .content-main-header {
     width: 100%;
     height: 8%;
-    border-bottom: 3px solid #efefef;
 }
 
 .content-main {
-    height: calc(92% - 15px);
-    margin-top: 15px;
+    height: 92%;
 }
 
 .content-main-left {
     float: left;
     width: 40%;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: hidden;
     height: 100%;
+    border-right: 3px solid white;
 }
 
 .content-main-right {
@@ -54,8 +52,8 @@
     overflow: hidden;
     text-align: left;
     text-decoration: none;
-    width: 100%;
-    height: 10vh;
+    width: 99%;
+    height: 90%;
 }
 
 .content-button {
@@ -64,29 +62,28 @@
     border-radius: 15px;
     overflow: hidden;
     text-decoration: none;
-    width: 100%;
-    height: 7vh;
+    width: 99%;
+    height: 90%;
     color: #efefef;
 }
 
 .content-folder-left {
     float: left;
-    height: 100%;
     overflow: hidden;
     vertical-align: middle;
     display: flex;
     justify-content: left;
     align-items: center;
+    height: 100%;
 }
 
 .content-button-center {
-    height: 100%;
-    width: auto;
     overflow: hidden;
     vertical-align: middle;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
 }
 
 .content-icon {
@@ -102,16 +99,31 @@
 
 /* Content line */
 
-.content-line {
-    margin: 0px 10px 10px 10px;
-    display: block;
+.content-main-line {
+    height: 10%;
+    max-height: 10%;
+    width: 98%;
+    margin-left: 1%;
 }
 
-.content-line-center {
-    margin: 0px 10px 10px 10px;
-    text-align: center;
-    display: block;
+.content-main-line-top{
+    height: 1.5%;
 }
+
+.content-main-line-navigation {
+    height: 8%;
+    max-height: 8%;
+    width: 98%;
+    margin-left: 1%;
+}
+
+.content-main-line-left{
+    float: left; height: 100%; width: 49%; overflow: hidden; padding-right: 10px;
+} 
+
+.content-main-line-right{
+    height: 100%; overflow: hidden; margin: 0; padding: 0; border: none; padding-left: 10px;
+} 
 
 
 /* Content line end */

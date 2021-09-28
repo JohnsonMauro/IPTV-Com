@@ -1,57 +1,56 @@
+<div class="content-main-header">
+    <app-header></app-header>
+</div>
 
-     <div class="content-main-header">
-        <app-header></app-header>
-    </div>
+<div class="content-main ">
+    <div class="content-main-left ">
 
-    <div class="content-main ">
-        <div class="content-main-left ">
-
-            <div class="content-line">
-                <button type="button" class="movable content-folder" (click)="moveTo('/livestream')">
-                    <div class="content-folder-left">
-                        <img alt="icon" [src]="getImage('tv.png')" class="content-icon" />
-                        Live streams
-                    </div>
-                </button>
-            </div>
-
-            <div class="content-line">
-                <button type="button" class="movable content-folder" (click)="moveTo('/vodstream')">
-                    <div class="content-folder-left">
-                        <img alt="icon" [src]="getImage('movie.png')" class="content-icon" />
-                        Videos on demand
-                    </div>
-                </button>
-            </div>
-
-            <div class="content-line">
-                <button type="button" class="movable content-folder" (click)="moveTo('/seriesstream')">
-                    <div class="content-folder-left">
-                        <img alt="icon" [src]="getImage('serie.png')" class="content-icon" />
-                        Series
-                    </div>
-                </button>
-            </div>
-
+        <div class="content-main-line-top">
         </div>
-        <div class="content-main-right ">
 
-            <div class="content-line-center">
-                <button type="button" class="movable content-button content-right-button" (click)="delete()">
+        <div class="content-main-line">
+            <button type="button" class="movable content-folder" (click)="moveTo('/livestream')">
+                <div class="content-folder-left">
+                    <img alt="icon" src="images/tv.png" loading=lazy class="content-icon" />
+                    Live streams
+                </div>
+            </button>
+        </div>
+
+        <div class="content-main-line">
+            <button type="button" class="movable content-folder" (click)="moveTo('/vodstream')">
+                <div class="content-folder-left">
+                    <img alt="icon" src="images/movie.png" loading=lazy class="content-icon" />
+                    Videos on demand
+                </div>
+            </button>
+        </div>
+
+        <div class="content-main-line">
+            <button type="button" class="movable content-folder" (click)="moveTo('/seriesstream')">
+                <div class="content-folder-left">
+                    <img alt="icon" src="images/serie.png" loading=lazy class="content-icon" />
+                    Series
+                </div>
+            </button>
+        </div>
+
+    </div>
+    <div class="content-main-right ">
+        <div class="content-main-line-top">
+        </div>
+
+        <div class="content-main-line">
+            <div class="content-main-line-left">
+                <button type="button" class="movable content-button" (click)="delete()">
                     <div class="content-button-center">
-                        <img alt="icon" [src]="getImage('x.png')" class="content-icon" />
+                        <img alt="icon" src="images/x.png" loading=lazy class="content-icon" />
                         Delete
                     </div>
                 </button>
             </div>
 
-            <div class="content-line-center">
-                <button type="button" class="movable content-button content-right-button">
-                    <div class="content-button-center">
-                        <img alt="icon" [src]="getImage('star.png')" class="content-icon" />
-                        Favorites
-                    </div>
-                </button>
-            </div>
         </div>
+
     </div>
+</div>
