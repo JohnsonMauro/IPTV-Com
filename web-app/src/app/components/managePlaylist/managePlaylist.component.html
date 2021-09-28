@@ -1,16 +1,16 @@
-<div class="content-addplaylist">
+<div class="content-manageplaylist">
 
-    <div class="content-addplaylist-title">
+    <div class="content-manageplaylist-title">
         <label>Add playlist</label>
     </div>
 
-    <table class="content-addplaylist-form">
+    <table class="content-manageplaylist-form">
         <tr>
             <td>
                 <label>Name</label>
             </td>
             <td style="width: 100%;">
-                <div [className]="'movable movable-txt ' +movableSectionAddPlaylist" (keyup)="executeWrapperTextKeyUp($event)">
+                <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
                     <input type="text" placeholder="Name" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.name" />
                 </div>
             </td>
@@ -20,7 +20,7 @@
                 <label>User</label>
             </td>
             <td>
-                <div [className]="'movable movable-txt ' +movableSectionAddPlaylist" (keyup)="executeWrapperTextKeyUp($event)">
+                <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
                     <input type="text" placeholder="User" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.user" />
                 </div>
             </td>
@@ -30,7 +30,7 @@
                 <label>Pasword</label>
             </td>
             <td>
-                <div [className]="'movable movable-txt ' +movableSectionAddPlaylist" (keyup)="executeWrapperTextKeyUp($event)">
+                <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
                     <input type="Password" placeholder="Password" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.password" />
                 </div>
             </td>
@@ -40,7 +40,7 @@
                 <label>Url</label>
             </td>
             <td>
-                <div [className]="'movable movable-txt ' +movableSectionAddPlaylist" (keyup)="executeWrapperTextKeyUp($event)">
+                <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
                     <input type="text" placeholder="http://playlist.com:80" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.url" />
                 </div>
             </td>
@@ -49,9 +49,9 @@
 
 
    
-    <div class="content-addplaylist-controls">
+    <div class="content-manageplaylist-controls">
         <div class="content-main-line-left">
-            <button type="button" [className]="'movable content-button ' + movableSectionAddPlaylist" (click)="save()">
+            <button type="button" [className]="'movable content-button ' + managePlaylistMovableClass" (click)="save()">
                 <div class="content-button-center">
                     <img alt="icon" [src]="getImage('save.png')" class="content-icon" />
                     Save
@@ -60,7 +60,7 @@
         </div>
 
         <div class="content-main-line-right">
-            <button type="button" [className]="'movable content-button ' + movableSectionAddPlaylist" (click)="onCancel.emit()">
+            <button type="button" [className]="'movable content-button ' + managePlaylistMovableClass" (click)="onCancel.emit()">
                 <div class="content-button-center">
                     <img alt="icon" [src]="getImage('back.png')" class="content-icon" />
                     Cancel

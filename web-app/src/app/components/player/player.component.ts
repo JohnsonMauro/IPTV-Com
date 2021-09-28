@@ -11,11 +11,6 @@ import { SpacialNavigationService } from 'src/app/services/spacialNavigationServ
 	styleUrls: ['./player.component.css']
 })
 export class PlayerComponent implements OnInit {
-	@ViewChild("videoPlayerElement")
-	videoPlayerEement: ElementRef;
-
-	private videoPlayerClass = "content-videoplayer-controls";
-
 	private _source: string;
 	@Input() set source(value: string) {
 		this._source = value;
@@ -26,22 +21,20 @@ export class PlayerComponent implements OnInit {
 	private _isFullscreen: boolean;
 	@Input() set isFullscreen(value: boolean) {
 		this._isFullscreen = value;
-		if(this.isFullscreen)
-		{
-			this.spatialNavigation.enable(this.videoPlayerClass);
-		}
 		this.changeResolution();
-		
+		this.onDisplayFullscreenChange();
 	}
 	get isFullscreen() { return this._isFullscreen; }
 
 
 	@Input() isLiveStream: boolean;
 	@Input() poster: string;
-
 	@Output() onExitFullscreen = new EventEmitter<null>();
 
 
+	@ViewChild("videoPlayerElement")
+	private videoPlayerEement: ElementRef;
+	videoPlayerMovableClass = "content-videoplayer-controls";
 	isDisplayControls = true;
 	isLoading = false;
 	canPlay = false;
@@ -56,7 +49,6 @@ export class PlayerComponent implements OnInit {
 		this.canPlay = true;
 		this.changeResolution();
 		this.videoPlayerEement.nativeElement.play();
-
 	}
 
 	getImage(name: string) {
@@ -91,16 +83,13 @@ export class PlayerComponent implements OnInit {
 
 	onDisplayFullscreenChange() {
 		if (this.isFullscreen)
-		  this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
+		this.spatialNavigation.add(this.videoPlayerMovableClass, "."+this.videoPlayerMovableClass);
 		else
-		  this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
+		this.spatialNavigation.remove(this.videoPlayerMovableClass);
 	  }
 
 	ngAfterViewInit() {
 		if (this.source != null && this.videoPlayerEement)
 			this.videoPlayerEement.nativeElement.load();
-		
-			this.spatialNavigation.add(this.videoPlayerClass, "."+this.videoPlayerClass);
-			this.isDisplayControls = false;
 	}
 }

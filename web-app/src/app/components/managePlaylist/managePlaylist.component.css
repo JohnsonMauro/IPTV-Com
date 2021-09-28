@@ -1,10 +1,10 @@
-.content-addplaylist {
+.content-manageplaylist {
     background-color: #262626;
     height: 100%;
     padding: 10px;
 }
 
-.content-addplaylist-title{
+.content-manageplaylist-title{
     height: 10%; border-bottom: solid 3px #efefef;
     vertical-align: middle;
     display: flex;
@@ -12,11 +12,11 @@
     align-items: center;
 }
 
-.content-addplaylist-form {
+.content-manageplaylist-form {
     width: 100%; height: 75%;
 }
 
-.content-addplaylist-controls {
+.content-manageplaylist-controls {
     height: 15%;
     max-height: 15%;
     width: 98%;

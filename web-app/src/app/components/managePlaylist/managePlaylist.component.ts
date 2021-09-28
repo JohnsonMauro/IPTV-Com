@@ -7,17 +7,17 @@ import { AlertService } from 'src/app/services/alertService';
 import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
 
 @Component({
-  selector: 'app-addPlaylist',
-  templateUrl: './addPlaylist.component.html',
-  styleUrls: ['./addPlaylist.component.css']
+  selector: 'app-managePlaylist',
+  templateUrl: './managePlaylist.component.html',
+  styleUrls: ['./managePlaylist.component.css']
 })
-export class AddPlaylistComponent implements OnInit {
+export class ManagePlaylistComponent implements OnInit {
 
   constructor(private spatialNavigation: SpacialNavigationService
     ,private alertService: AlertService) {
   }
   
-  movableSectionAddPlaylist = "movable-addplaylist";
+  managePlaylistMovableClass = "movable-addplaylist";
 
   playlist: Playlist = new Playlist;
 
@@ -39,8 +39,8 @@ export class AddPlaylistComponent implements OnInit {
   }
 
   ngAfterViewInit (){
-    this.spatialNavigation.remove(this.movableSectionAddPlaylist);
-    this.spatialNavigation.add(this.movableSectionAddPlaylist, "."+this.movableSectionAddPlaylist);
+    this.spatialNavigation.remove(this.managePlaylistMovableClass);
+    this.spatialNavigation.add(this.managePlaylistMovableClass, "."+this.managePlaylistMovableClass);
   }
 
   save(){

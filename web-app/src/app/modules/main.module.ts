@@ -8,7 +8,7 @@ import { MainComponent } from '../components/main/main.component';
 import { HomeComponent } from '../components/home/home.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { SpacialNavigationService } from '../services/spacialNavigationService';
-import { AddPlaylistComponent } from '../components/home/addPlaylist/addPlaylist.component';
+import {  ManagePlaylistComponent } from '../components/managePlaylist/managePlaylist.component';
 import { AlertService } from '../services/alertService';
 import { AlertComponent } from '../components/alert/alert.component';
 import { FormsModule } from '@angular/forms';
@@ -21,13 +21,14 @@ import { PlaylistComponent } from '../components/playlist/playlist.component';
 import { VodStreamComponent } from '../components/vod/vodStream.component';
 import { SpinnerService } from '../services/spinnerService';
 import { PageComponent } from '../components/page/page.component';
+import { CustomFocusDirective } from '../directive/customFocus.directive';
 
 @NgModule({
   declarations: [
     MainComponent,
     HeaderComponent,
     HomeComponent,
-    AddPlaylistComponent,
+    ManagePlaylistComponent,
     LiveStreamComponent,
     PlaylistComponent,
     VodStreamComponent,
@@ -36,7 +37,8 @@ import { PageComponent } from '../components/page/page.component';
     PlayerComponent,
     PageComponent,
     SpinnerComponent,
-    AlertComponent
+    AlertComponent,
+    CustomFocusDirective
     ],
   imports: [
     BrowserModule,
