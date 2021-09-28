@@ -14,13 +14,13 @@
 
         <button *ngIf="isDisplayControls" class='movable content-button content-videoplayer-controls' (click)="onExitFullscreen.emit()">
             <div class="content-button-center">
-                <img alt="icon" [src]="getImage('fullscreen_ext.png')" class="content-icon content-videoplayer-controls-icon" />
+                <img alt="icon" [src]="getImage('back.png')" class="content-icon content-videoplayer-controls-icon" />
             </div>
         </button>
 
         <button class='movable content-button content-videoplayer-controls' (click)="isDisplayControls = !isDisplayControls">
             <div class="content-button-center">
-                <img alt="icon" [src]="getImage('eye.png')" class="content-icon content-videoplayer-controls-icon" />
+                <img alt="icon" [src]="getImage('minimize.png')" class="content-icon content-videoplayer-controls-icon" />
             </div>
         </button>
     </div>

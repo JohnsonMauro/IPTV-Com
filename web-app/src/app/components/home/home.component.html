@@ -1,5 +1,10 @@
 
-<div class="content-main ">
+ <div class="content-main-header">
+    <app-header></app-header>
+</div>
+
+
+<div class="content-main">
     <div class="content-main-left ">
 
         <div *ngFor="let playlist of playlists" class="content-line">
@@ -13,23 +18,31 @@
     </div>
     <div class="content-main-right ">
 
-        <div class="content-line-center">
-            <button type="button" class="movable content-button content-right-button " (click)="displayPlayslist()">
-                <div class="content-button-center">
-                    <img alt="icon" [src]="getImage('plus.png')" class="content-icon" />
-                    Add playlist
-                </div>
-            </button>
+        <div  class="content-line">
+            
+            <div style="float: left;  height: 100%; width: 40%;">
+                <button type="button" class="movable content-button" (click)="displayPlayslist()">
+                    <div class="content-button-center">
+                        <img alt="icon" [src]="getImage('plus.png')" class="content-icon" />
+                        Add playlist
+                    </div>
+                </button>
         </div>
 
-        <div class="content-line-center">
-            <button type="button" class="movable content-button content-right-button ">
-                <div class="content-button-center">
-                    <img alt="icon" [src]="getImage('settings.png')" class="content-icon" />
-                    Settings
-                </div>
-            </button>
+        <div>
+            <div style="height: 100%; ">
+                <button type="button" class="movable content-button">
+                    <div class="content-button-center">
+                        <img alt="icon" [src]="getImage('settings.png')" class="content-icon" />
+                        Settings
+                    </div>
+                </button>
+            </div>
+               
         </div>
+
+        </div>
+
     </div>
 </div>
 

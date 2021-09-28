@@ -1,7 +1,7 @@
 
 .content-header {
     width: 100%;
-    height: 80%;
+    height: 100%;
 }
 
 .content-header-left {
@@ -30,23 +30,8 @@
 }
 
 .content-header-image {
-    height: 75%;
+    height: 80%;
     width: auto;
     border-radius: 10px;
 }
 
-.content-header-path {
-    padding-left: 10px;
-    overflow: hidden;
-    height: 20%;
-    border-top: 2px solid #efefef;
-    border-bottom: 2px solid #efefef;
-    vertical-align: middle;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-}
-
-.content-header-path p {
-    font-size: 2vh;
-}

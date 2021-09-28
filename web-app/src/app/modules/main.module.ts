@@ -20,7 +20,6 @@ import { SpinnerComponent } from '../components/spinner/spinner.component';
 import { PlaylistComponent } from '../components/playlist/playlist.component';
 import { VodStreamComponent } from '../components/vod/vodStream.component';
 import { SpinnerService } from '../services/spinnerService';
-import { HeaderService } from '../services/headerService';
 
 @NgModule({
   declarations: [
@@ -43,7 +42,7 @@ import { HeaderService } from '../services/headerService';
     FormsModule,
     HttpClientModule
   ],
-  providers: [SpacialNavigationService, AlertService, SpinnerService, HeaderService, DbService, ApiService],
+  providers: [SpacialNavigationService, AlertService, SpinnerService, DbService, ApiService],
   bootstrap: [MainComponent]
 })
 export class MainModule { }

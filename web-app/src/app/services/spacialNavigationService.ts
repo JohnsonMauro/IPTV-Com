@@ -12,17 +12,14 @@ export class SpacialNavigationService {
   }
 
   add(sectionId: string, selector: string) {
-    try{
+
       this.spatialNavigation.add(
         sectionId,
        { selector: selector}
        );
      this.spatialNavigation.makeFocusable();
      this.focus();
-    }
-    catch{
-      this.enable(sectionId);
-    }
+    
   }
 
   remove(sectionId: string) {
@@ -35,9 +32,11 @@ export class SpacialNavigationService {
 
   enable(sectionId: string) {
     this.spatialNavigation.enable(sectionId);
+    this.spatialNavigation.makeFocusable();
     this.focus();
   }
   focus() {
+    this.spatialNavigation.makeFocusable();
     this.spatialNavigation.focus();
   }
 }

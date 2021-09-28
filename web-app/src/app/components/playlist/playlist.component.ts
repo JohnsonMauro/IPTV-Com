@@ -6,7 +6,6 @@ import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
 import { DbService } from 'src/app/services/dbServie';
-import { HeaderService } from 'src/app/services/headerService';
 import { SpacialNavigationService } from '../../services/spacialNavigationService';
 
 @Component({
@@ -21,8 +20,7 @@ export class PlaylistComponent implements OnInit {
     , private alertService: AlertService
     , private dbService: DbService
     , private route: Router
-    , private activatedroute: ActivatedRoute
-    ,private headerService: HeaderService) {
+    , private activatedroute: ActivatedRoute) {
   }
 
   playlist: Playlist;
@@ -31,7 +29,6 @@ export class PlaylistComponent implements OnInit {
     try {
       let playlistId = this.activatedroute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
-      this.headerService.setSiteMap('Home > ' + this.playlist.name);
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));

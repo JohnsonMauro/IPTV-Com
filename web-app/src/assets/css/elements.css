@@ -27,12 +27,10 @@ li {
 ::-webkit-scrollbar {
     width: 18px;
     box-shadow: inset 0 0 10px #D0D3D4;
-    border-radius: 50px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #bbbdbe;
-    border-radius: 50px;
+ 
 }
 
 html,

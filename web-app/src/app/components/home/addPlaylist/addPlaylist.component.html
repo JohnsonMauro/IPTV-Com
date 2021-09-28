@@ -26,12 +26,12 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td style="border-right: 10px solid transparent;">
                 <label>Pasword</label>
             </td>
             <td>
                 <div [className]="'movable movable-txt ' +movableSectionAddPlaylist" (keyup)="executeWrapperTextKeyUp($event)">
-                    <input type="password" placeholder="password" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.password" />
+                    <input type="Password" placeholder="Password" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.password" />
                 </div>
             </td>
         </tr>
@@ -41,7 +41,7 @@
             </td>
             <td>
                 <div [className]="'movable movable-txt ' +movableSectionAddPlaylist" (keyup)="executeWrapperTextKeyUp($event)">
-                    <input type="text" placeholder="Url" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.url" />
+                    <input type="text" placeholder="http://playlist.com:80" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.url" />
                 </div>
             </td>
         </tr>

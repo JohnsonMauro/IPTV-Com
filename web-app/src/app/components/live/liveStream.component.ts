@@ -10,7 +10,6 @@ import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
-import { HeaderService } from 'src/app/services/headerService';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../services/spacialNavigationService';
 
@@ -34,7 +33,6 @@ export class LiveStreamComponent implements OnInit {
     , private apiService: ApiService
     , private spatialNavigation: SpacialNavigationService
     ,private spinnerService: SpinnerService
-    ,private headerService: HeaderService
     ) {
   }
 
@@ -43,35 +41,22 @@ export class LiveStreamComponent implements OnInit {
       this.spinnerService.displaySpinner();
       let playlistId = this.activatedroute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
-      this.headerService.setSiteMap('Home > ' + this.playlist.name + ' > Live');
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
       this.apiService.findLiveStreams(this.playlist).subscribe(result => this.streams = result);
-      this.handleSearchListener(true);
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
     }
   }
 
-  handleSearchListener(isAdd: boolean){
-    if(isAdd){
-      this.searchSubscription = this.headerService.getSearch()
-      .subscribe(async (searchText) => {
-        console.log('called on live')
-        this.spinnerService.displaySpinner();
-        try{
-          let resultS = await this.apiService.findLiveStreams(this.playlist).toPromise();
-          this.streams =  searchText == null || searchText == "" 
-          ? resultS
-          : resultS.filter(x =>  x.name.toLowerCase().includes(searchText.toLowerCase()));
-        }finally{
-          this.spinnerService.hideSpinner();
-        }
-        });
-    }
-    else{
-      this.searchSubscription.unsubscribe();
-    }
+  search(searchText: string){
+    
+    this.apiService.findLiveStreams(this.playlist).subscribe(result => {
+      this.streams =  searchText == null || searchText == "" 
+      ? result
+      : result.filter(x =>  x.name.toLowerCase().includes(searchText.toLowerCase()));
+    
+    });
   }
 
   setFullscreen(isFullScreen: boolean) {   
@@ -118,7 +103,6 @@ export class LiveStreamComponent implements OnInit {
   }
 
   ngOnDestroy(){
-    console.log('destroy');
-    this.handleSearchListener(false);
+
   }
 }

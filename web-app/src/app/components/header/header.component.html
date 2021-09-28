@@ -8,7 +8,7 @@
 
     <div class="content-header-right">
         <div class="content-header-item">
-            <div [className]="'movable movable-txt'" (keyup)="executeWrapperTextKeyUp($event)">
+            <div class="movable movable-txt" (keyup)="executeWrapperTextKeyUp($event)">
                 <input type="text" placeholder="Name" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="searchText" />
             </div>
         </div>
@@ -22,8 +22,4 @@
             <input type="image" [src]="getImage('back.png')" alt="icon" class="movable button content-header-image" (click)="back()" />
         </div>
     </div>
-</div>
-
-<div class="content-header-path">
-    <p>{{getSiteMap()}}</p>
 </div>
