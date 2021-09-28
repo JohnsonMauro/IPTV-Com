@@ -13,7 +13,6 @@ import { SpacialNavigationService } from 'src/app/services/spacialNavigationServ
 })
 export class HeaderComponent implements OnInit {
   constructor(private router: Router
-    ,private spatialNavigation: SpacialNavigationService
     ) { }
 
   searchText: string;
@@ -23,8 +22,8 @@ export class HeaderComponent implements OnInit {
   onSearch = new EventEmitter<string>();
   @Output()
   onSort = new EventEmitter<SortCode>();
-  @Output()
-  onBack = new EventEmitter<null>();
+  @Input()
+  onBack: string;
 
   home(){
     this.router.navigate(['']);
@@ -39,7 +38,7 @@ export class HeaderComponent implements OnInit {
   }
 
   back(){
-    this.onBack.emit();
+    this.router.navigate([this.onBack]);
   }
 
   executeWrapperTextKeyUp = MovableHelper.executeDefaultKeyUpForTextWrapper;

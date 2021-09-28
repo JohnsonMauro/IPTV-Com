@@ -1,5 +1,5 @@
 <div class="content-main-header">
-    <app-header (onSearch)="search($event)"></app-header>
+    <app-header (onSearch)="onSearchTrigger($event)" [onBack]="'playlist/'+playlist._id" ></app-header>
 </div>
 
 
@@ -9,30 +9,8 @@
         <div class="content-main-line-top">
         </div>
 
-        <div class="content-main-line-navigation">
-            <div style="float: left; overflow: hidden; width: 10%; height: 80%;">
-                <button type="button" class="movable content-button">
-                    <div class="content-button-center">
-                        <img alt="icon" src="images/left.png" class="content-icon" loading=lazy />
-                    </div>
-                </button>
-            </div>
-
-            <div style="float: left; overflow: hidden; width: 80%; height: 80%; text-align: center;  display: flex;
-                justify-content: center;
-                align-items: center;">
-                Folder: All
-            </div>
-
-            <div style="float: right; overflow: hidden; width: 10%; height: 80%; text-align: right;">
-                <button type="button" class="movable content-button">
-                    <div class="content-button-center">
-                        <img alt="icon" src="images/right.png" class="content-icon" loading=lazy />
-                    </div>
-                </button>
-            </div>
-        </div>
-
+      
+        <app-category [currentCategory]="currentCategory" [categories]="categories" (onMove)="onMoveCategoryTrigger($event)"></app-category>
 
         <div *ngFor="let streamItem of streams" class="content-main-line">
             <button type="button" class="movable content-folder" (click)="selectStream(streamItem)">
@@ -43,7 +21,7 @@
             </button>
         </div>
 
-        <app-page [currentPage]="currentPage" (onMove)="movePage($event)"></app-page>
+        <app-page [maxPage]="maxPage" [currentPage]="currentPage" (onMove)="onMovePageTrigger($event)"></app-page>
 
     </div>
 
@@ -58,13 +36,13 @@
         <div class="content-line-tv">
             <div class="content-line-tv-player">
                 <app-player [source]="source" [isLiveStream]="true" [isFullscreen]="isFullscreen"
-                    [poster]="getImage('tv.png')" (onExitFullscreen)="setFullscreen(false)"></app-player>
+                    [poster]="'images/tv.png'" (onExitFullscreen)="onFullscreenTrigger(false)"></app-player>
             </div>
         </div>
 
         <div class="content-main-line">
             <div class="content-main-line-left">
-                <button type="button" class="movable content-button" (click)="setFullscreen(true)">
+                <button type="button" class="movable content-button" (click)="onFullscreenTrigger(true)">
                     <div class="content-button-center">
                         <img class="content-icon" alt="icon" src="images/fullscreen.png" loading=lazy />
                         Fullscreen
@@ -73,10 +51,10 @@
             </div>
 
             <div class="content-main-line-right">
-                <button type="button" class="movable content-button">
+                <button type="button" class="movable content-button" (click)="manageFavorites()">
                     <div class="content-button-center">
                         <img class="content-icon" alt="icon" src="images/star.png" loading=lazy />
-                        Add favorites
+                        {{ getFavoriteDescription() }}
                     </div>
                 </button>
             </div>

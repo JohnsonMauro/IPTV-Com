@@ -1,12 +1,17 @@
+import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
+import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
-import { LiveStream } from 'src/app/models/api/live';
+import { PageHelper } from 'src/app/helpers/pageHelper';
+import { Live } from 'src/app/models/api/live';
+import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
+import { StreamCode } from 'src/app/models/app/streamCode';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
@@ -20,23 +25,27 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 })
 export class LiveStreamComponent implements OnInit {
 
+  searchText: string;
+  maxPage = 1;
   currentPage = 1;
-  source: string;
-
-  streamsAll: LiveStream[] = [];
-  streams: LiveStream[] = [];
+  categories = CategoryHelper.getDefaultCategories();
+  currentCategory = this.categories[1];
+  
   playlist: Playlist;
-  stream: LiveStream;
+  streamsAll: Live[] = [];
+  streams: Live[] = [];
+  stream: Live;
+
+  source: string;
   isFullscreen = false;
-  searchSubscription: Subscription;
 
   constructor(private activatedroute: ActivatedRoute
     , private alertService: AlertService
     , private dbService: DbService
     , private apiService: ApiService
     , private spatialNavigation: SpacialNavigationService
-    ,private spinnerService: SpinnerService
-    ) {
+    , private spinnerService: SpinnerService
+  ) {
   }
 
   ngOnInit() {
@@ -52,41 +61,32 @@ export class LiveStreamComponent implements OnInit {
     }
   }
 
-  search(searchText: string){
-    this.currentPage = 1;
-    if(searchText == null || searchText == "")
-    {
-      this.streams = this.streamsAll.slice(0, this.apiService.getItemsOnPageNumber());
-      return;
-    }
-
-    this.streams = this.streamsAll
-    .filter(x =>  x.name.toLowerCase().includes(searchText.toLowerCase()))
-    .slice(0, this.apiService.getItemsOnPageNumber());
-  }
-
-  populateAllStreams(){
+  populateAllStreams() {
     this.apiService.findLiveStreams(this.playlist).subscribe(result => {
-      this.streamsAll = result
-      this.streams = this.streamsAll.slice(0, this.apiService.getItemsOnPageNumber())
+      this.streamsAll = result;
+      if (this.streamsAll.length == 0)
+        return;
+
+      this.setPageOnStream(1, this.streamsAll);
     });
   }
 
-  setFullscreen(isFullScreen: boolean) {   
+
+  onFullscreenTrigger(isFullScreen: boolean) {
     if (isFullScreen)
       this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
     else
       this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
 
-      this.isFullscreen = isFullScreen;
+    this.isFullscreen = isFullScreen;
   }
 
-  selectStream(stream: LiveStream) {
+  selectStream(stream: Live) {
     try {
       let url = ApiHelper.generateLiveStreamUrl(this.playlist, stream.stream_id.toString());
 
       if (this.source == url)
-      this.setFullscreen(true);
+        this.onFullscreenTrigger(true);
       else {
         this.source = url;
         this.stream = stream;
@@ -97,37 +97,102 @@ export class LiveStreamComponent implements OnInit {
     }
   }
 
-  getImage(name: string) {
-    return DirectoryHelper.getImage(name);
-  }
-
-  
-  getImageStream(stream: LiveStream) {
-    return (stream.stream_icon == null 
+  getImageStream(stream: Live) {
+    return (stream.stream_icon == null
       || stream.stream_icon == ""
-      || !stream.stream_icon.startsWith("http")) 
-      ? this.getImage('tv.png') 
+      || !stream.stream_icon.startsWith("http"))
+      ? 'images/tv.png'
       : stream.stream_icon;
   }
 
-
-  movePage(moveNext: boolean){
-    if(!moveNext && this.currentPage == 1)
-     return;
-
-    let from = this.currentPage * this.apiService.getItemsOnPageNumber();
-    let to = from + this.apiService.getItemsOnPageNumber();
-
-    this.streams = this.streamsAll.slice(from, to);
-    this.currentPage = moveNext ? this.currentPage + 1 : this.currentPage - 1;
+  getFavoriteDescription(): string {
+    return this.currentCategory?.id == CategoryHelper.favoritesCategoryId ? "Remove from favorites" : "Add to favorites"
   }
 
+  manageFavorites() {
+    try {
+      if (this.stream == null)
+        return;
+
+      if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
+        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.Live, this.stream.stream_id.toString());
+        this.alertService.info('Removed from favorites');
+      }
+      else {
+        this.dbService.addToFavorites(this.playlist._id, StreamCode.Live, this.stream.stream_id.toString());
+        this.alertService.info('Added to favorites');
+      }
+    }
+    catch (err) {
+      this.alertService.error(JSON.stringify(err));
+    }
+  }
+
+  // ------------------------------------ Search and move ----------------------------------------
+
+  onSearchTrigger(searchText: string) {
+    this.searchText = searchText;
+    let streamsLocal = this.findByGeneralSearch(this.currentCategory, searchText, this.streamsAll);
+    this.setPageOnStream(1, streamsLocal);
+  }
+
+  onMovePageTrigger(page: number) {
+    this.currentPage = page;
+    let streamsLocal = this.findByGeneralSearch(this.currentCategory, this.searchText, this.streamsAll);
+    this.setPageOnStream(page, streamsLocal);
+  }
+
+  onMoveCategoryTrigger(category: Category) {
+    this.currentCategory = category;
+    let streamsLocal = this.findByGeneralSearch(this.currentCategory, null, this.streamsAll);
+    this.setPageOnStream(1, streamsLocal);
+  }
+
+  setPageOnStream(page: number, streamsFiltered: Live[]) {
+    this.currentPage = page;
+    this.maxPage = Math.ceil(streamsFiltered.length / PageHelper.getNumberItemsOnPage())
+    let from = (page - 1) * PageHelper.getNumberItemsOnPage();
+    let to = from + PageHelper.getNumberItemsOnPage();
+    this.streams = streamsFiltered.slice(from, to);
+  }
+
+  findByGeneralSearch(category: Category, searchText: string, streamsToFilter: Live[]): Live[] {
+    let streamsFilteredLocal = [];
+
+    try{     
+      let searchIsNullOrEmpty = searchText == null || searchText == "";
+      searchText = searchIsNullOrEmpty ? searchText : searchText.toLowerCase();
+      if (category.id == CategoryHelper.allCategoryId) {
+        for (let i = 0; i < streamsToFilter.length; i++) {
+          if (searchIsNullOrEmpty || streamsToFilter[i].name.toLowerCase().includes(searchText))
+            streamsFilteredLocal.push(streamsToFilter[i]);
+        }
+      }
+  
+      else if (category.id == CategoryHelper.favoritesCategoryId) {
+        let favorites = this.dbService.findFavorites(this.playlist._id, StreamCode.Live);
+  
+        for (let f = 0; f < favorites.length; f++) {
+          let favorite = streamsToFilter.find(x => x.stream_id.toString() == favorites[f]);
+          if (favorite != null && (searchIsNullOrEmpty || favorite.name.toLowerCase().includes(searchText)))
+            streamsFilteredLocal.push(favorite);
+        }
+      }
+    }
+    catch(err){
+      this.alertService.error(JSON.stringify(err));
+    }
+    return streamsFilteredLocal;
+  }
+
+
+  // -------------------------------------------- onDestroy ---------------------------------------------
   ngAfterViewInit() {
     this.spatialNavigation.focus();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.streamsAll.length = 0;
-this.streams.length = 0;
+    this.streams.length = 0;
   }
 }

@@ -1,9 +1,8 @@
-export class Live{
+export class Serie{
 num: number;
 name: string;
-stream_id: number;
+serie_id: number;
 stream_icon: string;
-epg_channel_id: string;
 category_id: string;
 added: Date;
 }

@@ -9,15 +9,27 @@ export class PageComponent implements OnInit {
 
   @Input()
   currentPage: number = 1;
+  @Input()
+  maxPage: number = 1;
 
   @Output()
-  onMove = new EventEmitter<boolean>();
+  onMove = new EventEmitter<number>();
 
   constructor(
-    ) {
+  ) {
   }
 
-  ngOnInit(){
+  ngOnInit() {
 
+  }
+
+  move(forward: boolean) {
+    if ((!forward && this.currentPage == 1)
+      || (forward && this.currentPage == this.maxPage))
+      return;
+
+    this.currentPage = forward ? this.currentPage + 1 : this.currentPage - 1;
+
+    this.onMove.emit(this.currentPage);
   }
 }

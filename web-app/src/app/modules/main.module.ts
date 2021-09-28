@@ -22,6 +22,7 @@ import { VodStreamComponent } from '../components/vod/vodStream.component';
 import { SpinnerService } from '../services/spinnerService';
 import { PageComponent } from '../components/page/page.component';
 import { CustomFocusDirective } from '../directive/customFocus.directive';
+import { CategoryComponent } from '../components/category/category.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { CustomFocusDirective } from '../directive/customFocus.directive';
 
     PlayerComponent,
     PageComponent,
+    CategoryComponent,
     SpinnerComponent,
     AlertComponent,
     CustomFocusDirective

@@ -1,6 +1,4 @@
-<div class="content-main-line-navigation" style="display: flex;
-justify-content: center;
-align-items: center;">           
+<div class="content-main-line-navigation">
     <div style="float: left; overflow: hidden; width: 10%; height: 80%;">
         <button type="button" class="movable content-button" (click)="move(false)">
             <div class="content-button-center">
@@ -10,9 +8,9 @@ align-items: center;">
     </div>
 
     <div style="float: left; overflow: hidden; width: 80%; height: 80%; text-align: center;  display: flex;
-    justify-content: center;
-    align-items: center;">
-    {{currentPage}} of {{maxPage}}
+        justify-content: center;
+        align-items: center;">
+        {{currentCategory?.name}}
     </div>
 
     <div style="float: right; overflow: hidden; width: 10%; height: 80%; text-align: right;">
@@ -21,5 +19,5 @@ align-items: center;">
                 <img alt="icon" src="images/right.png" class="content-icon" loading=lazy />
             </div>
         </button>
-    </div>     
+    </div>
 </div>

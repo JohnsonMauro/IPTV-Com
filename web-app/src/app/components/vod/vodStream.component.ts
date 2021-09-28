@@ -5,7 +5,7 @@ import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
-import { LiveStream } from 'src/app/models/api/live';
+import { PageHelper } from 'src/app/helpers/pageHelper';
 import { VOD } from 'src/app/models/api/vod';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
@@ -21,6 +21,7 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 })
 export class VodStreamComponent implements OnInit {
 
+  maxPage = 1;
   currentPage = 1;
 
   source: string;
@@ -56,7 +57,7 @@ export class VodStreamComponent implements OnInit {
   populateAllStreams(){
     this.apiService.findVodStreams(this.playlist).subscribe(result => {
       this.streamsAll = result
-      this.streams = this.streamsAll.slice(0, this.apiService.getItemsOnPageNumber())
+      this.streams = this.streamsAll.slice(0, PageHelper.getNumberItemsOnPage())
     });
   }
 
@@ -102,24 +103,17 @@ export class VodStreamComponent implements OnInit {
     this.currentPage = 1;
     if(searchText == null || searchText == "")
     {
-      this.streams = this.streamsAll.slice(0, this.apiService.getItemsOnPageNumber());
+      this.streams = this.streamsAll.slice(0, PageHelper.getNumberItemsOnPage());
       return;
     }
 
     this.streams = this.streamsAll
     .filter(x =>  x.name.toLowerCase().includes(searchText.toLowerCase()))
-    .slice(0, this.apiService.getItemsOnPageNumber());
+    .slice(0, PageHelper.getNumberItemsOnPage());
   }
 
-  movePage(moveNext: boolean){
-    if(!moveNext && this.currentPage == 1)
-     return;
-
-    let from = this.currentPage * this.apiService.getItemsOnPageNumber();
-    let to = from + this.apiService.getItemsOnPageNumber();
-
-    this.streams = this.streamsAll.slice(from, to);
-    this.currentPage = moveNext ? this.currentPage + 1 : this.currentPage - 1;
+  movePage(page: number){
+    
   }
 
   ngAfterViewInit() {
