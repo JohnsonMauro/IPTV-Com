@@ -15,13 +15,13 @@
             </div>
         </button>
 
-        <!-- <button *ngIf="!isLiveStream" class='movable content-button content-videoplayer-controls' (click)="playOrPause()" [disabled]="isDisplayControls ? false : true">
+        <button *ngIf="!isLiveStream" class='movable content-button content-videoplayer-controls' (click)="playOrPause()" [disabled]="isDisplayControls">
             <div class="content-button-center">
                 <img alt="icon" src="{{getImagePlayOrPause()}}" loading=lazy class="content-icon content-videoplayer-controls-icon" />
             </div>
-        </button> -->
+        </button>
 
-        <button class='movable content-button content-videoplayer-controls' (click)="onExitFullscreen.emit()" [disabled]="isDisplayControls ? false : true">
+        <button class='movable content-button content-videoplayer-controls' (click)="onExitFullscreen.emit()" [disabled]="isDisplayControls">
             <div class="content-button-center">
                 <img alt="icon" src="images/back.png" loading=lazy class="content-icon content-videoplayer-controls-icon" />
             </div>
