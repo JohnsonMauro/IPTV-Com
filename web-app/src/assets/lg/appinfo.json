@@ -2,8 +2,8 @@
     "vendor": "JN",
     "icon": "icon.png",
     "main": "index.html",
-    "id": "com.jn.app.jn-iptv-com",
-    "title": "JN-IPTV-Com",
+    "id": "com.jn.app.jn-iptv",
+    "title": "JN-IPTV",
     "type": "web",
     "version": "0.0.1",
     "disableBackHistoryAPI": true
