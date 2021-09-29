@@ -50,9 +50,8 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    background-color: black;
-    background-color: grey;
-    border-color: black;
+    background-color: #262626;
+    border-color: #686868;
     border-style: solid;
     border-width: thin;
     text-align: center;

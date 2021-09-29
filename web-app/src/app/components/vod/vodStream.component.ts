@@ -124,6 +124,8 @@ export class VodStreamComponent implements OnInit {
   }
 
   onFullscreenTrigger(isFullScreen: boolean) {
+    if(this.stream == null)
+    return;
     if (isFullScreen)
       this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
     else

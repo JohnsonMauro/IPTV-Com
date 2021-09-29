@@ -76,6 +76,9 @@ export class LiveStreamComponent implements OnInit {
 
 
   onFullscreenTrigger(isFullScreen: boolean) {
+    if(this.stream == null)
+    return;
+    
     if (isFullScreen)
       this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
     else
@@ -98,14 +101,6 @@ export class LiveStreamComponent implements OnInit {
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
     }
-  }
-
-  getImageStream(stream: Live) {
-    return (stream.stream_icon == null
-      || stream.stream_icon == ""
-      || !stream.stream_icon.startsWith("http"))
-      ? 'images/tv.png'
-      : stream.stream_icon;
   }
 
   getFavoriteDescription(): string {

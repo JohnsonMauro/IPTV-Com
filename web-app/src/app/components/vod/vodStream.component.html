@@ -18,15 +18,13 @@
         <div *ngFor="let streamItem of streams" class="content-main-line">
             <button type="button" class="movable content-folder" (click)="selectStream(streamItem)">
                 <div class="content-folder-left">
-                    <img alt="icon" [src]="getImageStream(streamItem)" class="content-icon content-icon-vod" loading=lazy />
+                    <img class="content-icon content-icon-vod" alt="icon" [src]="streamItem.stream_icon" onerror="this.className='content-icon';this.src='images/movie.png';" loading=lazy />
                     {{streamItem.name}}
                 </div>
             </button>
         </div>
 
-        <div class="content-main-line-top">
-        </div>
-
+ 
         <div class="content-main-line-navigation content-main-line-navigation-bottom">
             <app-page [maxPage]="maxPage" [currentPage]="currentPage" 
             (onMove)="onMovePageTrigger($event)"></app-page>
@@ -44,7 +42,7 @@
 
         <div class="content-line-vod-info">
             <div class="content-line-vod-poster">
-                <img *ngIf="stream != null" style="height: 100%; max-width: 100%;" alt="icon" [src]="getImageStream(stream)" loading=lazy /> 
+                <img *ngIf="stream != null" class="content-line-vod-poster-image" alt="icon" alt="icon" [src]="stream.stream_icon" onerror="this.className='',this.src='images/movie.png';" loading=lazy /> 
                 <img *ngIf="stream == null" alt="icon" src="images/movie.png" loading=lazy /> 
             </div>
 
@@ -87,6 +85,7 @@
         </div>
         <div class="content-main-line-top">
         </div>
+        
 
         <div class="content-main-line">
             <div class="content-main-line-left">

@@ -17,15 +17,13 @@
         <div *ngFor="let streamItem of streams" class="content-main-line">
             <button type="button" class="movable content-folder" (click)="selectStream(streamItem)">
                 <div class="content-folder-left">
-                    <img alt="icon" [src]="getImageStream(streamItem)" class="content-icon" loading=lazy />
+                    <img class="content-icon" alt="icon" [src]="streamItem.stream_icon" onerror="this.src='images/tv.png';" loading=lazy />
                     {{streamItem.name}}
                 </div>
             </button>
         </div>
 
-        <div class="content-main-line-top">
-        </div>
-
+ 
         <div class="content-main-line-navigation content-main-line-navigation-bottom">
             <app-page [maxPage]="maxPage" [currentPage]="currentPage" 
             (onMove)="onMovePageTrigger($event)"></app-page>
@@ -43,8 +41,12 @@
 
         <div class="content-line-tv">
             <div class="content-line-tv-player">
-                <app-player [style.visibility]="stream == null ? 'hidden' : 'visible'" [source]="source" [isLiveStream]="true" [isFullscreen]="isFullscreen"
-                     (onExitFullscreen)="onFullscreenTrigger(false)"></app-player>
+                <img *ngIf="stream == null" alt="icon" src="images/tv.png" loading=lazy />
+                <div *ngIf="stream != null"  style="width: 100%; height: 100%;">
+                    <app-player [source]="source" [isLiveStream]="true" [isFullscreen]="isFullscreen"
+                    (onExitFullscreen)="onFullscreenTrigger(false)"></app-player>
+                </div>
+               
             </div>
         </div>
 
