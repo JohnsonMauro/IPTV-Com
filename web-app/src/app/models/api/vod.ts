@@ -5,4 +5,5 @@ stream_id: number;
 stream_icon: string;
 category_id: string;
 added: Date;
+container_extension: string;
 }

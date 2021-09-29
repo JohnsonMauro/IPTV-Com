@@ -1,63 +1,119 @@
 
- <div class="content-main-header">
-    <app-header (onSearch)="search($event)"></app-header>
+<div class="content-main-header">
+    <app-header (onSearch)="onSearchTrigger($event)" (onSort)="onSortTrigger($event)" [backRoute]="'playlist/'+playlist._id"></app-header>
 </div>
 
 
-    <div class="content-main ">
+<div class="content-main ">
+    <div class="content-main-left ">
 
-        <div class="content-main-left ">
+        <div class="content-main-line-top">
+        </div>
 
-            <div class="content-main-line-top">          
+        <div class="content-main-line-navigation">
+            <app-category [currentCategory]="currentCategory" [categories]="categories"
+                (onMove)="onMoveCategoryTrigger($event)"></app-category>
+        </div>
+
+        <div *ngFor="let streamItem of streams" class="content-main-line">
+            <button type="button" class="movable content-folder" (click)="selectStream(streamItem)">
+                <div class="content-folder-left">
+                    <img alt="icon" [src]="getImageStream(streamItem)" class="content-icon content-icon-vod" loading=lazy />
+                    {{streamItem.name}}
+                </div>
+            </button>
+        </div>
+
+        <div class="content-main-line-top">
+        </div>
+
+        <div class="content-main-line-navigation content-main-line-navigation-bottom">
+            <app-page [maxPage]="maxPage" [currentPage]="currentPage" 
+            (onMove)="onMovePageTrigger($event)"></app-page>
+        </div>
+
+    </div>
+
+    <div class="content-main-right ">
+        <div class="content-main-line-top">
+        </div>
+
+        <div class="content-line-vod-mame">
+            Name: {{stream?.name}}
+        </div>
+
+        <div class="content-line-vod-info">
+            <div class="content-line-vod-poster">
+                <img *ngIf="stream != null" style="height: 100%; max-width: 100%;" alt="icon" [src]="getImageStream(stream)" loading=lazy /> 
+                <img *ngIf="stream == null" alt="icon" src="images/movie.png" loading=lazy /> 
             </div>
 
-            <div class="content-main-line-navigation">           
-                <div style="float: left; overflow: hidden; width: 10%; height: 80%;">
-                    <button type="button" class="movable content-button">
-                        <div class="content-button-center">
-                            <img alt="icon" src="images/left.png" class="content-icon" loading=lazy />
-                        </div>
-                    </button>
+            <div class="content-line-vod-description">
+                <div>
+                    Year: 0001
+                </div>
+                <div class="content-main-line-top">
+                </div>
+                <div class="content-main-line-top">
+                </div>
+                <div class="content-main-line-top">
                 </div>
 
-                <div style="float: left; overflow: hidden; width: 80%; height: 80%; text-align: center;  display: flex;
-                justify-content: center;
-                align-items: center;">
-                Folder: All
+                 <div>
+                    Cast
+                </div>
+                <div>
+                    n..n
+                </div>
+                <div class="content-main-line-top">
+                </div>
+                <div class="content-main-line-top">
+                </div>
+                <div class="content-main-line-top">
                 </div>
 
-                <div style="float: right; overflow: hidden; width: 10%; height: 80%; text-align: right;">
-                    <button type="button" class="movable content-button">
-                        <div class="content-button-center">
-                            <img alt="icon" src="images/right.png" class="content-icon" loading=lazy />
-                        </div>
-                    </button>
-                </div>     
+                <div>
+                    Description
+                </div>
+                <div>
+                    n..n
+                </div>
             </div>
 
+        </div>
+        
 
-            <div *ngFor="let streamItem of streams" class="content-main-line">
-                <button type="button" class="movable content-folder">
-                    <div  class="content-folder-left">
-                        <img alt="icon" [src]="getImageStream(streamItem)" class="content-icon" loading=lazy />
-                        {{streamItem.name}}
+        <div class="content-main-line-top">
+        </div>
+        <div class="content-main-line-top">
+        </div>
+
+        <div class="content-main-line">
+            <div class="content-main-line-left">
+                <button type="button" class="movable content-button" (click)="isFullscreen = true">
+                    <div class="content-button-center">
+                        <img class="content-icon" alt="icon" src="images/eye.png" loading=lazy />
+                        Watch
                     </div>
                 </button>
             </div>
-       
-            <app-page [maxPage]="maxPage" (onMove)="movePage($event)"></app-page>
-     
-        </div>
 
-        <div class="content-main-right ">
-
-            <div class="content-line" style="height: 5%;">
-                Live: {{stream?.name}}
+            <div class="content-main-line-right">
+                <button type="button" class="movable content-button" (click)="manageFavorites()">
+                    <div class="content-button-center">
+                        <img class="content-icon" alt="icon" src="images/star.png" loading=lazy />
+                        {{ getFavoriteDescription() }}
+                    </div>
+                </button>
             </div>
-         
         </div>
-
-
-
 
     </div>
+
+    <div *ngIf="isFullscreen">
+        <app-player [source]="source" [isLiveStream]="false" [isFullscreen]="true"
+        [poster]="'images/video.png'" (onExitFullscreen)="onFullscreenTrigger(false)"></app-player>
+    </div>
+
+   
+</div>

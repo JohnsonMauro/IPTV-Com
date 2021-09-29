@@ -1,4 +1,32 @@
-.content-line-tv {
-margin-left: 20px;
-margin-right: 20px;
+.content-icon-vod {
+height: 110%;
 }
+
+.content-line-vod-info{
+width: 100%;
+height: 80%;
+}
+.content-line-vod-poster {
+    float: left;
+    overflow: hidden;
+    height: 100%;
+    width: 45%;
+    margin-left: 2%;
+    border: 3px solid #535353;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    .content-line-vod-description {
+        height: 100%;
+        width: 50%;
+        margin-left: 2%;
+        float: left;
+        overflow: hidden;
+        }
+
+    .content-line-vod-mame {
+        height: 4%;
+        margin-left: 1%;
+    }

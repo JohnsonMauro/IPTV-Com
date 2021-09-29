@@ -89,7 +89,13 @@ export class PlayerComponent implements OnInit {
 	  }
 
 	ngAfterViewInit() {
+		console.log(this.source);
+		console.log(this.videoPlayerEement);
 		if (this.source != null && this.videoPlayerEement)
 			this.videoPlayerEement.nativeElement.load();
+	}
+
+	ngOnDestroy() {
+		this.spatialNavigation.remove(this.videoPlayerMovableClass);
 	}
 }

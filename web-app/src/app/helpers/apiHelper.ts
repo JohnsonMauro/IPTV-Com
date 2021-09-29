@@ -10,8 +10,8 @@ export class ApiHelper {
     return `${playlist.url}/${playlist.user}/${playlist.password}/${id}`
   }
 
-  static generateMovieUrl(playlist: Playlist, id: string):string{
-    return `${playlist.url}/movie/${playlist.user}/${playlist.password}/${id}`
+  static generateVODUrl(playlist: Playlist, id: string, extension: string):string{
+    return `${playlist.url}/movie/${playlist.user}/${playlist.password}/${id}.${extension}`
   }
 
   static generateSeriesUrl(playlist: Playlist, id: string):string{

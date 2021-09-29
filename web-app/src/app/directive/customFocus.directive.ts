@@ -11,7 +11,6 @@ export class CustomFocusDirective implements AfterViewInit{
     }
   
     ngAfterViewInit(){
-        console.log('focus');
         this.elementRef.nativeElement.focus();
     }
 }
