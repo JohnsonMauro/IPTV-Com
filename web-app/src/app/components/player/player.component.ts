@@ -11,8 +11,12 @@ import { SpacialNavigationService } from 'src/app/services/spacialNavigationServ
 	styleUrls: ['./player.component.css']
 })
 export class PlayerComponent implements OnInit {
+
+	@ViewChild("videoPlayerElement")
+	private videoPlayerEement: ElementRef;
+
 	private _source: string;
-	@Input() set source(value: string) {
+	@Input() set source(value: string) {		
 		this._source = value;
 		this.onSourceChange();
 	}
@@ -28,15 +32,12 @@ export class PlayerComponent implements OnInit {
 
 
 	@Input() isLiveStream: boolean;
-	@Input() poster: string;
 	@Output() onExitFullscreen = new EventEmitter<null>();
 
-
-	@ViewChild("videoPlayerElement")
-	private videoPlayerEement: ElementRef;
+	
 	videoPlayerMovableClass = "content-videoplayer-controls";
-	isDisplayControls = true;
-	isLoading = false;
+	isDisplayControls = false;
+	isLoading = true;
 	canPlay = false;
 	isPlaying = false;
 
@@ -53,19 +54,19 @@ export class PlayerComponent implements OnInit {
 	}
 
 	playOrPause() {
-		if(this.isPlaying){
+		if (this.isPlaying) {
 			this.videoPlayerEement.nativeElement.pause();
 			this.isPlaying = false;
-		}else{
+		} else {
 			this.videoPlayerEement.nativeElement.play();
 			this.isPlaying = true;
-		}	
+		}
 	}
 
-	getImagePlayOrPause() :string {
-		return this.isPlaying 
-		? DirectoryHelper.getImage('pause.png') 
-		: DirectoryHelper.getImage('play.png');
+	getImagePlayOrPause(): string {
+		return this.isPlaying
+			? DirectoryHelper.getImage('pause.png')
+			: DirectoryHelper.getImage('play.png');
 	}
 
 	changeResolution() {
@@ -80,15 +81,6 @@ export class PlayerComponent implements OnInit {
 		}
 	}
 
-	onSourceChange() {
-		if (this.source == null)
-			return;
-
-		this.isLoading = true;
-		if (this.videoPlayerEement)
-			this.videoPlayerEement.nativeElement.load();
-	}
-
 	onVideoClick() {
 		if (this.isFullscreen)
 			this.isDisplayControls = true;
@@ -96,16 +88,24 @@ export class PlayerComponent implements OnInit {
 
 	onDisplayFullscreenChange() {
 		if (this.isFullscreen)
-		this.spatialNavigation.add(this.videoPlayerMovableClass, "."+this.videoPlayerMovableClass);
+			this.spatialNavigation.add(this.videoPlayerMovableClass, "." + this.videoPlayerMovableClass);
 		else
-		this.spatialNavigation.remove(this.videoPlayerMovableClass);
-	  }
+			this.spatialNavigation.remove(this.videoPlayerMovableClass);
+	}
+
+	onSourceChange(){
+		if (this.videoPlayerEement) {
+			this.canPlay = false;
+			this.isLoading = true;
+			this.isPlaying = false;
+			this.videoPlayerEement.nativeElement.pause();
+			this.videoPlayerEement.nativeElement.load();
+		}	
+	}
 
 	ngAfterViewInit() {
-		console.log(this.source);
-		console.log(this.videoPlayerEement);
-		if (this.source != null && this.videoPlayerEement)
-			this.videoPlayerEement.nativeElement.load();
+		if(this.source != null && this.source != "")
+	       this.onSourceChange();
 	}
 
 	ngOnDestroy() {

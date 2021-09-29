@@ -90,7 +90,7 @@
 
         <div class="content-main-line">
             <div class="content-main-line-left">
-                <button type="button" class="movable content-button" (click)="isFullscreen = true">
+                <button type="button" class="movable content-button" (click)="onFullscreenTrigger(true)">
                     <div class="content-button-center">
                         <img class="content-icon" alt="icon" src="images/eye.png" loading=lazy />
                         Watch
@@ -112,7 +112,7 @@
 
     <div *ngIf="isFullscreen">
         <app-player [source]="source" [isLiveStream]="false" [isFullscreen]="true"
-        [poster]="'images/video.png'" (onExitFullscreen)="onFullscreenTrigger(false)"></app-player>
+        (onExitFullscreen)="onFullscreenTrigger(false)"></app-player>
     </div>
 
    

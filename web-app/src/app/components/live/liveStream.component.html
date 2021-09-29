@@ -43,8 +43,8 @@
 
         <div class="content-line-tv">
             <div class="content-line-tv-player">
-                <app-player [source]="source" [isLiveStream]="true" [isFullscreen]="isFullscreen"
-                    [poster]="'images/tv.png'" (onExitFullscreen)="onFullscreenTrigger(false)"></app-player>
+                <app-player [style.visibility]="stream == null ? 'hidden' : 'visible'" [source]="source" [isLiveStream]="true" [isFullscreen]="isFullscreen"
+                     (onExitFullscreen)="onFullscreenTrigger(false)"></app-player>
             </div>
         </div>
 

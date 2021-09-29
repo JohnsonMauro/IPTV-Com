@@ -1,8 +1,6 @@
 <div class="container-videoplayer" [style.position]="isFullscreen ? 'absolute' : 'relative'">
     <div #videoPlayerContent class='container-videoplayer' (click)="onVideoClick()">
-        <img src="images/video_loading.gif" alt="loading" class="content-videoplayer-image" *ngIf="isLoading && !canPlay">
-        <img [src]="poster" class="content-videoplayer-image" *ngIf="!isLoading && !canPlay">
-
+        <img src="images/video_loading.gif" alt="loading" class="content-videoplayer-image" *ngIf="isLoading">
         <video #videoPlayerElement class='content-videoplayer-video' (canplay)="onCanPlay()" >
             <source [src]="source">
             Your browser does not support HTML5 video.
@@ -17,11 +15,11 @@
             </div>
         </button>
 
-        <button *ngIf="!isLiveStream" class='movable content-button content-videoplayer-controls' (click)="playOrPause()" [disabled]="isDisplayControls ? false : true">
+        <!-- <button *ngIf="!isLiveStream" class='movable content-button content-videoplayer-controls' (click)="playOrPause()" [disabled]="isDisplayControls ? false : true">
             <div class="content-button-center">
                 <img alt="icon" src="{{getImagePlayOrPause()}}" loading=lazy class="content-icon content-videoplayer-controls-icon" />
             </div>
-        </button>
+        </button> -->
 
         <button class='movable content-button content-videoplayer-controls' (click)="onExitFullscreen.emit()" [disabled]="isDisplayControls ? false : true">
             <div class="content-button-center">
