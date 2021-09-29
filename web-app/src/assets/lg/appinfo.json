@@ -6,5 +6,6 @@
     "title": "JN-IPTV",
     "type": "web",
     "version": "0.0.1",
-    "disableBackHistoryAPI": true
+    "disableBackHistoryAPI": true,
+    "iconColor": "#262626"
 }
