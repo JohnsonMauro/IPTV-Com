@@ -1,6 +1,7 @@
 {
     "vendor": "JN",
     "icon": "icon.png",
+    "largeIcon": "largeIcon.png",
     "main": "index.html",
     "id": "com.jn.app.jn-iptv",
     "title": "JN-IPTV",
