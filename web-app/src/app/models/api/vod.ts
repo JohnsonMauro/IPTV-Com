@@ -4,6 +4,6 @@ name: string;
 stream_id: number;
 stream_icon: string;
 category_id: string;
-added: Date;
+added: number;
 container_extension: string;
 }
