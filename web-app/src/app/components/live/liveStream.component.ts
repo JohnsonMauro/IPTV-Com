@@ -78,7 +78,7 @@ export class LiveStreamComponent implements OnInit {
   onFullscreenTrigger(isFullScreen: boolean) {
     if(this.stream == null)
     return;
-    
+
     if (isFullScreen)
       this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
     else
@@ -148,6 +148,7 @@ export class LiveStreamComponent implements OnInit {
 
   onMoveCategoryTrigger(category: Category) {
     this.currentCategory = category;
+    this.stream = null;
     let streamsLocal = this.findByGeneralSearch(this.currentCategory, null, null, this.streamsAll);
     this.setPageOnStream(1, streamsLocal);
   }
