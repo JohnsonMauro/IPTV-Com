@@ -7,7 +7,8 @@
 
 .content-line-tv-player {
     width: 100%;
-    height: 96%;
+    height: 94%;
+    border: 3px solid #535353;
 }
 
 .content-line-tv-mame {
@@ -26,5 +27,5 @@
 .content-line-tv-epg-item {
     width: 100%;
     height: 101%;
-    border: 10px solid #535353;
+    border: 3px solid #535353;
 }

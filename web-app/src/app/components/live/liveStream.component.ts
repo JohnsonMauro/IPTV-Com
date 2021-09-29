@@ -8,9 +8,11 @@ import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { PageHelper } from 'src/app/helpers/pageHelper';
+import { SortHelper } from 'src/app/helpers/sortHelper';
 import { Live } from 'src/app/models/api/live';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
+import { SortCode } from 'src/app/models/app/sortCode';
 import { StreamCode } from 'src/app/models/app/streamCode';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
@@ -25,6 +27,7 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 })
 export class LiveStreamComponent implements OnInit {
 
+  sortCode: SortCode;
   searchText: string;
   maxPage = 1;
   currentPage = 1;
@@ -132,19 +135,25 @@ export class LiveStreamComponent implements OnInit {
 
   onSearchTrigger(searchText: string) {
     this.searchText = searchText;
-    let streamsLocal = this.findByGeneralSearch(this.currentCategory, searchText, this.streamsAll);
+    let streamsLocal = this.findByGeneralSearch(this.currentCategory, searchText, this.sortCode, this.streamsAll);
+    this.setPageOnStream(1, streamsLocal);
+  }
+
+  onSortTrigger(sortCode: SortCode) {
+    this.sortCode = sortCode;
+    let streamsLocal = this.findByGeneralSearch(this.currentCategory, this.searchText, sortCode, this.streamsAll);
     this.setPageOnStream(1, streamsLocal);
   }
 
   onMovePageTrigger(page: number) {
     this.currentPage = page;
-    let streamsLocal = this.findByGeneralSearch(this.currentCategory, this.searchText, this.streamsAll);
+    let streamsLocal = this.findByGeneralSearch(this.currentCategory, this.searchText, this.sortCode, this.streamsAll);
     this.setPageOnStream(page, streamsLocal);
   }
 
   onMoveCategoryTrigger(category: Category) {
     this.currentCategory = category;
-    let streamsLocal = this.findByGeneralSearch(this.currentCategory, null, this.streamsAll);
+    let streamsLocal = this.findByGeneralSearch(this.currentCategory, null, null, this.streamsAll);
     this.setPageOnStream(1, streamsLocal);
   }
 
@@ -156,7 +165,7 @@ export class LiveStreamComponent implements OnInit {
     this.streams = streamsFiltered.slice(from, to);
   }
 
-  findByGeneralSearch(category: Category, searchText: string, streamsToFilter: Live[]): Live[] {
+  findByGeneralSearch(category: Category, searchText: string, sortCode: SortCode, streamsToFilter: Live[]): Live[] {
     let streamsFilteredLocal = [];
 
     try{     
@@ -182,7 +191,7 @@ export class LiveStreamComponent implements OnInit {
     catch(err){
       this.alertService.error(JSON.stringify(err));
     }
-    return streamsFilteredLocal;
+    return SortHelper.sortSreamsLive(streamsFilteredLocal, this.sortCode);
   }
 
 

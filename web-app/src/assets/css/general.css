@@ -113,8 +113,12 @@
 .content-main-line-navigation {
     height: 8%;
     max-height: 8%;
-    width: 98%;
+    width: 97%;
     margin-left: 1%;
+}
+
+.content-main-line-navigation-bottom {
+    bottom: 0;
 }
 
 .content-main-line-left{

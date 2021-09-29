@@ -31,7 +31,3 @@ export class HeaderService {
         return this.back;
     }
 }
-
-export enum SortCode {
-    DefaultAsc, DefaultDesc, NameAsc, NameDesc, DateAsc, DateDesc
-}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
@@ -13,20 +13,19 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
   templateUrl: './playlist.component.html'
 })
 export class PlaylistComponent implements OnInit {
-
-
   constructor(private spatialNavigation: SpacialNavigationService
     , private alertService: AlertService
     , private dbService: DbService
     , private route: Router
-    , private activatedroute: ActivatedRoute) {
+    , private activatedRoute: ActivatedRoute) {
   }
 
+  isBack = false;
   playlist: Playlist;
 
   ngOnInit(): void {
     try {
-      let playlistId = this.activatedroute.snapshot.paramMap.get("id");
+      let playlistId = this.activatedRoute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
     }
     catch (error: any) {
@@ -58,7 +57,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    if(!this.isBack)
     this.spatialNavigation.focus();
   }
-
 }

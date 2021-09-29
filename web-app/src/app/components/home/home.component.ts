@@ -16,7 +16,7 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 })
 export class HomeComponent implements OnInit {
 
-  displaySpinner = true;
+  isBack = false;
   isDisplayAddPlaylist: boolean = false;
 
   constructor(private spatialNavigation: SpacialNavigationService
@@ -78,7 +78,8 @@ export class HomeComponent implements OnInit {
     return DirectoryHelper.getImage(name);
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
+    if(!this.isBack)
     this.spatialNavigation.focus();
   }
 }

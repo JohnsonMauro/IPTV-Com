@@ -5,6 +5,11 @@
             <input type="image"  src="images/home.png" loading=lazy alt="icon" class="movable button content-header-image" (click)="home()" />
         </div>
     </div>
+    <div class="content-header-left">
+        <div class="content-header-item">
+            <b style="font-size: 4vh;">JN-IPTV</b>
+        </div>
+    </div>
 
     <div class="content-header-right">
         <div class="content-header-item">
@@ -13,20 +18,32 @@
             </div>
         </div>
         <div class="content-header-item">
-            <input type="image"  src="images/search.png" loading=lazy alt="icon" class="movable button content-header-image" (click)="search()" />
+            <input type="image" src="images/search.png" loading=lazy alt="icon" title="Execute search" class="movable button content-header-image" (click)="search()" />
         </div>
         <div class="content-header-item">
             <select class="movable movable-select" placeholder="Sort" [(ngModel)]="sortCode">
-                <option *ngFor="let name of sortCodesName" [value]="name" class="select-option">
-                    {{name}}
+                <option [value]="" class="select-option">
+                    
+                </option>
+                <option [value]="0" class="select-option">
+                    Name Asc
+                </option>
+                <option [value]="1" class="select-option">
+                    Name Desc
+                </option>
+                <option [value]="2" class="select-option">
+                    Date Asc
+                </option>
+                <option [value]="3" class="select-option">
+                    Date Desc
                 </option>
             </select>
         </div>
         <div class="content-header-item">
-            <input type="image"  src="images/sort.png" loading=lazy alt="icon" class="movable button content-header-image" (click)="sort()" />
+            <input type="image"  src="images/sort.png" loading=lazy alt="icon" title="Execute sort" class="movable button content-header-image" (click)="sort()" />
         </div>
         <div class="content-header-item">
-            <input type="image" src="images/back.png" loading=lazy alt="icon" class="movable button content-header-image" (click)="back()" />
+            <input type="image" src="images/back.png" loading=lazy alt="icon" class="movable button content-header-image" (click)="back()" #headerBackButtonId />
         </div>
     </div>
 

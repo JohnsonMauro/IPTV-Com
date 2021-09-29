@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { SortCode } from 'src/app/models/app/sortCode';
@@ -13,7 +13,10 @@ import { SpacialNavigationService } from 'src/app/services/spacialNavigationServ
 })
 export class HeaderComponent implements OnInit {
   constructor(private router: Router
-    ) { }
+    ,private activatedRoute: ActivatedRoute) { }
+
+  @ViewChild("headerBackButtonId")
+	private headerBackButtonElement: ElementRef;
 
   searchText: string;
   sortCode: SortCode;
@@ -21,11 +24,13 @@ export class HeaderComponent implements OnInit {
   sortCodesName = Object.values(SortCode).filter(f => isNaN(Number(f)));
 
   @Output()
+  onIsBack = new EventEmitter<null>();
+  @Output()
   onSearch = new EventEmitter<string>();
   @Output()
   onSort = new EventEmitter<SortCode>();
   @Input()
-  onBack: string;
+  backRoute: string;
 
   home(){
     this.router.navigate(['']);
@@ -36,12 +41,13 @@ export class HeaderComponent implements OnInit {
   }
 
   sort(){
-    console.log(this.sortCode);
     this.onSort.emit(this.sortCode);
   }
 
   back(){
-    this.router.navigate([this.onBack]);
+    if(this.backRoute == null)
+    return;
+    this.router.navigate([this.backRoute, {isBack: true}]);
   }
 
   executeWrapperTextKeyUp = MovableHelper.executeDefaultKeyUpForTextWrapper;
@@ -53,5 +59,13 @@ export class HeaderComponent implements OnInit {
   }
   
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    let isBackTriggered = this.activatedRoute.snapshot.paramMap.get("isBack");
+    if(isBackTriggered == "true"){
+      this.onIsBack.emit();
+      this.headerBackButtonElement.nativeElement.focus();
+    }
   }
 }
