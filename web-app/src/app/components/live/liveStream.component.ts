@@ -93,7 +93,7 @@ export class LiveStreamComponent implements OnInit {
         this.onFullscreenTrigger(true);
       }      
       else {
-        this.source = ApiHelper.generateVODUrl(this.playlist, stream.stream_id.toString(), stream.container_extension);;
+        this.source = ApiHelper.generateLiveStreamUrl(this.playlist, stream.stream_id.toString());;
         this.stream = stream;
       }
     }
