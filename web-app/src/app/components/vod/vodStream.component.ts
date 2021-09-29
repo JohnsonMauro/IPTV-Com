@@ -78,13 +78,11 @@ export class VodStreamComponent implements OnInit {
 
   selectStream(stream: VOD) {
     try {
-      let url = ApiHelper.generateVODUrl(this.playlist, stream.stream_id.toString(), stream.container_extension);
-
-      if (this.source == url){
+      if (this.stream == stream){
         this.onFullscreenTrigger(true);
       }      
       else {
-        this.source = url;
+        this.source = ApiHelper.generateVODUrl(this.playlist, stream.stream_id.toString(), stream.container_extension);;
         this.stream = stream;
         this.populateStreamDetail(stream);
       }
@@ -161,6 +159,7 @@ export class VodStreamComponent implements OnInit {
   onMoveCategoryTrigger(category: Category) {
     this.currentCategory = category;
     this.stream = null;
+    this.streamDetail = null;
     let streamsLocal = this.findByGeneralSearch(this.currentCategory, null, null, this.streamsAll);
     this.setPageOnStream(1, streamsLocal);
   }

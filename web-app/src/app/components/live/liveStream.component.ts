@@ -89,12 +89,11 @@ export class LiveStreamComponent implements OnInit {
 
   selectStream(stream: Live) {
     try {
-      let url = ApiHelper.generateLiveStreamUrl(this.playlist, stream.stream_id.toString());
-
-      if (this.source == url)
+      if (this.stream == stream){
         this.onFullscreenTrigger(true);
+      }      
       else {
-        this.source = url;
+        this.source = ApiHelper.generateVODUrl(this.playlist, stream.stream_id.toString(), stream.container_extension);;
         this.stream = stream;
       }
     }
