@@ -4,7 +4,8 @@ a,
 button,
 input[type=text],
 input[type=password],
-body{
+body,
+select{
     font-size: 2.2vh;
 }
 
@@ -15,22 +16,8 @@ a {
     border: 3px solid transparent;
 }
 
-ul {
-    list-style-type: none;
-    display: block;
-}
-
-li {
-    display: inline-block;
-}
-
-::-webkit-scrollbar {
-    width: 18px;
-    box-shadow: inset 0 0 10px #D0D3D4;
-}
-
-::-webkit-scrollbar-thumb {
- 
+select option{
+    background-color: white;
 }
 
 html,

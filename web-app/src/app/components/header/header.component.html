@@ -16,6 +16,13 @@
             <input type="image"  src="images/search.png" loading=lazy alt="icon" class="movable button content-header-image" (click)="search()" />
         </div>
         <div class="content-header-item">
+            <select class="movable movable-select" placeholder="Sort" [(ngModel)]="sortCode">
+                <option *ngFor="let name of sortCodesName" [value]="name" class="select-option">
+                    {{name}}
+                </option>
+            </select>
+        </div>
+        <div class="content-header-item">
             <input type="image"  src="images/sort.png" loading=lazy alt="icon" class="movable button content-header-image" (click)="sort()" />
         </div>
         <div class="content-header-item">

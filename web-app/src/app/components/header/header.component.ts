@@ -18,6 +18,8 @@ export class HeaderComponent implements OnInit {
   searchText: string;
   sortCode: SortCode;
 
+  sortCodesName = Object.values(SortCode).filter(f => isNaN(Number(f)));
+
   @Output()
   onSearch = new EventEmitter<string>();
   @Output()
@@ -34,6 +36,7 @@ export class HeaderComponent implements OnInit {
   }
 
   sort(){
+    console.log(this.sortCode);
     this.onSort.emit(this.sortCode);
   }
 
