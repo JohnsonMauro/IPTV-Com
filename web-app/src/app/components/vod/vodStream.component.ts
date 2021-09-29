@@ -9,6 +9,7 @@ import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { PageHelper } from 'src/app/helpers/pageHelper';
 import { SortHelper } from 'src/app/helpers/sortHelper';
 import { VOD } from 'src/app/models/api/vod';
+import { VODDetail } from 'src/app/models/api/VODDetail';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
 import { SortCode } from 'src/app/models/app/sortCode';
@@ -37,7 +38,7 @@ export class VodStreamComponent implements OnInit {
   streamsAll: VOD[] = [];
   streams: VOD[] = [];
   stream: VOD;
-
+  streamDetail: VODDetail;
   source: string;
 
   isFullscreen = false;
@@ -85,6 +86,7 @@ export class VodStreamComponent implements OnInit {
       else {
         this.source = url;
         this.stream = stream;
+        this.populateStreamDetail(stream);
       }
     }
     catch (error: any) {
@@ -92,12 +94,14 @@ export class VodStreamComponent implements OnInit {
     }
   }
 
-  getImageStream(stream: VOD) {
-    return (stream.stream_icon == null
-      || stream.stream_icon == ""
-      || !stream.stream_icon.startsWith("http"))
-      ? 'images/tv.png'
-      : stream.stream_icon;
+
+  populateStreamDetail(stream: VOD) {
+    this.apiService.getVodStreamInfo(this.playlist, stream.stream_id.toString())
+    .subscribe(result => {
+      this.streamDetail = result;
+      if(result == null)
+      this.alertService.info('Stream info not provided');
+    });
   }
 
   getFavoriteDescription(): string {

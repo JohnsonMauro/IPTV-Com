@@ -8,6 +8,7 @@ import { VOD } from '../models/api/vod';
 import { catchError, finalize } from 'rxjs/operators';
 import { AlertService } from './alertService';
 import { SpinnerService } from './spinnerService';
+import { VODDetail } from '../models/api/VODDetail';
 
 
 @Injectable()
@@ -15,6 +16,7 @@ export class ApiService {
 
   private liveStreamActionParameter = "&action=get_live_streams";
   private vodStreamActionParameter = "&action=get_vod_streams";
+  private vodStreamInfoActionParameter = "&action=get_vod_info";
 
   constructor(private httpClient: HttpClient
     , private alertService: AlertService
@@ -27,6 +29,10 @@ export class ApiService {
 
   findVodStreams(playlist: Playlist): Observable<VOD[]> {
     return this.createDefaultPipesGet<VOD[]>(ApiHelper.generateApiUrl(playlist) + this.vodStreamActionParameter);
+  }
+
+  getVodStreamInfo(playlist: Playlist, stream_id: string): Observable<VODDetail> {
+    return this.createDefaultPipesGet<VODDetail>(ApiHelper.generateApiUrl(playlist) + this.vodStreamInfoActionParameter + "&vod_id="+stream_id);
   }
 
   private createDefaultPipesGet<T>(url: string): Observable<T> {

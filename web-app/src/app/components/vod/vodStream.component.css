@@ -7,7 +7,7 @@ width: 100%;
 height: 80.5%;
 }
 
-.content-line-vod-poster {
+.content-line-vod-info-poster {
     float: left;
     overflow: hidden;
     height: 100%;
@@ -19,18 +19,24 @@ height: 80.5%;
     align-items: center;
     }
 
-    .content-line-vod-poster-image {
+    .content-line-vod-info-poster-image {
         height: 95%; 
         width: 95%;
         }
 
-    .content-line-vod-description {
+    .content-line-vod-info-details {
         height: 100%;
-        width: 50%;
+        width: 48%;
         margin-left: 2%;
         float: left;
         overflow: hidden;
         }
+
+        
+    .content-line-vod-info-details-item {
+        border-bottom: 2px solid #efefef;
+        }
+        
 
     .content-line-vod-mame {
         height: 4%;
