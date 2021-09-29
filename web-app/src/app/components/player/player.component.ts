@@ -38,6 +38,7 @@ export class PlayerComponent implements OnInit {
 	isDisplayControls = true;
 	isLoading = false;
 	canPlay = false;
+	isPlaying = false;
 
 	constructor(private spatialNavigation: SpacialNavigationService) { }
 
@@ -48,11 +49,23 @@ export class PlayerComponent implements OnInit {
 		this.isLoading = false;
 		this.canPlay = true;
 		this.changeResolution();
-		this.videoPlayerEement.nativeElement.play();
+		this.playOrPause();
 	}
 
-	getImage(name: string) {
-		return DirectoryHelper.getImage(name);
+	playOrPause() {
+		if(this.isPlaying){
+			this.videoPlayerEement.nativeElement.pause();
+			this.isPlaying = false;
+		}else{
+			this.videoPlayerEement.nativeElement.play();
+			this.isPlaying = true;
+		}	
+	}
+
+	getImagePlayOrPause() :string {
+		return this.isPlaying 
+		? DirectoryHelper.getImage('pause.png') 
+		: DirectoryHelper.getImage('play.png');
 	}
 
 	changeResolution() {

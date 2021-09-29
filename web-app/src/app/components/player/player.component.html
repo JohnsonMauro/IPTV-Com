@@ -1,6 +1,6 @@
 <div class="container-videoplayer" [style.position]="isFullscreen ? 'absolute' : 'relative'">
     <div #videoPlayerContent class='container-videoplayer' (click)="onVideoClick()">
-        <img [src]="getImage('video_loading.gif')" alt="loading" class="content-videoplayer-image" *ngIf="isLoading && !canPlay">
+        <img src="images/video_loading.gif" alt="loading" class="content-videoplayer-image" *ngIf="isLoading && !canPlay">
         <img [src]="poster" class="content-videoplayer-image" *ngIf="!isLoading && !canPlay">
 
         <video #videoPlayerElement class='content-videoplayer-video' (canplay)="onCanPlay()" >
@@ -10,11 +10,16 @@
     </div>
 
     <div class="content-videoplayer-footer" *ngIf="isFullscreen" [style.zIndex]="isDisplayControls ? 1 : -99">
-        <button *ngIf="!isLiveStream" class='movable content-button content-videoplayer-controls'>Play</button>
 
         <button class='movable content-button content-videoplayer-controls' (click)="isDisplayControls = !isDisplayControls" custom-focus >
             <div class="content-button-center">
                 <img alt="icon" src="images/minimize.png" loading=lazy class="content-icon content-videoplayer-controls-icon" />
+            </div>
+        </button>
+
+        <button *ngIf="!isLiveStream" class='movable content-button content-videoplayer-controls' (click)="playOrPause()" [disabled]="isDisplayControls ? false : true">
+            <div class="content-button-center">
+                <img alt="icon" src="{{getImagePlayOrPause()}}" loading=lazy class="content-icon content-videoplayer-controls-icon" />
             </div>
         </button>
 
