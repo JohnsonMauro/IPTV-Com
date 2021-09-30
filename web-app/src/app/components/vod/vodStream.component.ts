@@ -79,6 +79,7 @@ export class VodStreamComponent implements OnInit {
 
   selectStream(stream: VOD) {
     try {
+      console.log(stream);
       this.isImageError = false;
       if (this.stream == stream){
         this.onFullscreenTrigger(true);

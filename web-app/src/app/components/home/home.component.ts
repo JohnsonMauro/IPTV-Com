@@ -82,4 +82,8 @@ export class HomeComponent implements OnInit {
     if(!this.isBack)
     this.spatialNavigation.focus();
   }
+
+  ngOnDestroy() {
+    this.playlists.length = 0;
+  }
 }
