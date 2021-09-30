@@ -51,7 +51,7 @@
                     Release
                 </div>
                 <div>
-                    {{streamDetail == null ? '...' : streamDetail.info.releasedate}}
+                    {{streamInfo == null ? '...' : streamInfo.releasedate}}
                 </div>
                 <div class="content-main-line-top">
                 </div>
@@ -63,7 +63,7 @@
                     Duration
                 </div>
                 <div>
-                    {{streamDetail == null ? '...' : streamDetail.info.duration}}
+                    {{streamInfo == null ? '...' : streamInfo.duration}}
                 </div>
                 <div class="content-main-line-top">
                 </div>
@@ -77,7 +77,7 @@
                     Cast
                 </div>
                 <div>
-                    {{streamDetail == null ? '...' :streamDetail.info.cast}}
+                    {{streamInfo == null ? '...' :streamInfo.cast}}
                 </div>
                 <div class="content-main-line-top">
                 </div>
@@ -90,10 +90,10 @@
                     Description
                 </div>
                 <div>
-                    {{streamDetail == null ? '...' : 
-                        streamDetail.info.description.length > streamDetail.info.plot.length 
-                        ? streamDetail.info.description 
-                        : streamDetail.info.plot}}
+                    {{streamInfo == null ? '...' : 
+                    streamInfo.description.length < streamInfo.plot.length 
+                        ? streamInfo.description 
+                        : streamInfo.plot}}
                 </div>
             </div>
 

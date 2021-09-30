@@ -12,13 +12,13 @@ export class DbService {
   }
 
 
-  findPlaylists():Array<Playlist> {
+  findPlaylists(): Array<Playlist> {
     let storageResult = localStorage.getItem(this.getPlayListKey());
     let playlists = storageResult == null ? new Array<Playlist>() : JSON.parse(storageResult);
     return playlists;
   }
 
-  savePlaylist(playlist: Playlist): Playlist {
+  addPlaylist(playlist: Playlist): Playlist {
     let playlists = this.findPlaylists();
     let id = playlists.length == 0 ? 1 : playlists[playlists.length - 1]._id + 1;
     playlist._id = id.toString();
@@ -29,14 +29,20 @@ export class DbService {
     return playlist;
   }
 
-  
-  getPlaylist(id: string):Playlist {
+  updatePlaylist(playlist: Playlist) {
+    let playlists = this.findPlaylists();
+    let index = playlists.indexOf(playlists.find(x => x._id == playlist._id));
+    playlists[index] = playlist;
+    localStorage.setItem(this.getPlayListKey(), JSON.stringify(playlists));
+  }
+
+  getPlaylist(id: string): Playlist {
     let playlists = this.findPlaylists();
     let result = playlists.find(x => x._id == id);
     return result;
   }
 
-  deletePlaylist(playlist:Playlist){
+  deletePlaylist(playlist: Playlist) {
     let playlists = this.findPlaylists();
 
     localStorage.removeItem(this.getFavoriteKey(playlist._id, StreamCode.Live));
@@ -47,24 +53,24 @@ export class DbService {
     localStorage.setItem(this.getPlayListKey(), JSON.stringify(playlists));
   }
 
-  addToFavorites(playlistId:string, streamType: StreamCode, streamId: string){
+  addToFavorites(playlistId: string, streamType: StreamCode, streamId: string) {
     let favoritesKey = this.getFavoriteKey(playlistId, streamType);
     let favorites = this.findFavoritesByKey(favoritesKey);
 
-    if(favorites.indexOf(streamId) > -1)
-    return;
+    if (favorites.indexOf(streamId) > -1)
+      return;
 
     favorites.push(streamId);
     localStorage.setItem(favoritesKey, JSON.stringify(favorites));
   }
 
-  removeFromFavorites(playlistId:string, streamType: StreamCode, streamId: string){
+  removeFromFavorites(playlistId: string, streamType: StreamCode, streamId: string) {
     let favoritesKey = this.getFavoriteKey(playlistId, streamType);
     let favorites = this.findFavoritesByKey(favoritesKey);
 
     let favoriteIdex = favorites.indexOf(streamId);
-    if(favoriteIdex < 0)
-    return;
+    if (favoriteIdex < 0)
+      return;
 
     favorites.splice(favoriteIdex, 1)
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
@@ -10,7 +10,8 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 
 @Component({
   selector: 'app-playlist',
-  templateUrl: './playlist.component.html'
+  templateUrl: './playlist.component.html',
+  styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
   constructor(private spatialNavigation: SpacialNavigationService
@@ -20,6 +21,7 @@ export class PlaylistComponent implements OnInit {
     , private activatedRoute: ActivatedRoute) {
   }
 
+  isDisplayEditPlaylist = false;
   isBack = false;
   playlist: Playlist;
 
@@ -27,6 +29,7 @@ export class PlaylistComponent implements OnInit {
     try {
       let playlistId = this.activatedRoute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
+      let password = EncryptHelper.decrypt(this.playlist.password);
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
@@ -39,7 +42,32 @@ export class PlaylistComponent implements OnInit {
     this.route.navigate([route, this.playlist._id]);
   }
 
-  delete() {
+  displayEditPlayslist(display: boolean){
+    if(display){
+      this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
+      this.isDisplayEditPlaylist = true;
+    }
+    else{
+      this.isDisplayEditPlaylist = false;
+      this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
+    }
+  }
+
+  editPlaylist(playlist: Playlist) {
+    try {
+      this.dbService.updatePlaylist(playlist);
+      this.playlist = playlist;
+      this.alertService.info('Playlist updated');
+      this.displayEditPlayslist(false);
+    }
+    catch (error: any) {
+      this.alertService.error(JSON.stringify(error));
+    }
+    finally {
+    }
+  }
+
+  deletePlaylist() {
     try {
       this.dbService.deletePlaylist(this.playlist);
       this.alertService.success('Playlist deleted');

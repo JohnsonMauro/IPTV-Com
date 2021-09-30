@@ -40,7 +40,7 @@
                 <label>Url</label>
             </td>
             <td>
-                <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
+                <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)" [style.disabled]="playlist._id != null" >
                     <input type="text" placeholder="http://playlist.com:80" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.url" />
                 </div>
             </td>

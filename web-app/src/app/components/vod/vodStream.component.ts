@@ -9,7 +9,7 @@ import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { PageHelper } from 'src/app/helpers/pageHelper';
 import { SortHelper } from 'src/app/helpers/sortHelper';
 import { VOD } from 'src/app/models/api/vod';
-import { VODDetail } from 'src/app/models/api/VODDetail';
+import { VODInfo } from 'src/app/models/api/VODInfo';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
 import { SortCode } from 'src/app/models/app/sortCode';
@@ -38,7 +38,7 @@ export class VodStreamComponent implements OnInit {
   streamsAll: VOD[] = [];
   streams: VOD[] = [];
   stream: VOD;
-  streamDetail: VODDetail;
+  streamInfo: VODInfo;
   source: string;
 
   isFullscreen = false;
@@ -96,7 +96,7 @@ export class VodStreamComponent implements OnInit {
   populateStreamDetail(stream: VOD) {
     this.apiService.getVodStreamInfo(this.playlist, stream.stream_id.toString())
     .subscribe(result => {
-      this.streamDetail = result;
+      this.streamInfo = result;
       if(result == null)
       this.alertService.info('Stream info not provided');
     });
@@ -159,7 +159,7 @@ export class VodStreamComponent implements OnInit {
   onMoveCategoryTrigger(category: Category) {
     this.currentCategory = category;
     this.stream = null;
-    this.streamDetail = null;
+    this.streamInfo = null;
     let streamsLocal = this.findByGeneralSearch(this.currentCategory, null, null, this.streamsAll);
     this.setPageOnStream(1, streamsLocal);
   }

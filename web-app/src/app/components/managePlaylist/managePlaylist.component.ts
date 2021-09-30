@@ -19,7 +19,8 @@ export class ManagePlaylistComponent implements OnInit {
   
   managePlaylistMovableClass = "movable-addplaylist";
 
-  playlist: Playlist = new Playlist;
+  @Input()
+  playlist = new Playlist();
 
   executeWrapperTextKeyUp = MovableHelper.executeDefaultKeyUpForTextWrapper;
   executeTextKeyDown = MovableHelper.executeDefaultKeyDownForInputText;
@@ -46,6 +47,7 @@ export class ManagePlaylistComponent implements OnInit {
   save(){
     if(this.isPlaylistValid())
     {
+      this.playlist.password = EncryptHelper.ecrypt(this.playlist.password);
       this.onSave.emit(this.playlist);
       return;
     }

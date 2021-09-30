@@ -36,21 +36,40 @@
         </div>
 
     </div>
+
+
     <div class="content-main-right ">
         <div class="content-main-line-top">
         </div>
 
         <div class="content-main-line">
             <div class="content-main-line-left">
-                <button type="button" class="movable content-button" (click)="delete()">
+                <button type="button" class="movable content-button" (click)="displayEditPlayslist(true)">
+                    <div class="content-button-center">
+                        <img alt="icon" src="images/pen.png" loading=lazy class="content-icon" />
+                        Edit
+                    </div>
+                </button>
+            </div>
+
+            <div class="content-main-line-right">
+                <button type="button" class="movable content-button" (click)="deletePlaylist()">
                     <div class="content-button-center">
                         <img alt="icon" src="images/x.png" loading=lazy class="content-icon" />
                         Delete
                     </div>
                 </button>
             </div>
-
         </div>
+    </div>
+</div>
 
+
+
+<div *ngIf="isDisplayEditPlaylist">
+    <div class="content-main-popup-shadow">
+    </div>
+    <div class="content-home-addplaylist-position">
+        <app-managePlaylist [playlist]="playlist" (onCancel)="displayEditPlayslist(false)" (onSave)="editPlaylist($event)"></app-managePlaylist>
     </div>
 </div>

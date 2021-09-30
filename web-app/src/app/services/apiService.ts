@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 import { Live } from '../models/api/live';
 import { ApiHelper } from '../helpers/apiHelper';
 import { VOD } from '../models/api/vod';
-import { catchError, finalize } from 'rxjs/operators';
+import { catchError, finalize, map, mapTo, tap } from 'rxjs/operators';
 import { AlertService } from './alertService';
 import { SpinnerService } from './spinnerService';
-import { VODDetail } from '../models/api/VODDetail';
+import { VODInfo } from '../models/api/VODInfo';
 
 
 @Injectable()
@@ -24,23 +24,38 @@ export class ApiService {
   }
 
   findLiveStreams(playlist: Playlist): Observable<Live[]> {
-    return this.createDefaultPipesGet<Live[]>(ApiHelper.generateApiUrl(playlist) + this.liveStreamActionParameter);
+    return this.createDefaultPipesGet<Live[]>(ApiHelper.generateApiUrl(playlist) + this.liveStreamActionParameter)
+    .pipe();
   }
 
   findVodStreams(playlist: Playlist): Observable<VOD[]> {
     return this.createDefaultPipesGet<VOD[]>(ApiHelper.generateApiUrl(playlist) + this.vodStreamActionParameter);
   }
 
-  getVodStreamInfo(playlist: Playlist, stream_id: string): Observable<VODDetail> {
-    return this.createDefaultPipesGet<VODDetail>(ApiHelper.generateApiUrl(playlist) + this.vodStreamInfoActionParameter + "&vod_id="+stream_id);
+  getVodStreamInfo(playlist: Playlist, stream_id: string): Observable<VODInfo> {
+    return this.createDefaultPipesGet<VODInfo>(ApiHelper.generateApiUrl(playlist) + this.vodStreamInfoActionParameter + "&vod_id="+stream_id, this.mapDetail);
   }
 
-  private createDefaultPipesGet<T>(url: string): Observable<T> {
+  private createDefaultPipesGet<T>(url: string, mapFunc: any = null) : Observable<T> {
     this.spinnerService.displaySpinner();
     return this.httpClient.get<T>(url)
       .pipe(
+        map(res => mapFunc == null ? res : mapFunc(res)),
         catchError(err => { this.alertService.error(JSON.stringify(err)); throw (err) }),
         finalize(() => this.spinnerService.hideSpinner())
       );
+  }
+
+  private mapDetail(result: any): VODInfo{
+    let vodInfo = new VODInfo();
+      vodInfo.actors = result.info.actors;
+      vodInfo.cast = result.info.cast;
+      vodInfo.cover_big = result.info.cover_big;
+      vodInfo.description = result.info.description;
+      vodInfo.plot = result.info.plot;
+      vodInfo.duration = result.info.duration;
+      vodInfo.movie_image = result.info.movie_image;
+      vodInfo.releasedate = result.info.releasedate;
+      return vodInfo;
   }
 }

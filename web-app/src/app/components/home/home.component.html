@@ -26,7 +26,7 @@
 
         <div class="content-main-line">
             <div class="content-main-line-left">
-                <button type="button" class="movable content-button" (click)="displayPlayslist()">
+                <button type="button" class="movable content-button" (click)="displayAddPlayslist(true)">
                     <div class="content-button-center">
                         <img class="content-icon" alt="icon" src="images/plus.png" loading=lazy />
                         Add playlist
@@ -55,6 +55,6 @@
     <div class="content-main-popup-shadow">
     </div>
     <div class="content-home-addplaylist-position">
-        <app-managePlaylist (onCancel)="cancelAddPlaylist()" (onSave)="registerPlaylist($event)"></app-managePlaylist>
+        <app-managePlaylist (onCancel)="displayAddPlayslist(false)" (onSave)="addPlaylist($event)"></app-managePlaylist>
     </div>
 </div>

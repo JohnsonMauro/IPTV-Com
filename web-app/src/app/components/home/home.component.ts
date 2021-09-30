@@ -46,23 +46,23 @@ export class HomeComponent implements OnInit {
     this.route.navigate(['/playlist', playlist._id]);
   }
 
-  displayPlayslist(){
-    this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
-    this.isDisplayAddPlaylist = true;
+  displayAddPlayslist(display: boolean){
+    if(display){
+      this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
+      this.isDisplayAddPlaylist = true;
+    }
+    else{
+      this.isDisplayAddPlaylist = false;
+      this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
+    }
   }
 
-  cancelAddPlaylist(){
-    this.isDisplayAddPlaylist = false;
-    this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
-  }
-
-  registerPlaylist(playlist: Playlist){
+  addPlaylist(playlist: Playlist){
     try{
       this.spinnerService.displaySpinner();
-      playlist.password = EncryptHelper.ecrypt(playlist.password);
-      playlist = this.dbService.savePlaylist(playlist);
+      playlist = this.dbService.addPlaylist(playlist);
       this.playlists.push(playlist);
-      this.cancelAddPlaylist();
+      this.displayAddPlayslist(false);
       this.alertService.success("Playlist added");
     }
     catch(error){
