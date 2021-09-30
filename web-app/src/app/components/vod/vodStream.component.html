@@ -42,8 +42,8 @@
 
         <div class="content-line-vod-info">
             <div class="content-line-vod-info-poster">
-                <img *ngIf="stream != null" class="content-line-vod-info-poster-image" alt="icon" alt="icon" [src]="stream.stream_icon" onerror="this.className='';this.src='images/movie.png';" loading=lazy /> 
-                <img *ngIf="stream == null" alt="icon" src="images/movie.png" loading=lazy /> 
+                <img *ngIf="stream != null && !isImageError" class="content-line-vod-info-poster-image" alt="icon" alt="icon" [src]="stream.stream_icon" (error)="isImageError = true" loading=lazy /> 
+                <img *ngIf="stream == null || isImageError" alt="icon" src="images/movie.png" loading=lazy /> 
             </div>
 
             <div class="content-line-vod-info-details">
@@ -55,6 +55,7 @@
                 </div>
                 <div class="content-line-vod-info-details-spacer">
                 </div>
+
                 <div class="content-line-vod-info-details-item">
                     Duration
                 </div>
@@ -63,7 +64,6 @@
                 </div>
                 <div class="content-line-vod-info-details-spacer">
                 </div>
-
 
                 <div class="content-line-vod-info-details-item">
                     Cast

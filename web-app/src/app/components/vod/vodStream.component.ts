@@ -41,6 +41,7 @@ export class VodStreamComponent implements OnInit {
   streamInfo: VODInfo;
   source: string;
 
+  isImageError = false;
   isFullscreen = false;
 
   constructor(private activatedroute: ActivatedRoute
@@ -78,6 +79,7 @@ export class VodStreamComponent implements OnInit {
 
   selectStream(stream: VOD) {
     try {
+      this.isImageError = false;
       if (this.stream == stream){
         this.onFullscreenTrigger(true);
       }      
