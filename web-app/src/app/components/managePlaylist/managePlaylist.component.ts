@@ -32,9 +32,6 @@ export class ManagePlaylistComponent implements OnInit {
   @Output()
   onCancel = new EventEmitter<null>();
 
-  @Input()
-  id: number = null;
-
   ngOnInit(): void {
     
   }
@@ -47,7 +44,6 @@ export class ManagePlaylistComponent implements OnInit {
   save(){
     if(this.isPlaylistValid())
     {
-      this.playlist.password = EncryptHelper.ecrypt(this.playlist.password);
       this.onSave.emit(this.playlist);
       return;
     }

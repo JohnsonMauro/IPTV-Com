@@ -37,6 +37,9 @@ height: 80.5%;
         border-bottom: 2px solid #efefef;
         }
         
+        .content-line-vod-info-details-spacer{
+            height: 5%; 
+        }
 
     .content-line-vod-mame {
         height: 4%;

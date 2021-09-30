@@ -24,23 +24,23 @@ export class ApiService {
   }
 
   findLiveStreams(playlist: Playlist): Observable<Live[]> {
-    return this.createDefaultPipesGet<Live[]>(ApiHelper.generateApiUrl(playlist) + this.liveStreamActionParameter)
+    return this.createDefaultPipesGet<Live[]>(ApiHelper.generateApiUrl(playlist) + this.liveStreamActionParameter, true)
     .pipe();
   }
 
   findVodStreams(playlist: Playlist): Observable<VOD[]> {
-    return this.createDefaultPipesGet<VOD[]>(ApiHelper.generateApiUrl(playlist) + this.vodStreamActionParameter);
+    return this.createDefaultPipesGet<VOD[]>(ApiHelper.generateApiUrl(playlist) + this.vodStreamActionParameter, true);
   }
 
   getVodStreamInfo(playlist: Playlist, stream_id: string): Observable<VODInfo> {
-    return this.createDefaultPipesGet<VODInfo>(ApiHelper.generateApiUrl(playlist) + this.vodStreamInfoActionParameter + "&vod_id="+stream_id, this.mapDetail);
+    return this.createDefaultPipesGet<VODInfo>(ApiHelper.generateApiUrl(playlist) + this.vodStreamInfoActionParameter + "&vod_id="+stream_id, false, this.mapDetail);
   }
 
-  private createDefaultPipesGet<T>(url: string, mapFunc: any = null) : Observable<T> {
+  private createDefaultPipesGet<T>(url: string, isArray: boolean, mapFunc: any = null) : Observable<T> {
     this.spinnerService.displaySpinner();
     return this.httpClient.get<T>(url)
       .pipe(
-        map(res => mapFunc == null ? res : mapFunc(res)),
+        map(res => mapFunc != null ? mapFunc(res) : res == null && isArray ? [] : res ),
         catchError(err => { this.alertService.error(JSON.stringify(err)); throw (err) }),
         finalize(() => this.spinnerService.hideSpinner())
       );

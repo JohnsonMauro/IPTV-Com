@@ -60,6 +60,7 @@ export class HomeComponent implements OnInit {
   addPlaylist(playlist: Playlist){
     try{
       this.spinnerService.displaySpinner();
+      playlist.password = EncryptHelper.ecrypt(playlist.password);
       playlist = this.dbService.addPlaylist(playlist);
       this.playlists.push(playlist);
       this.displayAddPlayslist(false);
@@ -71,7 +72,6 @@ export class HomeComponent implements OnInit {
     finally{
       this.spinnerService.hideSpinner();
     }
-    
   }
 
   getImage(name: string)  {

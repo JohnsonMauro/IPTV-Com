@@ -9,7 +9,7 @@
             <td>
                 <label>Name</label>
             </td>
-            <td style="width: 100%;">
+            <td class="content-manageplaylist-input">
                 <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
                     <input type="text" placeholder="Name" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.name" />
                 </div>
@@ -19,17 +19,17 @@
             <td>
                 <label>User</label>
             </td>
-            <td>
+            <td class="content-manageplaylist-input">
                 <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
                     <input type="text" placeholder="User" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.user" />
                 </div>
             </td>
         </tr>
         <tr>
-            <td >
+            <td>
                 <label>Pasword</label>
             </td>
-            <td>
+            <td class="content-manageplaylist-input">
                 <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
                     <input type="Password" placeholder="Password" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.password" />
                 </div>
@@ -39,9 +39,9 @@
             <td>
                 <label>Url</label>
             </td>
-            <td>
-                <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)" [style.disabled]="playlist._id != null" >
-                    <input type="text" placeholder="http://playlist.com:80" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.url" />
+            <td class="content-manageplaylist-input">
+                <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)" >
+                    <input type="text" placeholder="http://srv.com:80" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.url" [disabled]="playlist._id != null" />
                 </div>
             </td>
         </tr>

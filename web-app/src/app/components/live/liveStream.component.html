@@ -6,7 +6,7 @@
 <div class="content-main ">
     <div class="content-main-left ">
 
-        <div class="content-main-line-top">
+        <div class="content-main-line-spacer">
         </div>
 
         <div class="content-main-line-navigation">
@@ -32,7 +32,7 @@
     </div>
 
     <div class="content-main-right ">
-        <div class="content-main-line-top">
+        <div class="content-main-line-spacer">
         </div>
 
         <div class="content-line-tv-mame">
@@ -48,29 +48,6 @@
                 </div>
                
             </div>
-        </div>
-
-        <div class="content-main-line">
-            <div class="content-main-line-left">
-                <button type="button" class="movable content-button" (click)="onFullscreenTrigger(true)">
-                    <div class="content-button-center">
-                        <img class="content-icon" alt="icon" src="images/fullscreen.png" loading=lazy />
-                        Fullscreen
-                    </div>
-                </button>
-            </div>
-
-            <div class="content-main-line-right">
-                <button type="button" class="movable content-button" (click)="manageFavorites()">
-                    <div class="content-button-center">
-                        <img class="content-icon" alt="icon" src="images/star.png" loading=lazy />
-                        {{ getFavoriteDescription() }}
-                    </div>
-                </button>
-            </div>
-        </div>
-
-        <div class="content-main-line-top">
         </div>
 
         <div class="content-line-tv-mame">
@@ -104,6 +81,32 @@
                     </td>
                 </tr>
             </table>
+        </div>
+
+        <div class="content-main-line-spacer">
+        </div>
+        <div class="content-main-line-spacer">
+        </div>
+
+
+        <div class="content-main-line">
+            <div class="content-main-line-left">
+                <button type="button" class="movable content-button" (click)="onFullscreenTrigger(true)">
+                    <div class="content-button-center">
+                        <img class="content-icon" alt="icon" src="images/fullscreen.png" loading=lazy />
+                        Fullscreen
+                    </div>
+                </button>
+            </div>
+
+            <div class="content-main-line-right">
+                <button type="button" class="movable content-button" (click)="manageFavorites()">
+                    <div class="content-button-center">
+                        <img class="content-icon" alt="icon" src="images/star.png" loading=lazy />
+                        {{ getFavoriteDescription() }}
+                    </div>
+                </button>
+            </div>
         </div>
 
     </div>
