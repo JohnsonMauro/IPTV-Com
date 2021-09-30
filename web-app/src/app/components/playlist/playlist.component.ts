@@ -1,6 +1,5 @@
-import { Component, ElementRef, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { Playlist } from 'src/app/models/app/playlist';
@@ -83,10 +82,6 @@ export class PlaylistComponent implements OnInit {
     }
     finally {
     }
-  }
-
-  getImage(name: string) {
-    return DirectoryHelper.getImage(name);
   }
 
   ngAfterViewInit() {

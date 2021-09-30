@@ -6,7 +6,7 @@ export class ApiHelper {
     return `${playlist.url}/player_api.php?username=${playlist.user}&password=${playlist.password}`
   }
 
-  static generateLiveStreamUrl(playlist: Playlist, id: string):string{
+  static generateLiveUrl(playlist: Playlist, id: string):string{
     return `${playlist.url}/${playlist.user}/${playlist.password}/${id}`
   }
 
@@ -14,7 +14,7 @@ export class ApiHelper {
     return `${playlist.url}/movie/${playlist.user}/${playlist.password}/${id}.${extension}`
   }
 
-  static generateSeriesUrl(playlist: Playlist, id: string):string{
+  static generateSerieEpisodeUrl(playlist: Playlist, id: string):string{
     return `${playlist.url}/series/${playlist.user}/${playlist.password}/${id}`
   }
 }

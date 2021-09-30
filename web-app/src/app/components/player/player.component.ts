@@ -1,5 +1,4 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { AlertService } from 'src/app/services/alertService';
 import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
@@ -65,8 +64,8 @@ export class PlayerComponent implements OnInit {
 
 	getImagePlayOrPause(): string {
 		return this.isPlaying
-			? DirectoryHelper.getImage('pause.png')
-			: DirectoryHelper.getImage('play.png');
+			? "images/pause.png"
+			: "images/play.png";
 	}
 
 	changeResolution() {

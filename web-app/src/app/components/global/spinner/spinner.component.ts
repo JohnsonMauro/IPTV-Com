@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { SpinnerService } from 'src/app/services/spinnerService';
 
 @Component({
@@ -12,10 +11,7 @@ export class SpinnerComponent implements OnInit {
 
     displaySpinner = false;
 
-    getImage(name: string) {
-        return DirectoryHelper.getImage(name);
-      }
-      
+     
       ngOnInit() {
           this.spinnerService.getSpinnerStatus()
               .subscribe((status) => {

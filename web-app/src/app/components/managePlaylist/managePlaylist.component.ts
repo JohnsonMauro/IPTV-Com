@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { Playlist } from 'src/app/models/app/playlist';
@@ -58,9 +57,5 @@ export class ManagePlaylistComponent implements OnInit {
     return true;
 
     return false;
-  }
-
-  getImage(fileName: string){
-    return DirectoryHelper.getImage(fileName);
   }
 }

@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of, Subject, Subscription } from 'rxjs';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
-import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { PageHelper } from 'src/app/helpers/pageHelper';
 import { SortHelper } from 'src/app/helpers/sortHelper';
 import { VOD } from 'src/app/models/api/vod';
-import { VODInfo } from 'src/app/models/api/VODInfo';
+import { VODInfo } from 'src/app/models/api/vodInfo';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
 import { SortCode } from 'src/app/models/app/sortCode';
@@ -18,7 +16,7 @@ import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
-import { SpacialNavigationService } from '../../services/spacialNavigationService';
+import { SpacialNavigationService } from '../../../services/spacialNavigationService';
 
 @Component({
   selector: 'app-vodStream',
@@ -201,7 +199,7 @@ export class VodStreamComponent implements OnInit {
     catch(err){
       this.alertService.error(JSON.stringify(err));
     }
-    return SortHelper.sortSreamsVOD(streamsFilteredLocal, this.sortCode);
+    return SortHelper.sortSreamsVOD(streamsFilteredLocal, sortCode);
   }
 
 

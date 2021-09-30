@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { Playlist } from 'src/app/models/app/playlist';
@@ -72,10 +71,6 @@ export class HomeComponent implements OnInit {
     finally{
       this.spinnerService.hideSpinner();
     }
-  }
-
-  getImage(name: string)  {
-    return DirectoryHelper.getImage(name);
   }
 
   ngAfterViewInit() {

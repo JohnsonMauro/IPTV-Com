@@ -8,21 +8,22 @@ import { MainComponent } from '../components/main/main.component';
 import { HomeComponent } from '../components/home/home.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { SpacialNavigationService } from '../services/spacialNavigationService';
-import {  ManagePlaylistComponent } from '../components/managePlaylist/managePlaylist.component';
+import { ManagePlaylistComponent } from '../components/managePlaylist/managePlaylist.component';
 import { AlertService } from '../services/alertService';
-import { AlertComponent } from '../components/alert/alert.component';
+import { AlertComponent } from '../components/global/alert/alert.component';
 import { FormsModule } from '@angular/forms';
-import { LiveStreamComponent } from '../components/live/liveStream.component';
+import { LiveStreamComponent } from '../components/streams/live/liveStream.component';
 import { DbService } from '../services/dbServie';
 import { ApiService } from '../services/apiService';
 import { PlayerComponent } from '../components/player/player.component';
-import { SpinnerComponent } from '../components/spinner/spinner.component';
 import { PlaylistComponent } from '../components/playlist/playlist.component';
-import { VodStreamComponent } from '../components/vod/vodStream.component';
+import { VodStreamComponent } from '../components/streams/vod/vodStream.component';
 import { SpinnerService } from '../services/spinnerService';
-import { PageComponent } from '../components/page/page.component';
 import { CustomFocusDirective } from '../directive/customFocus.directive';
+import { PageComponent } from '../components/page/page.component';
 import { CategoryComponent } from '../components/category/category.component';
+import { SpinnerComponent } from '../components/global/spinner/spinner.component';
+import { SerieStreamComponent } from '../components/streams/serie/serieStream.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { CategoryComponent } from '../components/category/category.component';
     LiveStreamComponent,
     PlaylistComponent,
     VodStreamComponent,
-
+    SerieStreamComponent,
 
     PlayerComponent,
     PageComponent,
@@ -41,7 +42,7 @@ import { CategoryComponent } from '../components/category/category.component';
     SpinnerComponent,
     AlertComponent,
     CustomFocusDirective
-    ],
+  ],
   imports: [
     BrowserModule,
     MainRoutingModule,

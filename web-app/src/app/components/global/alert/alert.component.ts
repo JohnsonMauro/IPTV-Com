@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Alert, AlertService, AlertTypeEnum } from '../../services/alertService';
+import { Alert, AlertService, AlertTypeEnum } from '../../../services/alertService';
 
 @Component({
     selector: 'app-alert',

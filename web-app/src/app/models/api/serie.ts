@@ -1,8 +1,12 @@
 export class Serie{
 num: number;
 name: string;
-serie_id: number;
-stream_icon: string;
+series_id: number;
+cover: string;
 category_id: string;
-added: Date;
+releaseDate: Date;
+genre: string;
+last_modified: number;
+cast: string;
+plot: string;
 }

@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
-import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { PageHelper } from 'src/app/helpers/pageHelper';
@@ -18,7 +17,7 @@ import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
-import { SpacialNavigationService } from '../../services/spacialNavigationService';
+import { SpacialNavigationService } from '../../../services/spacialNavigationService';
 
 @Component({
   selector: 'app-liveStream',
@@ -94,7 +93,7 @@ export class LiveStreamComponent implements OnInit {
         this.onFullscreenTrigger(true);
       }      
       else {
-        this.source = ApiHelper.generateLiveStreamUrl(this.playlist, stream.stream_id.toString());;
+        this.source = ApiHelper.generateLiveUrl(this.playlist, stream.stream_id.toString());;
         this.stream = stream;
       }
     }
@@ -187,7 +186,7 @@ export class LiveStreamComponent implements OnInit {
     catch(err){
       this.alertService.error(JSON.stringify(err));
     }
-    return SortHelper.sortSreamsLive(streamsFilteredLocal, this.sortCode);
+    return SortHelper.sortSreamsLive(streamsFilteredLocal, sortCode);
   }
 
 

@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DirectoryHelper } from 'src/app/helpers/directoryHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { SortCode } from 'src/app/models/app/sortCode';
 import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
@@ -54,10 +53,6 @@ export class HeaderComponent implements OnInit {
   executeTextKeyDown = MovableHelper.executeDefaultKeyDownForInputText;
   executeTextKeyUp = MovableHelper.executeDefaultKeyUpForInputText;
 
-  getImage(fileName: string){
-    return DirectoryHelper.getImage(fileName);
-  }
-  
   ngOnInit(): void {
   }
 

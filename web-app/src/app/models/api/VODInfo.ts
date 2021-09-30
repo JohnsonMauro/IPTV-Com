@@ -4,7 +4,6 @@ export class VODInfo {
     releasedate: Date;
     actors: string;
     cast: string;
-    description: string;
     plot: string;
     duration:string;
     }
