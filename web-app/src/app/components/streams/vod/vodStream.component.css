@@ -4,16 +4,16 @@ height: 110%;
 
 .content-line-vod-info{
 width: 100%;
-height: 80.5%;
+height: 75%;
 }
 
 .content-line-vod-info-poster {
     float: left;
     overflow: hidden;
     height: 100%;
-    width: 45%;
+    width: 40%;
     margin-left: 2%;
-    border: 3px solid #535353;
+    border: 3px solid #606060;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,7 +26,7 @@ height: 80.5%;
 
     .content-line-vod-info-details {
         height: 100%;
-        width: 48%;
+        width: 51%;
         margin-left: 2%;
         float: left;
         overflow: hidden;
@@ -34,7 +34,7 @@ height: 80.5%;
 
         
     .content-line-vod-info-details-item {
-        border-bottom: 2px solid #efefef;
+        border-bottom: 3px solid #606060;
         }
         
         .content-line-vod-info-details-spacer{

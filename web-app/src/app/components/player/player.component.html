@@ -1,7 +1,7 @@
 <div class="container-videoplayer" [style.position]="isFullscreen ? 'absolute' : 'relative'">
     <div #videoPlayerContent class='container-videoplayer' (click)="onVideoClick()">
-        <img src="images/video_loading.gif" alt="loading" class="content-videoplayer-image" *ngIf="isLoading">
-        <video #videoPlayerElement class='content-videoplayer-video' (canplay)="onCanPlay()" >
+        <img src="images/video_loading.gif" alt="loading" class="content-videoplayer-image" *ngIf="!canPlay">
+        <video #videoPlayerElement class='content-videoplayer-video' (canplay)="onCanPlay()" (timeupdate)="onCurretTimeUpdate()" (ended)="onEnded()" >
             <source [src]="source">
             Your browser does not support HTML5 video.
         </video>
@@ -9,23 +9,64 @@
 
     <div class="content-videoplayer-footer" *ngIf="isFullscreen" [style.zIndex]="isDisplayControls ? 1 : -99">
 
-        <button class='movable content-button content-videoplayer-controls' (click)="isDisplayControls = !isDisplayControls" custom-focus >
-            <div class="content-button-center">
-                <img alt="icon" src="images/minimize.png" loading=lazy class="content-icon content-videoplayer-controls-icon" />
-            </div>
-        </button>
+        <div style="margin-bottom: 20px; margin-top: 20px;">
+            <button class='movable content-button content-videoplayer-footer-controls' (click)="isDisplayControls = !isDisplayControls" custom-focus >
+                <div class="content-button-center">
+                    <img alt="icon" src="images/minimize.png" loading=lazy class="content-videoplayer-footer-controls-icon" />
+                </div>
+            </button>
+            &nbsp;&nbsp;
+            <button *ngIf="!isLiveStream" class='movable content-button content-videoplayer-footer-controls' (click)="playOrPause()" [disabled]="!isDisplayControls">
+                <div class="content-button-center">
+                    <img alt="icon" src="{{getImagePlayOrPause()}}" loading=lazy class="content-videoplayer-footer-controls-icon" />
+                </div>
+            </button>
+            &nbsp;&nbsp;
+            <button class='movable content-button content-videoplayer-footer-controls' (click)="onExitFullscreen.emit()" [disabled]="!isDisplayControls">
+                <div class="content-button-center">
+                    <img alt="icon" src="images/back.png" loading=lazy class="content-videoplayer-footer-controls-icon" />
+                </div>
+            </button>
+        </div>
+       
 
-        <button *ngIf="!isLiveStream" class='movable content-button content-videoplayer-controls' (click)="playOrPause()" [disabled]="!isDisplayControls">
-            <div class="content-button-center">
-                <img alt="icon" src="{{getImagePlayOrPause()}}" loading=lazy class="content-icon content-videoplayer-controls-icon" />
-            </div>
-        </button>
+        <div *ngIf="!isLiveStream && isDisplayControls" class="content-videoplayer-footer-timer">
 
-        <button class='movable content-button content-videoplayer-controls' (click)="onExitFullscreen.emit()" [disabled]="!isDisplayControls">
-            <div class="content-button-center">
-                <img alt="icon" src="images/back.png" loading=lazy class="content-icon content-videoplayer-controls-icon" />
-            </div>
-        </button>
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        <button class='movable content-button content-videoplayer-footer-controls' (click)="setTime(false, 10)" >
+                            <div class="content-button-center">
+                                <strong>&lt;&lt;</strong>
+                            </div>
+                        </button>
+                    </td>
+                    <td class="content-videoplayer-controls-timer-space">  <button class='movable content-button content-videoplayer-footer-controls' (click)="setTime(false, 3)" >
+                        <div class="content-button-center">
+                            <strong>&lt;</strong>
+                        </div>
+                    </button></td>
+                    <td class="content-videoplayer-controls-timer-space">{{canPlay ? currentTimeText : '00:00:00'}}</td>
+
+                    <td class="content-videoplayer-controls-timer-space" style="width: 100%;"> <progress style="width: 100%;" value="{{getCurrentTimePercent()}}" max="100"></progress></td>
+
+                    <td class="content-videoplayer-controls-timer-space">{{canPlay ? durationText : '00:00:00'}}</td>
+                    <td class="content-videoplayer-controls-timer-space"> <button class='movable content-button content-videoplayer-footer-controls' (click)="setTime(true, 3)" >
+                        <div class="content-button-center">
+                            <strong>></strong>
+                        </div>
+                    </button></td>
+                    <td><button class='movable content-button content-videoplayer-footer-controls' (click)="setTime(true, 10)" >
+                        <div class="content-button-center">
+                            <strong>>></strong>
+                        </div>
+                    </button></td>
+                </tr>
+            </table>
+           
+            
+
+        </div>
    
     </div>
 </div>

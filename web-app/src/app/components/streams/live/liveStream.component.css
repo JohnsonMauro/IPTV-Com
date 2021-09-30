@@ -8,7 +8,7 @@
 .content-line-tv-player {
     width: 100%;
     height: 94%;
-    border: 3px solid #535353;
+    border: 3px solid #606060;
     background-color: black;
     display: flex;
     justify-content: center;
@@ -21,7 +21,7 @@
 }
 
 .content-line-tv-epg {
-    background-color: #686868;
+    background-color: #606060;
     margin-left: 10%;
     height: 17%;
     max-height: 17%;

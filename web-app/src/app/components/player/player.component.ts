@@ -15,7 +15,7 @@ export class PlayerComponent implements OnInit {
 	private videoPlayerEement: ElementRef;
 
 	private _source: string;
-	@Input() set source(value: string) {		
+	@Input() set source(value: string) {
 		this._source = value;
 		this.onSourceChange();
 	}
@@ -33,12 +33,12 @@ export class PlayerComponent implements OnInit {
 	@Input() isLiveStream: boolean;
 	@Output() onExitFullscreen = new EventEmitter<null>();
 
-	
-	videoPlayerMovableClass = "content-videoplayer-controls";
+
+	videoPlayerMovableClass = "content-videoplayer-footer-controls";
 	isDisplayControls = false;
-	isLoading = true;
 	canPlay = false;
-	isPlaying = false;
+	currentTimeText: string;
+	durationText:string;
 
 	constructor(private spatialNavigation: SpacialNavigationService) { }
 
@@ -46,26 +46,37 @@ export class PlayerComponent implements OnInit {
 	}
 
 	onCanPlay() {
-		this.isLoading = false;
 		this.canPlay = true;
 		this.changeResolution();
-		this.playOrPause();
+		this.setDurationText();
+		this.playOrPause(true);
 	}
 
-	playOrPause() {
-		if (this.isPlaying) {
-			this.videoPlayerEement.nativeElement.pause();
-			this.isPlaying = false;
-		} else {
-			this.videoPlayerEement.nativeElement.play();
-			this.isPlaying = true;
+	playOrPause(isToPlay: boolean = null) {
+		if (!this.canPlay)
+			return;
+
+		if (isToPlay == null) {
+			if (this.videoPlayerEement.nativeElement.paused) {
+				this.videoPlayerEement.nativeElement.play();
+			} else {
+				this.videoPlayerEement.nativeElement.pause();
+			}
+		}
+		else {
+			if (isToPlay) {
+				this.videoPlayerEement.nativeElement.play();
+			} else {
+				this.videoPlayerEement.nativeElement.pause();
+			}
 		}
 	}
 
 	getImagePlayOrPause(): string {
-		return this.isPlaying
-			? "images/pause.png"
-			: "images/play.png";
+		return this.videoPlayerEement != null
+			&& this.videoPlayerEement.nativeElement.paused
+			? "images/play.png"
+			: "images/pause.png";
 	}
 
 	changeResolution() {
@@ -92,19 +103,52 @@ export class PlayerComponent implements OnInit {
 			this.spatialNavigation.remove(this.videoPlayerMovableClass);
 	}
 
-	onSourceChange(){
+	onSourceChange() {
 		if (this.videoPlayerEement) {
 			this.canPlay = false;
-			this.isLoading = true;
-			this.isPlaying = false;
 			this.videoPlayerEement.nativeElement.pause();
 			this.videoPlayerEement.nativeElement.load();
-		}	
+		}
+	}
+
+	setTime(forward: boolean, percentage: number) {
+		if (this.canPlay) {
+			this.playOrPause(false);
+
+			let timeToSet = (this.videoPlayerEement.nativeElement.duration * percentage) / 100
+
+			this.videoPlayerEement.nativeElement.currentTime = 
+			forward 
+			? this.videoPlayerEement.nativeElement.currentTime + timeToSet
+			: this.videoPlayerEement.nativeElement.currentTime - timeToSet;
+		}
+	}
+
+	setDurationText() {
+		if(this.canPlay){
+			this.durationText = new Date(this.videoPlayerEement.nativeElement.duration * 1000).toISOString().substr(11, 8);
+		}		
+	}
+
+	getCurrentTimePercent() {
+		return this.canPlay 
+		? (this.videoPlayerEement.nativeElement.currentTime * 100) / this.videoPlayerEement.nativeElement.duration
+		: 0;
+	}
+
+	onCurretTimeUpdate() {
+		if (this.isLiveStream && this.canPlay)
+			return;
+		this.currentTimeText = new Date(this.videoPlayerEement.nativeElement.currentTime * 1000).toISOString().substr(11, 8)
+	}
+
+	onEnded() {
+		this.playOrPause(true);
 	}
 
 	ngAfterViewInit() {
-		if(this.source != null && this.source != "")
-	       this.onSourceChange();
+		if (this.source != null && this.source != "")
+			this.onSourceChange();
 	}
 
 	ngOnDestroy() {
