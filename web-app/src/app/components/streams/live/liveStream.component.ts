@@ -88,7 +88,6 @@ export class LiveStreamComponent implements OnInit {
 
   selectStream(stream: Live) {
     try {
-      console.log(stream);
       if (this.stream == stream){
         this.onFullscreenTrigger(true);
       }      

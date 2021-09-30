@@ -77,7 +77,6 @@ export class SerieStreamComponent implements OnInit {
 
   selectStream(stream: Serie) {
     try {
-      console.log(stream);
       this.isImageError = false;
       if (this.stream == stream){
         this.onFullscreenTrigger(true);
