@@ -35,13 +35,13 @@
             <table style="width: 100%;">
                 <tr>
                     <td>
-                        <button class='movable content-button content-videoplayer-footer-controls' (click)="setTime(false, 10)" >
+                        <button class='movable content-button content-videoplayer-footer-controls' (click)="setTime(-10)" >
                             <div class="content-button-center">
                                 <strong>&lt;&lt;</strong>
                             </div>
                         </button>
                     </td>
-                    <td class="content-videoplayer-controls-timer-space">  <button class='movable content-button content-videoplayer-footer-controls' (click)="setTime(false, 3)" >
+                    <td class="content-videoplayer-controls-timer-space">  <button class='movable content-button content-videoplayer-footer-controls' (click)="setTime(-2)" >
                         <div class="content-button-center">
                             <strong>&lt;</strong>
                         </div>
@@ -51,12 +51,12 @@
                     <td class="content-videoplayer-controls-timer-space" style="width: 100%;"> <progress style="width: 100%;" value="{{getCurrentTimePercent()}}" max="100"></progress></td>
 
                     <td class="content-videoplayer-controls-timer-space">{{canPlay ? durationText : '00:00:00'}}</td>
-                    <td class="content-videoplayer-controls-timer-space"> <button class='movable content-button content-videoplayer-footer-controls' (click)="setTime(true, 3)" >
+                    <td class="content-videoplayer-controls-timer-space"> <button class='movable content-button content-videoplayer-footer-controls' (click)="setTime(2)" >
                         <div class="content-button-center">
                             <strong>></strong>
                         </div>
                     </button></td>
-                    <td><button class='movable content-button content-videoplayer-footer-controls' (click)="setTime(true, 10)" >
+                    <td><button class='movable content-button content-videoplayer-footer-controls' (click)="setTime(10)" >
                         <div class="content-button-center">
                             <strong>>></strong>
                         </div>

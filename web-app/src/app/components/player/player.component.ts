@@ -113,16 +113,13 @@ export class PlayerComponent implements OnInit {
 		}
 	}
 
-	setTime(forward: boolean, percentage: number) {
+	setTime(percentage: number) {
 		if (this.canPlay) {
 			this.playOrPause(false);
 
-			let timeToSet = (this.videoPlayerEement.nativeElement.duration * percentage) / 100
+			let timeToSet = (this.videoPlayerEement.nativeElement.duration * Math.abs(percentage)) / 100
 
-			this.videoPlayerEement.nativeElement.currentTime =
-				forward
-					? this.videoPlayerEement.nativeElement.currentTime + timeToSet
-					: this.videoPlayerEement.nativeElement.currentTime - timeToSet;
+			this.videoPlayerEement.nativeElement.currentTime = this.videoPlayerEement.nativeElement.currentTime + timeToSet
 		}
 	}
 

@@ -99,8 +99,6 @@ export class ApiService {
     let serieInfo = new SerieInfo();
     serieInfo.seasons = (<any[]>(result.seasons)).map(res => new SerieSeason(res.id, res.name, res.season_number, res.cover));
 
-    console.log(result);
-    console.log('eps now');
     serieInfo.seasons.forEach(season => {
 
       let apiEpisodes = result.episodes[season.num];

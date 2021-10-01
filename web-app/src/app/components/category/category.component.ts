@@ -25,18 +25,15 @@ export class CategoryComponent implements OnInit {
     
   }
 
-  move(forward: boolean) {
-    let currentIndex = this.categories.indexOf(this.currentCategory);
-    let categoryRequested: Category;
+  move(count: number) {
+    let requestedIndex = this.categories.indexOf(this.currentCategory) + count;
 
-    if(forward){
-      categoryRequested= (currentIndex + 1) >= this.categories.length  ? this.currentCategory = this.categories[0] :  this.categories[currentIndex+1];
-    }
-    else{
-      categoryRequested = currentIndex == 0 ? this.currentCategory = this.categories[this.categories.length-1] :  this.categories[currentIndex-1];
-    }
-   
-    this.requestCategory(categoryRequested);
+    if(requestedIndex >= this.categories.length)
+       requestedIndex = 0;
+    else if(requestedIndex < 0)
+       requestedIndex = this.categories.length - 1;
+
+    this.requestCategory(this.categories[requestedIndex]);
   }
 
   requestCategory(categoryRequested: Category){

@@ -22,13 +22,12 @@ export class PageComponent implements OnInit {
 
   }
 
-  move(forward: boolean) {
-    this.pageRequested(forward ? (this.currentPage + 1) : (this.currentPage - 1));
+  move(count: number) {
+    this.pageRequested(this.currentPage + count);
     this.onMove.emit(this.currentPage);
   }
 
   pageRequested(pageRequested: number) {  
-    console.log(pageRequested);
     if(pageRequested >= 1 && pageRequested <= this.maxPage){
       this.currentPage = pageRequested;
     }

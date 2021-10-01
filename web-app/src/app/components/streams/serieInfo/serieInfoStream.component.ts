@@ -86,7 +86,6 @@ export class SerieInfoStreamComponent implements OnInit {
       }      
       else {
         this.source = ApiHelper.generateSerieEpisodeUrl(this.playlist, stream.stream_id, stream.extension);
-        console.log(this.source);
         this.stream = stream;
         this.populateStreamDetail(stream);
       }
