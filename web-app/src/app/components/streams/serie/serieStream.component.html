@@ -18,8 +18,13 @@
         <div *ngFor="let streamItem of streams" class="content-main-line">
             <button type="button" class="movable content-folder" (click)="selectStream(streamItem)">
                 <div class="content-folder-left">
-                    <img class="content-icon content-icon-serie" alt="icon" [src]="streamItem.stream_image" onerror="this.className='content-icon';this.src='images/movie.png';" loading=lazy />
-                    {{streamItem.name}}
+                    <div class="content-folder-icon ">
+                        <img class="content-icon content-icon-serie" alt="icon" [src]="streamItem.stream_image"
+                        onerror="this.className='content-icon';this.src='images/serie.png';" loading=lazy />
+                    </div>
+                    <div class="content-folder-text">
+                        {{streamItem.name.trim()}}
+                    </div>
                 </div>
             </button>
         </div>
@@ -105,8 +110,12 @@
             <div class="content-main-line-left">
                 <button type="button" class="movable content-button" (click)="moveToSerieInfo()">
                     <div class="content-button-center">
-                        <img class="content-icon" alt="icon" src="images/folder.png" loading=lazy />
-                        Open
+                        <div class="content-button-icon">
+                            <img alt="icon" src="images/folder.png" loading=lazy class="content-icon" />
+                        </div>
+                        <div class="content-button-text">
+                            Open
+                        </div> 
                     </div>
                 </button>
             </div>
@@ -114,8 +123,12 @@
             <div class="content-main-line-right">
                 <button type="button" class="movable content-button" (click)="manageFavorites()">
                     <div class="content-button-center">
-                        <img class="content-icon" alt="icon" src="images/star.png" loading=lazy />
-                        {{ getFavoriteDescription() }}
+                        <div class="content-button-icon">
+                            <img alt="icon" src="images/star.png" loading=lazy class="content-icon" />
+                        </div>
+                        <div class="content-button-text">
+                            {{ getFavoriteDescription() }}
+                        </div>  
                     </div>
                 </button>
             </div>

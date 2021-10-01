@@ -10,12 +10,18 @@
         <div class="content-main-line-spacer">
         </div>
         <div *ngFor="let playlist of playlists" class="content-main-line">
+
             <button type="button" class="movable content-folder" (click)="onSelectPlayslist(playlist)">
                 <div class="content-folder-left">
-                    <img alt="icon" src="images/play.png" loading=lazy class="content-icon" />
-                    {{playlist.name}}
+                    <div class="content-folder-icon ">
+                        <img class="content-icon content-icon-serie" alt="icon" src="images/folder.png" loading=lazy />
+                    </div>
+                    <div class="content-folder-text">
+                        {{playlist.name.trim()}}
+                    </div>
                 </div>
             </button>
+
         </div>
     </div>
 
@@ -28,8 +34,12 @@
             <div class="content-main-line-left">
                 <button type="button" class="movable content-button" (click)="displayAddPlayslist(true)">
                     <div class="content-button-center">
-                        <img class="content-icon" alt="icon" src="images/plus.png" loading=lazy />
-                        Add playlist
+                        <div class="content-button-icon">
+                            <img alt="icon" src="images/plus.png" loading=lazy class="content-icon" />
+                        </div>
+                        <div class="content-button-text">
+                            Add playlist
+                        </div>
                     </div>
                 </button>
             </div>
@@ -37,8 +47,12 @@
             <div class="content-main-line-right">
                 <button type="button" class="movable content-button">
                     <div class="content-button-center">
-                        <img class="content-icon" alt="icon" src="images/settings.png" loading=lazy />
-                        Settings
+                        <div class="content-button-icon">
+                            <img alt="icon" src="images/settings.png" loading=lazy class="content-icon" />
+                        </div>
+                        <div class="content-button-text">
+                            Settings
+                        </div>
                     </div>
                 </button>
             </div>

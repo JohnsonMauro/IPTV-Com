@@ -9,19 +9,29 @@
         </div>
 
         <div class="content-main-line">
+
             <button type="button" class="movable content-folder" (click)="moveTo('/livestream')">
                 <div class="content-folder-left">
-                    <img alt="icon" src="images/tv.png" loading=lazy class="content-icon" />
-                    Live streams
+                    <div class="content-folder-icon ">
+                        <img class="content-icon content-icon-serie" alt="icon" src="images/tv.png" loading=lazy />
+                    </div>
+                    <div class="content-folder-text">
+                        Live streams
+                    </div>
                 </div>
             </button>
+
         </div>
 
         <div class="content-main-line">
             <button type="button" class="movable content-folder" (click)="moveTo('/vodstream')">
                 <div class="content-folder-left">
-                    <img alt="icon" src="images/movie.png" loading=lazy class="content-icon" />
-                    Videos on demand
+                    <div class="content-folder-icon ">
+                        <img class="content-icon content-icon-serie" alt="icon" src="images/movie.png" loading=lazy />
+                    </div>
+                    <div class="content-folder-text">
+                        Videos on demand
+                    </div>
                 </div>
             </button>
         </div>
@@ -29,8 +39,12 @@
         <div class="content-main-line">
             <button type="button" class="movable content-folder" (click)="moveTo('/seriestream')">
                 <div class="content-folder-left">
-                    <img alt="icon" src="images/serie.png" loading=lazy class="content-icon" />
-                    Series
+                    <div class="content-folder-icon ">
+                        <img class="content-icon content-icon-serie" alt="icon" src="images/serie.png" loading=lazy />
+                    </div>
+                    <div class="content-folder-text">
+                        serie
+                    </div>
                 </div>
             </button>
         </div>
@@ -65,22 +79,34 @@
 
         <div class="content-main-line-spacer">
         </div>
+        <div class="content-main-line-spacer">
+        </div>
+        <div class="content-main-line-spacer">
+        </div>
 
         <div class="content-main-line">
             <div class="content-main-line-left">
                 <button type="button" class="movable content-button" (click)="displayEditPlayslist(true)">
                     <div class="content-button-center">
-                        <img alt="icon" src="images/pen.png" loading=lazy class="content-icon" />
-                        Edit
-                    </div>
+                        <div class="content-button-icon">
+                            <img alt="icon" src="images/pen.png" loading=lazy class="content-icon" />
+                        </div>
+                        <div class="content-button-text">
+                            Edit
+                        </div>
+                    </div>               
                 </button>
             </div>
 
             <div class="content-main-line-right">
                 <button type="button" class="movable content-button" (click)="deletePlaylist()">
                     <div class="content-button-center">
-                        <img alt="icon" src="images/x.png" loading=lazy class="content-icon" />
-                        Delete
+                        <div class="content-button-icon">
+                            <img alt="icon" src="images/x.png" loading=lazy class="content-icon" />
+                        </div>
+                        <div class="content-button-text">
+                            Delete
+                        </div>
                     </div>
                 </button>
             </div>
