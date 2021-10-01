@@ -46,7 +46,7 @@
             <div class="content-line-tv-player">
                 <img *ngIf="stream == null" alt="icon" src="images/tv.png" loading=lazy />
                 <div *ngIf="stream != null" style="width: 100%; height: 100%;">
-                    <app-player [source]="source" [isLiveStream]="true" [isFullscreen]="isFullscreen"
+                    <app-player [source]="source" [name]="stream.name" [isLiveStream]="true" [isFullscreen]="isFullscreen"
                         (onExitFullscreen)="onFullscreenTrigger(false)"></app-player>
                 </div>
 

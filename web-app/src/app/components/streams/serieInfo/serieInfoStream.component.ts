@@ -76,8 +76,8 @@ export class SerieInfoStreamComponent implements OnInit {
       this.setPageOnStream(1, this.streamsAll);
 
       let seasons = result?.seasons;
-      if(seasons != null && seasons.length > 0){
-        seasons.forEach(x => this.categories.push({id: x.num, name: x.name, parent_id: null}));
+      if (seasons != null && seasons.length > 0) {
+        seasons.forEach(x => this.categories.push({ id: x.num, name: x.name, parent_id: null }));
       }
 
     });
@@ -142,6 +142,20 @@ export class SerieInfoStreamComponent implements OnInit {
       this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
 
     this.isFullscreen = isFullScreen;
+  }
+
+  onEndedPlay() {
+    let nextIndex = this.streams.indexOf(this.stream) + 1;
+    if (nextIndex < this.streams.length) {
+      this.selectStream(this.streams[nextIndex]);
+      this.selectStream(this.streams[nextIndex]);
+
+      return;
+    }
+
+    this.onMovePageTrigger(this.currentPage == this.maxPage ? 1 : this.currentPage + 1);
+    this.selectStream(this.streams[0]);
+    this.selectStream(this.streams[0]);
   }
 
   // ------------------------------------ Search and move ----------------------------------------

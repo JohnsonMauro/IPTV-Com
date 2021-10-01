@@ -138,7 +138,7 @@
 
 
     <div *ngIf="isFullscreen">
-        <app-player [source]="source" [isLiveStream]="false" [isFullscreen]="true"
-        (onExitFullscreen)="onFullscreenTrigger(false)"></app-player>
+        <app-player [source]="source" [name]="stream.name" [isLiveStream]="false" [isFullscreen]="true"
+        (onExitFullscreen)="onFullscreenTrigger(false)" (onEndedPlay)="onEndedPlay()"></app-player>
     </div>
 </div>

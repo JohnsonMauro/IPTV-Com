@@ -29,9 +29,10 @@ export class PlayerComponent implements OnInit {
 	}
 	get isFullscreen() { return this._isFullscreen; }
 
-
+	@Input() name: string;
 	@Input() isLiveStream: boolean;
 	@Output() onExitFullscreen = new EventEmitter<null>();
+	@Output() onEndedPlay = new EventEmitter<null>();
 
 
 	videoPlayerMovableClass = "content-videoplayer-footer-controls";
@@ -143,7 +144,7 @@ export class PlayerComponent implements OnInit {
 	}
 
 	onEnded() {
-		this.playOrPause(true);
+		this.onEndedPlay.emit();
 	}
 
 	ngAfterViewInit() {
