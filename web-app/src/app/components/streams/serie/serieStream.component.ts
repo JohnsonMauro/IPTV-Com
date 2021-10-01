@@ -80,10 +80,9 @@ export class SerieStreamComponent implements OnInit {
     try {
       this.isImageError = false;
       if (this.stream == stream){
-        this.onFullscreenTrigger(true);
+        this.moveToSerieInfo();
       }      
       else {
-        this.source = ApiHelper.generateVODUrl(this.playlist, stream.stream_id, "");;
         this.stream = stream;
         this.populateStreamDetail(stream);
       }
