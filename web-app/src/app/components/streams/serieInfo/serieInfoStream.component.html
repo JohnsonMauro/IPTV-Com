@@ -122,4 +122,10 @@
         </div>
 
     </div>
+
+
+    <div *ngIf="isFullscreen">
+        <app-player [source]="source" [isLiveStream]="false" [isFullscreen]="true"
+        (onExitFullscreen)="onFullscreenTrigger(false)"></app-player>
+    </div>
 </div>

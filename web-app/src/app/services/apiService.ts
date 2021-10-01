@@ -11,6 +11,8 @@ import { SpinnerService } from './spinnerService';
 import { VODInfo } from '../models/api/vodInfo';
 import { Serie } from '../models/api/serie';
 import { PlaylistInfo } from '../models/api/playlistInfo';
+import { SerieEpisode, SerieInfo, SerieSeason } from '../models/api/serieInfo';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 
 @Injectable()
@@ -20,6 +22,7 @@ export class ApiService {
   private vodStreamActionParameter = "&action=get_vod_streams";
   private vodStreamInfoActionParameter = "&action=get_vod_info";
   private serieStreamActionParameter = "&action=get_series";
+  private serieInfoStreamActionParameter = "&action=get_series_info&series_id=";
 
   constructor(private httpClient: HttpClient
     , private alertService: AlertService
@@ -46,6 +49,10 @@ export class ApiService {
     return this.createDefaultPipesGet<Serie[]>(ApiHelper.generateApiUrl(playlist) + this.serieStreamActionParameter, true, this.mapSerie);
   }
 
+  findSeriesInfoStreams(playlist: Playlist, stream_id: string): Observable<SerieInfo> {
+    return this.createDefaultPipesGet<SerieInfo>(ApiHelper.generateApiUrl(playlist) + this.serieInfoStreamActionParameter + stream_id, false, this.mapSerieInfo);
+  }
+
   private createDefaultPipesGet<T>(url: string, isArray: boolean, mapFunction: (item: any) => any = null): Observable<T> {
     this.spinnerService.displaySpinner();
     return this.httpClient.get<T>(url)
@@ -58,35 +65,65 @@ export class ApiService {
 
   private mapPlaylistInfo(result: any): PlaylistInfo {
     return {
-    status: result.user_info.status,
-    expiration_date: result.user_info.exp_date
+      status: result.user_info.status,
+      expiration_date: result.user_info.exp_date
     }
   }
 
   private mapVODDetail(result: any): VODInfo {
     return {
-    cast: result.info.cast,
-    description: result.info.plot,
-    duration: result.info.duration,
-    stream_image: result.info.movie_image,
-    release_date: result.info.releasedate
+      cast: result.info.cast,
+      description: result.info.plot,
+      duration: result.info.duration,
+      stream_image: result.info.movie_image,
+      release_date: result.info.releasedate
     }
   }
 
   private mapLive(result: any[]): Live[] {
-    return result.map(res => 
-      new Live(res.name, res.stream_id, res.category_id, res.added, res.stream_icon, res.num, res.epg_channel_id));
+    return result.map(res =>
+      new Live(res.stream_id, res.name, res.category_id, res.added, res.stream_icon, res.num, res.epg_channel_id));
   }
 
   private mapVOD(result: any[]): VOD[] {
-    return result.map(res => 
-      new VOD(res.name, res.stream_id, res.category_id, res.added, res.stream_icon, res.num, res.container_extension));
+    return result.map(res =>
+      new VOD(res.stream_id, res.name, res.category_id, res.added, res.stream_icon, res.num, res.container_extension));
   }
 
   private mapSerie(result: any[]): Serie[] {
-    return result.map(res => 
-      new Serie(res.name, res.series_id, res.category_id, res.last_modified, res.cover, res.num, res.cast, res.plot, res.releaseDate, res.episode_run_time));
+    return result.map(res =>
+      new Serie(res.series_id, res.name, res.category_id, res.last_modified, res.cover, res.num, res.cast, res.plot, res.releaseDate, res.episode_run_time));
   }
 
+  private mapSerieInfo(result: any): any {
+    let serieInfo = new SerieInfo();
+    serieInfo.seasons = (<any[]>(result.seasons)).map(res => new SerieSeason(res.id, res.name, res.season_number, res.cover));
+
+    console.log(result);
+    console.log('eps now');
+    serieInfo.seasons.forEach(season => {
+
+      let apiEpisodes = result.episodes[season.num];
+      if (apiEpisodes) {
+
+        let episodes = (<any[]>apiEpisodes).map(res =>
+          new SerieEpisode(
+            res.id,
+            res.title,
+            (res.season ?? res.info.season),
+            res.added,
+            res.info.movie_image,
+            res.info.plot,
+            res.info.releasedate,
+            res.info.duration,
+            res.container_extension
+          ));
+
+        serieInfo.episodes.push(...episodes);
+      }
+
+    });
+    return serieInfo;
+  }
 
 }

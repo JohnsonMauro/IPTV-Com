@@ -1,6 +1,7 @@
 export class StreamBase {
-    constructor(name: string,
+    constructor(
         stream_id: string,
+        name: string,
         category_id: string,
         lastDate: number,
         stream_image: string) {

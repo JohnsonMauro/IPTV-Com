@@ -17,6 +17,7 @@ import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../../services/spacialNavigationService';
 import { StreamBase } from 'src/app/models/api/streamBase';
+import { SerieEpisode } from 'src/app/models/api/serieInfo';
 
 @Component({
   selector: 'app-serieInfoStream',
@@ -33,9 +34,9 @@ export class SerieInfoStreamComponent implements OnInit {
   currentCategory = this.categories[1];
   
   playlist: Playlist;
-  streamsAll: Serie[] = [];
-  streams: Serie[] = [];
-  stream: Serie;
+  streamsAll: SerieEpisode[] = [];
+  streams: SerieEpisode[] = [];
+  stream: SerieEpisode;
   source: string;
 
   isImageError = false;
@@ -57,16 +58,18 @@ export class SerieInfoStreamComponent implements OnInit {
       let playlistId = this.activatedroute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
-      this.populateAllStreams();
+
+      let streamId = this.activatedroute.snapshot.paramMap.get("stream_id");
+      this.populateAllStreams(streamId);
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
     }
   }
 
-  populateAllStreams() {
-    this.apiService.findSeriesStreams(this.playlist).subscribe(result => {
-      this.streamsAll = result;
+  populateAllStreams(streamId: string) {
+    this.apiService.findSeriesInfoStreams(this.playlist, streamId).subscribe(result => {
+      this.streamsAll = result?.episodes ?? [];
       if (this.streamsAll.length == 0)
         return;
 
@@ -75,14 +78,15 @@ export class SerieInfoStreamComponent implements OnInit {
   }
 
 
-  selectStream(stream: Serie) {
+  selectStream(stream: SerieEpisode) {
     try {
       this.isImageError = false;
       if (this.stream == stream){
         this.onFullscreenTrigger(true);
       }      
       else {
-        this.source = ApiHelper.generateVODUrl(this.playlist, stream.stream_id, "");;
+        this.source = ApiHelper.generateSerieEpisodeUrl(this.playlist, stream.stream_id, stream.extension);
+        console.log(this.source);
         this.stream = stream;
         this.populateStreamDetail(stream);
       }
@@ -93,7 +97,7 @@ export class SerieInfoStreamComponent implements OnInit {
   }
 
 
-  populateStreamDetail(stream: Serie) {
+  populateStreamDetail(stream: SerieEpisode) {
     this.apiService.getVodStreamInfo(this.playlist, stream.stream_id)
     .subscribe(result => {
       if(result == null)
@@ -162,7 +166,7 @@ export class SerieInfoStreamComponent implements OnInit {
     this.setPageOnStream(page, streamsLocal);
   }
 
-  setPageOnStream(page: number, streamsFiltered: Serie[]) {
+  setPageOnStream(page: number, streamsFiltered: SerieEpisode[]) {
     this.currentPage = page;
     this.maxPage = Math.ceil(streamsFiltered.length / PageHelper.getNumberItemsOnPage())
     let from = (page - 1) * PageHelper.getNumberItemsOnPage();
@@ -170,7 +174,7 @@ export class SerieInfoStreamComponent implements OnInit {
     this.streams = streamsFiltered.slice(from, to);
   }
 
-  findByGeneralSearch(category: Category, searchText: string, sortCode: SortCode, streamsToFilter: Serie[]): Serie[] {
+  findByGeneralSearch(category: Category, searchText: string, sortCode: SortCode, streamsToFilter: SerieEpisode[]): SerieEpisode[] {
     let streamsFilteredLocal: StreamBase[] = [];
 
     try{     
@@ -180,7 +184,7 @@ export class SerieInfoStreamComponent implements OnInit {
       this.alertService.error(JSON.stringify(err));
     }
 
-    return <Serie[]>streamsFilteredLocal;
+    return <SerieEpisode[]>streamsFilteredLocal;
   }
 
 

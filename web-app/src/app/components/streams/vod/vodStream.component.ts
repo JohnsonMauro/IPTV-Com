@@ -84,7 +84,7 @@ export class VodStreamComponent implements OnInit {
         this.onFullscreenTrigger(true);
       }      
       else {
-        this.source = ApiHelper.generateVODUrl(this.playlist, stream.stream_id, stream.container_extension);;
+        this.source = ApiHelper.generateVODUrl(this.playlist, stream.stream_id, stream.extension);;
         this.stream = stream;
         this.populateStreamDetail(stream);
       }

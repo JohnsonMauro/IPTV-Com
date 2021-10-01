@@ -14,7 +14,7 @@ const routes: Routes = [
  ,{path: 'livestream/:id', component: LiveStreamComponent}
  ,{path: 'vodstream/:id', component: VodStreamComponent}
  ,{path: 'seriestream/:id', component: SerieStreamComponent}
- ,{path: 'serieinfostream/:id/:serieid', component: SerieInfoStreamComponent}
+ ,{path: 'serieinfostream/:id/:stream_id', component: SerieInfoStreamComponent}
 ];
 
 @NgModule({
