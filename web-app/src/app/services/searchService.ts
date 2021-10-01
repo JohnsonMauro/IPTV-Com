@@ -50,10 +50,6 @@ export class SearchService {
       
           else if (category.id == CategoryHelper.favoritesCategoryId) {
             let favorites = this.dbService.findFavorites(playlist._id, streamCode);
-            console.log('favorites');
-            console.log(favorites);
-            console.log(playlist);
-            console.log(streamCode);
 
             for (let f = 0; f < favorites.length; f++) {
               let favorite = streamsToFilter.find(x => x.stream_id == favorites[f]);

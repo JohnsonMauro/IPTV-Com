@@ -54,10 +54,7 @@ export class DbService {
   }
 
   addToFavorites(playlistId: string, streamType: StreamCode, streamId: string) {
-    console.log('add to favorites');
-    console.log(playlistId)
-    console.log(streamType)
-    console.log(streamId)
+
     let favoritesKey = this.getFavoriteKey(playlistId, streamType);
     let favorites = this.findFavoritesByKey(favoritesKey);
 

@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
+import { PlaylistInfo } from 'src/app/models/api/playlistInfo';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
+import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../services/spacialNavigationService';
@@ -30,6 +32,7 @@ export class PlaylistComponent implements OnInit {
     try {
       let playlistId = this.activatedRoute.snapshot.paramMap.get("id");
       this.playlist = this.dbService.getPlaylist(playlistId);
+      this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
@@ -46,7 +49,6 @@ export class PlaylistComponent implements OnInit {
     if(display){
       this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
       this.isDisplayEditPlaylist = true;
-      this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
     }
     else{
       this.isDisplayEditPlaylist = false;
@@ -59,6 +61,7 @@ export class PlaylistComponent implements OnInit {
       this.spinnerService.displaySpinner();
       playlist.password = EncryptHelper.ecrypt(playlist.password);
       this.dbService.updatePlaylist(playlist);
+      this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
       this.playlist = playlist;
       this.displayEditPlayslist(false);
       this.alertService.success("Playlist updated");

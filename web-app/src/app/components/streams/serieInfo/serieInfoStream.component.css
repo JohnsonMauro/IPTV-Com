@@ -1,0 +1,49 @@
+.content-icon-serie {
+    height: 110%;
+    }
+    
+    .content-line-serie-info{
+    width: 100%;
+    height: 75%;
+    }
+    
+    .content-line-serie-info-poster {
+        float: left;
+        overflow: hidden;
+        height: 100%;
+        width: 40%;
+        margin-left: 2%;
+        border: 3px solid #606060;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+    
+        .content-line-serie-info-poster-image {
+            height: 95%; 
+            width: 95%;
+            }
+    
+        .content-line-serie-info-details {
+            height: 100%;
+            width: 51%;
+            margin-left: 2%;
+            float: left;
+            overflow: hidden;
+            }
+    
+            
+        .content-line-serie-info-details-item {
+            border-bottom: 3px solid #606060;
+            }
+            
+            .content-line-serie-info-details-spacer{
+                height: 5%; 
+            }
+    
+        .content-line-serie-mame {
+            height: 4%;
+            margin-left: 1%;
+        }
+    
+        

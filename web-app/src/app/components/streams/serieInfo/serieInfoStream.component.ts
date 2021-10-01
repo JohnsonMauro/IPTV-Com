@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
@@ -6,8 +5,8 @@ import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { PageHelper } from 'src/app/helpers/pageHelper';
-import { Live } from 'src/app/models/api/live';
-import { StreamBase } from 'src/app/models/api/streamBase';
+import { SearchService } from 'src/app/services/searchService';
+import { Serie } from 'src/app/models/api/serie';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
 import { SortCode } from 'src/app/models/app/sortCode';
@@ -15,16 +14,16 @@ import { StreamCode } from 'src/app/models/app/streamCode';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
-import { SearchService } from 'src/app/services/searchService';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../../services/spacialNavigationService';
+import { StreamBase } from 'src/app/models/api/streamBase';
 
 @Component({
-  selector: 'app-liveStream',
-  templateUrl: './liveStream.component.html',
-  styleUrls: ['./liveStream.component.css']
+  selector: 'app-serieInfoStream',
+  templateUrl: './serieInfoStream.component.html',
+  styleUrls: ['./serieInfoStream.component.css']
 })
-export class LiveStreamComponent implements OnInit {
+export class SerieInfoStreamComponent implements OnInit {
 
   sortCode: SortCode;
   searchText: string;
@@ -34,11 +33,12 @@ export class LiveStreamComponent implements OnInit {
   currentCategory = this.categories[1];
   
   playlist: Playlist;
-  streamsAll: Live[] = [];
-  streams: Live[] = [];
-  stream: Live;
-
+  streamsAll: Serie[] = [];
+  streams: Serie[] = [];
+  stream: Serie;
   source: string;
+
+  isImageError = false;
   isFullscreen = false;
 
   constructor(private activatedroute: ActivatedRoute
@@ -47,8 +47,8 @@ export class LiveStreamComponent implements OnInit {
     , private apiService: ApiService
     , private spatialNavigation: SpacialNavigationService
     , private spinnerService: SpinnerService
-    ,private searchService: SearchService
-  ) {
+    , private searchService: SearchService
+    ) {
   }
 
   ngOnInit() {
@@ -65,7 +65,7 @@ export class LiveStreamComponent implements OnInit {
   }
 
   populateAllStreams() {
-    this.apiService.findLiveStreams(this.playlist).subscribe(result => {
+    this.apiService.findSeriesStreams(this.playlist).subscribe(result => {
       this.streamsAll = result;
       if (this.streamsAll.length == 0)
         return;
@@ -75,31 +75,30 @@ export class LiveStreamComponent implements OnInit {
   }
 
 
-  onFullscreenTrigger(isFullScreen: boolean) {
-    if(this.stream == null)
-    return;
-
-    if (isFullScreen)
-      this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
-    else
-      this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
-
-    this.isFullscreen = isFullScreen;
-  }
-
-  selectStream(stream: Live) {
+  selectStream(stream: Serie) {
     try {
+      this.isImageError = false;
       if (this.stream == stream){
         this.onFullscreenTrigger(true);
       }      
       else {
-        this.source = ApiHelper.generateLiveUrl(this.playlist, stream.stream_id);;
+        this.source = ApiHelper.generateVODUrl(this.playlist, stream.stream_id, "");;
         this.stream = stream;
+        this.populateStreamDetail(stream);
       }
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
     }
+  }
+
+
+  populateStreamDetail(stream: Serie) {
+    this.apiService.getVodStreamInfo(this.playlist, stream.stream_id)
+    .subscribe(result => {
+      if(result == null)
+      this.alertService.info('Stream info not provided');
+    });
   }
 
   getFavoriteDescription(): string {
@@ -112,17 +111,28 @@ export class LiveStreamComponent implements OnInit {
         return;
 
       if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
-        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.Live, this.stream.stream_id);
+        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.Serie, this.stream.stream_id);
         this.alertService.info('Removed from favorites');
       }
       else {
-        this.dbService.addToFavorites(this.playlist._id, StreamCode.Live, this.stream.stream_id);
+        this.dbService.addToFavorites(this.playlist._id, StreamCode.Serie, this.stream.stream_id);
         this.alertService.info('Added to favorites');
       }
     }
     catch (err) {
       this.alertService.error(JSON.stringify(err));
     }
+  }
+
+  onFullscreenTrigger(isFullScreen: boolean) {
+    if(this.stream == null)
+    return;
+    if (isFullScreen)
+      this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
+    else
+      this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
+
+    this.isFullscreen = isFullScreen;
   }
 
   // ------------------------------------ Search and move ----------------------------------------
@@ -152,7 +162,7 @@ export class LiveStreamComponent implements OnInit {
     this.setPageOnStream(page, streamsLocal);
   }
 
-  setPageOnStream(page: number, streamsFiltered: Live[]) {
+  setPageOnStream(page: number, streamsFiltered: Serie[]) {
     this.currentPage = page;
     this.maxPage = Math.ceil(streamsFiltered.length / PageHelper.getNumberItemsOnPage())
     let from = (page - 1) * PageHelper.getNumberItemsOnPage();
@@ -160,17 +170,17 @@ export class LiveStreamComponent implements OnInit {
     this.streams = streamsFiltered.slice(from, to);
   }
 
-  findByGeneralSearch(category: Category, searchText: string, sortCode: SortCode, streamsToFilter: Live[]): Live[] {
+  findByGeneralSearch(category: Category, searchText: string, sortCode: SortCode, streamsToFilter: Serie[]): Serie[] {
     let streamsFilteredLocal: StreamBase[] = [];
 
-    try{
-      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamCode.Live);
+    try{     
+      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamCode.Serie);
     }
     catch(err){
       this.alertService.error(JSON.stringify(err));
     }
 
-    return <Live[]>streamsFilteredLocal;
+    return <Serie[]>streamsFilteredLocal;
   }
 
 

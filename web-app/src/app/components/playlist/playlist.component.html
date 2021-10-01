@@ -42,7 +42,29 @@
         <div class="content-main-line-spacer">
         </div>
 
-        
+        <div class="content-line-playlist-info content-line-playlist-info-detail">
+
+            <div class="content-line-playlist-info-detail">
+                {{playlist.name}}
+            </div>
+
+            <div class="content-line-playlist-info-item">
+                User
+            </div>
+            <div class="content-line-playlist-info-detail">
+                {{playlist.user}}
+            </div>
+
+            <div class="content-line-playlist-info-item">
+                Url
+            </div>
+            <div class="content-line-playlist-info-detail">
+                {{playlist.url}}
+            </div>
+        </div>
+
+        <div class="content-main-line-spacer">
+        </div>
 
         <div class="content-main-line">
             <div class="content-main-line-left">
@@ -72,6 +94,7 @@
     <div class="content-main-popup-shadow">
     </div>
     <div class="content-home-addplaylist-position">
-        <app-managePlaylist [playlist]="playlist" (onCancel)="displayEditPlayslist(false)" (onSave)="editPlaylist($event)"></app-managePlaylist>
+        <app-managePlaylist [playlist]="playlist" (onCancel)="displayEditPlayslist(false)"
+            (onSave)="editPlaylist($event)"></app-managePlaylist>
     </div>
 </div>

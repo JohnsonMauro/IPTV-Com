@@ -25,6 +25,7 @@ import { CategoryComponent } from '../components/category/category.component';
 import { SpinnerComponent } from '../components/global/spinner/spinner.component';
 import { SerieStreamComponent } from '../components/streams/serie/serieStream.component';
 import { SearchService } from '../services/searchService';
+import { SerieInfoStreamComponent } from '../components/streams/serieInfo/serieInfoStream.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SearchService } from '../services/searchService';
     PlaylistComponent,
     VodStreamComponent,
     SerieStreamComponent,
+    SerieInfoStreamComponent,
 
     PlayerComponent,
     PageComponent,

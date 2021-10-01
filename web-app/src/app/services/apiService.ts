@@ -10,6 +10,7 @@ import { AlertService } from './alertService';
 import { SpinnerService } from './spinnerService';
 import { VODInfo } from '../models/api/vodInfo';
 import { Serie } from '../models/api/serie';
+import { PlaylistInfo } from '../models/api/playlistInfo';
 
 
 @Injectable()
@@ -25,6 +26,10 @@ export class ApiService {
     , private spinnerService: SpinnerService) {
   }
 
+  getPlaylistInfo(playlist: Playlist): Observable<PlaylistInfo> {
+    return this.createDefaultPipesGet<PlaylistInfo>(ApiHelper.generateApiUrl(playlist), false, this.mapPlaylistInfo);
+  }
+
   findLiveStreams(playlist: Playlist): Observable<Live[]> {
     return this.createDefaultPipesGet<Live[]>(ApiHelper.generateApiUrl(playlist) + this.liveStreamActionParameter, true, this.mapLive);
   }
@@ -34,7 +39,7 @@ export class ApiService {
   }
 
   getVodStreamInfo(playlist: Playlist, stream_id: string): Observable<VODInfo> {
-    return this.createDefaultPipesGet<VODInfo>(ApiHelper.generateApiUrl(playlist) + this.vodStreamInfoActionParameter + "&vod_id=" + stream_id, false, this.mapDetail);
+    return this.createDefaultPipesGet<VODInfo>(ApiHelper.generateApiUrl(playlist) + this.vodStreamInfoActionParameter + "&vod_id=" + stream_id, false, this.mapVODDetail);
   }
 
   findSeriesStreams(playlist: Playlist): Observable<Serie[]> {
@@ -51,7 +56,14 @@ export class ApiService {
       );
   }
 
-  private mapDetail(result: any): VODInfo {
+  private mapPlaylistInfo(result: any): PlaylistInfo {
+    return {
+    status: result.user_info.status,
+    expiration_date: result.user_info.exp_date
+    }
+  }
+
+  private mapVODDetail(result: any): VODInfo {
     return {
     cast: result.info.cast,
     description: result.info.plot,

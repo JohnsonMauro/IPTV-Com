@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
@@ -7,7 +7,6 @@ import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { PageHelper } from 'src/app/helpers/pageHelper';
 import { SearchService } from 'src/app/services/searchService';
 import { Serie } from 'src/app/models/api/serie';
-import { VODInfo } from 'src/app/models/api/vodInfo';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
 import { SortCode } from 'src/app/models/app/sortCode';
@@ -43,6 +42,7 @@ export class SerieStreamComponent implements OnInit {
   isFullscreen = false;
 
   constructor(private activatedroute: ActivatedRoute
+    ,private route: Router
     , private alertService: AlertService
     , private dbService: DbService
     , private apiService: ApiService
@@ -134,6 +134,12 @@ export class SerieStreamComponent implements OnInit {
       this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
 
     this.isFullscreen = isFullScreen;
+  }
+
+  moveToSerieInfo(){
+    if(this.stream == null)
+    return;
+    this.route.navigate(['serieinfostream', this.playlist._id, this.stream.stream_id]);
   }
 
   // ------------------------------------ Search and move ----------------------------------------

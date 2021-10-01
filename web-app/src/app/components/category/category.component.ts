@@ -27,14 +27,20 @@ export class CategoryComponent implements OnInit {
 
   move(forward: boolean) {
     let currentIndex = this.categories.indexOf(this.currentCategory);
+    let categoryRequested: Category;
 
     if(forward){
-      this.currentCategory = (currentIndex + 1) >= this.categories.length  ? this.currentCategory = this.categories[0] :  this.categories[currentIndex+1];
+      categoryRequested= (currentIndex + 1) >= this.categories.length  ? this.currentCategory = this.categories[0] :  this.categories[currentIndex+1];
     }
     else{
-      this.currentCategory = currentIndex == 0 ? this.currentCategory = this.categories[this.categories.length-1] :  this.categories[currentIndex-1];
+      categoryRequested = currentIndex == 0 ? this.currentCategory = this.categories[this.categories.length-1] :  this.categories[currentIndex-1];
     }
    
+    this.requestCategory(categoryRequested);
+  }
+
+  requestCategory(categoryRequested: Category){
+    this.currentCategory = categoryRequested;
     this.onMove.emit(this.currentCategory);
   }
 }

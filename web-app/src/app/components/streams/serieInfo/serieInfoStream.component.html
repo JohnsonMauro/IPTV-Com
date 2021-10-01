@@ -1,6 +1,6 @@
 
 <div class="content-main-header">
-    <app-header (onSearch)="onSearchTrigger($event)" (onSort)="onSortTrigger($event)" [backRoute]="'playlist/'+playlist._id"></app-header>
+    <app-header (onSearch)="onSearchTrigger($event)" (onSort)="onSortTrigger($event)" [backRoute]="'seriestream/'+playlist._id"></app-header>
 </div>
 
 
@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="content-line-serie-info-details-item">
-                    Episodes duration
+                    Epoisodes duration
                 </div>
                 <div>
                     {{stream == null ? '...' : stream.duration}}
@@ -103,10 +103,10 @@
 
         <div class="content-main-line">
             <div class="content-main-line-left">
-                <button type="button" class="movable content-button" (click)="moveToSerieInfo()">
+                <button type="button" class="movable content-button" (click)="onFullscreenTrigger(true)">
                     <div class="content-button-center">
-                        <img class="content-icon" alt="icon" src="images/folder.png" loading=lazy />
-                        Open
+                        <img class="content-icon" alt="icon" src="images/eye.png" loading=lazy />
+                        Watch
                     </div>
                 </button>
             </div>

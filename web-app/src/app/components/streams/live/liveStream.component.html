@@ -33,8 +33,9 @@
         </div>
 
         <div class="content-line-tv-mame">
-            Name: {{stream?.name}}
+            {{stream == null ? '...' : stream.name}}
         </div>
+
 
         <div class="content-line-tv">
             <div class="content-line-tv-player">
