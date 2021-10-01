@@ -1,5 +1,5 @@
-label, p, a, button, input[type=text], input[type=password], body, select {
-    font-size: 2.3vh;
+label, p, a, button, body, select {
+    font-size: 3vh;
 }
 
 a {
