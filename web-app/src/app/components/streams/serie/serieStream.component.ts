@@ -5,7 +5,7 @@ import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { PageHelper } from 'src/app/helpers/pageHelper';
-import { SortHelper } from 'src/app/helpers/sortHelper';
+import { SearchService } from 'src/app/services/searchService';
 import { Serie } from 'src/app/models/api/serie';
 import { VODInfo } from 'src/app/models/api/vodInfo';
 import { Category } from 'src/app/models/app/category';
@@ -17,6 +17,7 @@ import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../../services/spacialNavigationService';
+import { StreamBase } from 'src/app/models/api/streamBase';
 
 @Component({
   selector: 'app-serieStream',
@@ -36,7 +37,6 @@ export class SerieStreamComponent implements OnInit {
   streamsAll: Serie[] = [];
   streams: Serie[] = [];
   stream: Serie;
-  streamInfo: VODInfo;
   source: string;
 
   isImageError = false;
@@ -48,6 +48,7 @@ export class SerieStreamComponent implements OnInit {
     , private apiService: ApiService
     , private spatialNavigation: SpacialNavigationService
     , private spinnerService: SpinnerService
+    , private searchService: SearchService
     ) {
   }
 
@@ -82,7 +83,7 @@ export class SerieStreamComponent implements OnInit {
         this.onFullscreenTrigger(true);
       }      
       else {
-        this.source = ApiHelper.generateVODUrl(this.playlist, stream.series_id.toString(), "");;
+        this.source = ApiHelper.generateVODUrl(this.playlist, stream.stream_id, "");;
         this.stream = stream;
         this.populateStreamDetail(stream);
       }
@@ -94,9 +95,8 @@ export class SerieStreamComponent implements OnInit {
 
 
   populateStreamDetail(stream: Serie) {
-    this.apiService.getVodStreamInfo(this.playlist, stream.series_id.toString())
+    this.apiService.getVodStreamInfo(this.playlist, stream.stream_id)
     .subscribe(result => {
-      this.streamInfo = result;
       if(result == null)
       this.alertService.info('Stream info not provided');
     });
@@ -112,11 +112,11 @@ export class SerieStreamComponent implements OnInit {
         return;
 
       if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
-        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.VOD, this.stream.series_id.toString());
+        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.Serie, this.stream.stream_id);
         this.alertService.info('Removed from favorites');
       }
       else {
-        this.dbService.addToFavorites(this.playlist._id, StreamCode.VOD, this.stream.series_id.toString());
+        this.dbService.addToFavorites(this.playlist._id, StreamCode.Serie, this.stream.stream_id);
         this.alertService.info('Added to favorites');
       }
     }
@@ -138,6 +138,13 @@ export class SerieStreamComponent implements OnInit {
 
   // ------------------------------------ Search and move ----------------------------------------
 
+  onMoveCategoryTrigger(category: Category) {
+    this.currentCategory = category;
+    this.stream = null;
+    let streamsLocal = this.findByGeneralSearch(category, this.searchText, this.sortCode, this.streamsAll);
+    this.setPageOnStream(1, streamsLocal);
+  }
+
   onSearchTrigger(searchText: string) {
     this.searchText = searchText;
     let streamsLocal = this.findByGeneralSearch(this.currentCategory, searchText, this.sortCode, this.streamsAll);
@@ -156,14 +163,6 @@ export class SerieStreamComponent implements OnInit {
     this.setPageOnStream(page, streamsLocal);
   }
 
-  onMoveCategoryTrigger(category: Category) {
-    this.currentCategory = category;
-    this.stream = null;
-    this.streamInfo = null;
-    let streamsLocal = this.findByGeneralSearch(this.currentCategory, null, null, this.streamsAll);
-    this.setPageOnStream(1, streamsLocal);
-  }
-
   setPageOnStream(page: number, streamsFiltered: Serie[]) {
     this.currentPage = page;
     this.maxPage = Math.ceil(streamsFiltered.length / PageHelper.getNumberItemsOnPage())
@@ -173,32 +172,16 @@ export class SerieStreamComponent implements OnInit {
   }
 
   findByGeneralSearch(category: Category, searchText: string, sortCode: SortCode, streamsToFilter: Serie[]): Serie[] {
-    let streamsFilteredLocal = [];
+    let streamsFilteredLocal: StreamBase[] = [];
 
     try{     
-      let searchIsNullOrEmpty = searchText == null || searchText == "";
-      searchText = searchIsNullOrEmpty ? searchText : searchText.toLowerCase();
-      if (category.id == CategoryHelper.allCategoryId) {
-        for (let i = 0; i < streamsToFilter.length; i++) {
-          if (searchIsNullOrEmpty || streamsToFilter[i].name.toLowerCase().includes(searchText))
-            streamsFilteredLocal.push(streamsToFilter[i]);
-        }
-      }
-  
-      else if (category.id == CategoryHelper.favoritesCategoryId) {
-        let favorites = this.dbService.findFavorites(this.playlist._id, StreamCode.VOD);
-  
-        for (let f = 0; f < favorites.length; f++) {
-          let favorite = streamsToFilter.find(x => x.series_id.toString() == favorites[f]);
-          if (favorite != null && (searchIsNullOrEmpty || favorite.name.toLowerCase().includes(searchText)))
-            streamsFilteredLocal.push(favorite);
-        }
-      }
+      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamCode.Serie);
     }
     catch(err){
       this.alertService.error(JSON.stringify(err));
     }
-    return SortHelper.sortSreamsSerie(streamsFilteredLocal, sortCode);
+
+    return <Serie[]>streamsFilteredLocal;
   }
 
 

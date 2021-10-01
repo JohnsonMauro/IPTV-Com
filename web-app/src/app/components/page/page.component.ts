@@ -23,11 +23,13 @@ export class PageComponent implements OnInit {
   }
 
   move(forward: boolean) {
-    if ((!forward && this.currentPage == 1)
-      || (forward && this.currentPage == this.maxPage))
-      return;
-
-    this.currentPage = forward ? this.currentPage + 1 : this.currentPage - 1;
+   
+    if(forward){
+      this.currentPage = this.currentPage >= this.maxPage ? 1 : this.currentPage + 1;
+    }
+    else{
+      this.currentPage = this.currentPage == 1 ? this.maxPage : this.currentPage - 1;
+    }
 
     this.onMove.emit(this.currentPage);
   }

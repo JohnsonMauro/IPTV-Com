@@ -28,11 +28,13 @@ export class CategoryComponent implements OnInit {
   move(forward: boolean) {
     let currentIndex = this.categories.indexOf(this.currentCategory);
 
-    if ((forward && this.categories.length == (currentIndex + 1))
-    || (!forward && currentIndex == 0))
-      return
-
-    this.currentCategory = forward ? this.categories[currentIndex + 1] : this.categories[currentIndex - 1];
+    if(forward){
+      this.currentCategory = (currentIndex + 1) >= this.categories.length  ? this.currentCategory = this.categories[0] :  this.categories[currentIndex+1];
+    }
+    else{
+      this.currentCategory = currentIndex == 0 ? this.currentCategory = this.categories[this.categories.length-1] :  this.categories[currentIndex-1];
+    }
+   
     this.onMove.emit(this.currentCategory);
   }
 }

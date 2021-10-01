@@ -18,7 +18,7 @@
         <div *ngFor="let streamItem of streams" class="content-main-line">
             <button type="button" class="movable content-folder" (click)="selectStream(streamItem)">
                 <div class="content-folder-left">
-                    <img class="content-icon content-icon-vod" alt="icon" [src]="streamItem.stream_icon" onerror="this.className='content-icon';this.src='images/movie.png';" loading=lazy />
+                    <img class="content-icon content-icon-vod" alt="icon" [src]="streamItem.stream_image" onerror="this.className='content-icon';this.src='images/movie.png';" loading=lazy />
                     {{streamItem.name}}
                 </div>
             </button>
@@ -45,7 +45,7 @@
 
         <div class="content-line-vod-info">
             <div class="content-line-vod-info-poster">
-                <img *ngIf="stream != null && !isImageError" class="content-line-vod-info-poster-image" alt="icon" alt="icon" [src]="stream.stream_icon" (error)="isImageError = true" loading=lazy /> 
+                <img *ngIf="stream != null && !isImageError" class="content-line-vod-info-poster-image" alt="icon" alt="icon" [src]="stream.stream_image" (error)="isImageError = true" loading=lazy /> 
                 <img *ngIf="stream == null || isImageError" alt="icon" src="images/movie.png" loading=lazy /> 
             </div>
 
@@ -54,7 +54,7 @@
                     Release
                 </div>
                 <div>
-                    {{streamInfo == null ? '...' : streamInfo.releasedate}}
+                    {{streamInfo == null ? '...' : streamInfo.release_date}}
                 </div>
                 <div class="content-line-vod-info-details-spacer">
                 </div>
@@ -81,7 +81,7 @@
                     Description
                 </div>
                 <div>
-                    {{streamInfo == null ? '...' : streamInfo.plot}}
+                    {{streamInfo == null ? '...' : streamInfo.description}}
                 </div>
             </div>
 

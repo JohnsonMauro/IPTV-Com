@@ -5,7 +5,6 @@ import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { PageHelper } from 'src/app/helpers/pageHelper';
-import { SortHelper } from 'src/app/helpers/sortHelper';
 import { VOD } from 'src/app/models/api/vod';
 import { VODInfo } from 'src/app/models/api/vodInfo';
 import { Category } from 'src/app/models/app/category';
@@ -17,6 +16,8 @@ import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../../services/spacialNavigationService';
+import { StreamBase } from 'src/app/models/api/streamBase';
+import { SearchService } from 'src/app/services/searchService';
 
 @Component({
   selector: 'app-vodStream',
@@ -48,7 +49,7 @@ export class VodStreamComponent implements OnInit {
     , private apiService: ApiService
     , private spatialNavigation: SpacialNavigationService
     , private spinnerService: SpinnerService
-    ) {
+    , private searchService: SearchService) {
   }
 
   ngOnInit() {
@@ -82,7 +83,7 @@ export class VodStreamComponent implements OnInit {
         this.onFullscreenTrigger(true);
       }      
       else {
-        this.source = ApiHelper.generateVODUrl(this.playlist, stream.stream_id.toString(), stream.container_extension);;
+        this.source = ApiHelper.generateVODUrl(this.playlist, stream.stream_id, stream.container_extension);;
         this.stream = stream;
         this.populateStreamDetail(stream);
       }
@@ -94,7 +95,7 @@ export class VodStreamComponent implements OnInit {
 
 
   populateStreamDetail(stream: VOD) {
-    this.apiService.getVodStreamInfo(this.playlist, stream.stream_id.toString())
+    this.apiService.getVodStreamInfo(this.playlist, stream.stream_id)
     .subscribe(result => {
       this.streamInfo = result;
       if(result == null)
@@ -112,11 +113,11 @@ export class VodStreamComponent implements OnInit {
         return;
 
       if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
-        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.VOD, this.stream.stream_id.toString());
+        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.VOD, this.stream.stream_id);
         this.alertService.info('Removed from favorites');
       }
       else {
-        this.dbService.addToFavorites(this.playlist._id, StreamCode.VOD, this.stream.stream_id.toString());
+        this.dbService.addToFavorites(this.playlist._id, StreamCode.VOD, this.stream.stream_id);
         this.alertService.info('Added to favorites');
       }
     }
@@ -138,6 +139,14 @@ export class VodStreamComponent implements OnInit {
 
   // ------------------------------------ Search and move ----------------------------------------
 
+  onMoveCategoryTrigger(category: Category) {
+    this.currentCategory = category;
+    this.stream = null;
+    this.streamInfo = null;
+    let streamsLocal = this.findByGeneralSearch(category, this.searchText, this.sortCode, this.streamsAll);
+    this.setPageOnStream(1, streamsLocal);
+  }
+
   onSearchTrigger(searchText: string) {
     this.searchText = searchText;
     let streamsLocal = this.findByGeneralSearch(this.currentCategory, searchText, this.sortCode, this.streamsAll);
@@ -156,14 +165,6 @@ export class VodStreamComponent implements OnInit {
     this.setPageOnStream(page, streamsLocal);
   }
 
-  onMoveCategoryTrigger(category: Category) {
-    this.currentCategory = category;
-    this.stream = null;
-    this.streamInfo = null;
-    let streamsLocal = this.findByGeneralSearch(this.currentCategory, null, null, this.streamsAll);
-    this.setPageOnStream(1, streamsLocal);
-  }
-
   setPageOnStream(page: number, streamsFiltered: VOD[]) {
     this.currentPage = page;
     this.maxPage = Math.ceil(streamsFiltered.length / PageHelper.getNumberItemsOnPage())
@@ -173,32 +174,16 @@ export class VodStreamComponent implements OnInit {
   }
 
   findByGeneralSearch(category: Category, searchText: string, sortCode: SortCode, streamsToFilter: VOD[]): VOD[] {
-    let streamsFilteredLocal = [];
+    let streamsFilteredLocal: StreamBase[] = [];
 
     try{     
-      let searchIsNullOrEmpty = searchText == null || searchText == "";
-      searchText = searchIsNullOrEmpty ? searchText : searchText.toLowerCase();
-      if (category.id == CategoryHelper.allCategoryId) {
-        for (let i = 0; i < streamsToFilter.length; i++) {
-          if (searchIsNullOrEmpty || streamsToFilter[i].name.toLowerCase().includes(searchText))
-            streamsFilteredLocal.push(streamsToFilter[i]);
-        }
-      }
-  
-      else if (category.id == CategoryHelper.favoritesCategoryId) {
-        let favorites = this.dbService.findFavorites(this.playlist._id, StreamCode.VOD);
-  
-        for (let f = 0; f < favorites.length; f++) {
-          let favorite = streamsToFilter.find(x => x.stream_id.toString() == favorites[f]);
-          if (favorite != null && (searchIsNullOrEmpty || favorite.name.toLowerCase().includes(searchText)))
-            streamsFilteredLocal.push(favorite);
-        }
-      }
+      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamCode.VOD);
     }
     catch(err){
       this.alertService.error(JSON.stringify(err));
     }
-    return SortHelper.sortSreamsVOD(streamsFilteredLocal, sortCode);
+
+    return <VOD[]>streamsFilteredLocal;
   }
 
 

@@ -18,7 +18,7 @@
         <div *ngFor="let streamItem of streams" class="content-main-line">
             <button type="button" class="movable content-folder" (click)="selectStream(streamItem)">
                 <div class="content-folder-left">
-                    <img class="content-icon content-icon-vod" alt="icon" [src]="streamItem.cover" onerror="this.className='content-icon';this.src='images/serie.png';" loading=lazy />
+                    <img class="content-icon content-icon-serie" alt="icon" [src]="streamItem.stream_image" onerror="this.className='content-icon';this.src='images/movie.png';" loading=lazy />
                     {{streamItem.name}}
                 </div>
             </button>
@@ -36,49 +36,52 @@
         <div class="content-main-line-spacer">
         </div>
 
-        <div class="content-line-vod-mame">
+        <div class="content-line-serie-mame">
             Name: {{stream?.name}}
         </div>
 
-        <div class="content-line-vod-info">
-            <div class="content-line-vod-info-poster">
-                <img *ngIf="stream != null && !isImageError" class="content-line-vod-info-poster-image" alt="icon" alt="icon" [src]="stream.cover" (error)="isImageError = true" loading=lazy /> 
-                <img *ngIf="stream == null || isImageError" alt="icon" src="images/serie.png" loading=lazy /> 
+        <div class="content-main-line-spacer">
+        </div>
+
+        <div class="content-line-serie-info">
+            <div class="content-line-serie-info-poster">
+                <img *ngIf="stream != null && !isImageError" class="content-line-serie-info-poster-image" alt="icon" alt="icon" [src]="stream.stream_image" (error)="isImageError = true" loading=lazy /> 
+                <img *ngIf="stream == null || isImageError" alt="icon" src="images/movie.png" loading=lazy /> 
             </div>
 
-            <div class="content-line-vod-info-details">
-                <div class="content-line-vod-info-details-item">
+            <div class="content-line-serie-info-details">
+                <div class="content-line-serie-info-details-item">
                     Release
                 </div>
                 <div>
-                    {{streamInfo == null ? '...' : streamInfo.releasedate}}
+                    {{stream == null ? '...' : stream.release_date}}
                 </div>
-                <div class="content-line-vod-info-details-spacer">
+                <div class="content-line-serie-info-details-spacer">
                 </div>
 
-                <div class="content-line-vod-info-details-item">
-                    Duration
+                <div class="content-line-serie-info-details-item">
+                    Epoisodes duration
                 </div>
                 <div>
-                    {{streamInfo == null ? '...' : streamInfo.duration}}
+                    {{stream == null ? '...' : stream.duration}}
                 </div>
-                <div class="content-line-vod-info-details-spacer">
+                <div class="content-line-serie-info-details-spacer">
                 </div>
 
-                <div class="content-line-vod-info-details-item">
+                <div class="content-line-serie-info-details-item">
                     Cast
                 </div>
                 <div>
-                    {{streamInfo == null ? '...' :streamInfo.cast}}
+                    {{stream == null ? '...' :stream.cast}}
                 </div>
-                <div class="content-line-vod-info-details-spacer">
+                <div class="content-line-serie-info-details-spacer">
                 </div>
 
-                <div class="content-line-vod-info-details-item">
+                <div class="content-line-serie-info-details-item">
                     Description
                 </div>
                 <div>
-                    {{streamInfo == null ? '...' : streamInfo.plot}}
+                    {{stream == null ? '...' : stream.description}}
                 </div>
             </div>
 
@@ -89,7 +92,14 @@
         </div>
         <div class="content-main-line-spacer">
         </div>
+        <div class="content-main-line-spacer">
+        </div>
+        <div class="content-main-line-spacer">
+        </div>
+        <div class="content-main-line-spacer">
+        </div>
         
+
         <div class="content-main-line">
             <div class="content-main-line-left">
                 <button type="button" class="movable content-button" (click)="onFullscreenTrigger(true)">
@@ -111,5 +121,4 @@
         </div>
 
     </div>
-   
 </div>

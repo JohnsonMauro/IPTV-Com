@@ -38,7 +38,8 @@ export class PlayerComponent implements OnInit {
 	isDisplayControls = false;
 	canPlay = false;
 	currentTimeText: string;
-	durationText:string;
+	durationText: string;
+	isVideoElementReady = false;
 
 	constructor(private spatialNavigation: SpacialNavigationService) { }
 
@@ -53,7 +54,7 @@ export class PlayerComponent implements OnInit {
 	}
 
 	playOrPause(isToPlay: boolean = null) {
-		if (!this.canPlay)
+		if (!this.canPlay || !this.isVideoElementReady)
 			return;
 
 		if (isToPlay == null) {
@@ -73,14 +74,15 @@ export class PlayerComponent implements OnInit {
 	}
 
 	getImagePlayOrPause(): string {
-		return this.videoPlayerEement != null
-			&& this.videoPlayerEement.nativeElement.paused
-			? "images/play.png"
-			: "images/pause.png";
+		if(this.isVideoElementReady){
+			if(this.videoPlayerEement.nativeElement.paused)
+			return "images/play.png";
+		}
+		return "images/pause.png";
 	}
 
 	changeResolution() {
-		if (this.videoPlayerEement) {
+		if (this.isVideoElementReady) {
 			let parentPercent = (this.videoPlayerEement.nativeElement.parentElement.offsetHeight * 100) / this.videoPlayerEement.nativeElement.parentElement.offsetWidth;
 			let videoPercent = (this.videoPlayerEement.nativeElement.videoHeight * 100) / this.videoPlayerEement.nativeElement.videoWidth;
 
@@ -104,7 +106,7 @@ export class PlayerComponent implements OnInit {
 	}
 
 	onSourceChange() {
-		if (this.videoPlayerEement) {
+		if (this.isVideoElementReady) {
 			this.canPlay = false;
 			this.videoPlayerEement.nativeElement.pause();
 			this.videoPlayerEement.nativeElement.load();
@@ -117,28 +119,30 @@ export class PlayerComponent implements OnInit {
 
 			let timeToSet = (this.videoPlayerEement.nativeElement.duration * percentage) / 100
 
-			this.videoPlayerEement.nativeElement.currentTime = 
-			forward 
-			? this.videoPlayerEement.nativeElement.currentTime + timeToSet
-			: this.videoPlayerEement.nativeElement.currentTime - timeToSet;
+			this.videoPlayerEement.nativeElement.currentTime =
+				forward
+					? this.videoPlayerEement.nativeElement.currentTime + timeToSet
+					: this.videoPlayerEement.nativeElement.currentTime - timeToSet;
 		}
 	}
 
 	setDurationText() {
-		if(this.canPlay){
+		if (this.canPlay) {
 			this.durationText = new Date(this.videoPlayerEement.nativeElement.duration * 1000).toISOString().substr(11, 8);
-		}		
+		}
 	}
 
 	getCurrentTimePercent() {
-		return this.canPlay 
-		? (this.videoPlayerEement.nativeElement.currentTime * 100) / this.videoPlayerEement.nativeElement.duration
-		: 0;
+		if (this.canPlay) {
+			return (this.videoPlayerEement.nativeElement.currentTime * 100) / this.videoPlayerEement.nativeElement.duration;
+		}
+		return 0;
 	}
 
 	onCurretTimeUpdate() {
 		if (this.isLiveStream && this.canPlay)
 			return;
+
 		this.currentTimeText = new Date(this.videoPlayerEement.nativeElement.currentTime * 1000).toISOString().substr(11, 8)
 	}
 
@@ -147,8 +151,8 @@ export class PlayerComponent implements OnInit {
 	}
 
 	ngAfterViewInit() {
-		if (this.source != null && this.source != "")
-			this.onSourceChange();
+		this.isVideoElementReady = true;
+		this.onSourceChange();
 	}
 
 	ngOnDestroy() {

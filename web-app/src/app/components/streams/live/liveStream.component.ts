@@ -7,8 +7,8 @@ import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { PageHelper } from 'src/app/helpers/pageHelper';
-import { SortHelper } from 'src/app/helpers/sortHelper';
 import { Live } from 'src/app/models/api/live';
+import { StreamBase } from 'src/app/models/api/streamBase';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
 import { SortCode } from 'src/app/models/app/sortCode';
@@ -16,6 +16,7 @@ import { StreamCode } from 'src/app/models/app/streamCode';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
+import { SearchService } from 'src/app/services/searchService';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../../services/spacialNavigationService';
 
@@ -47,6 +48,7 @@ export class LiveStreamComponent implements OnInit {
     , private apiService: ApiService
     , private spatialNavigation: SpacialNavigationService
     , private spinnerService: SpinnerService
+    ,private searchService: SearchService
   ) {
   }
 
@@ -92,7 +94,7 @@ export class LiveStreamComponent implements OnInit {
         this.onFullscreenTrigger(true);
       }      
       else {
-        this.source = ApiHelper.generateLiveUrl(this.playlist, stream.stream_id.toString());;
+        this.source = ApiHelper.generateLiveUrl(this.playlist, stream.stream_id);;
         this.stream = stream;
       }
     }
@@ -111,11 +113,11 @@ export class LiveStreamComponent implements OnInit {
         return;
 
       if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
-        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.Live, this.stream.stream_id.toString());
+        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.Live, this.stream.stream_id);
         this.alertService.info('Removed from favorites');
       }
       else {
-        this.dbService.addToFavorites(this.playlist._id, StreamCode.Live, this.stream.stream_id.toString());
+        this.dbService.addToFavorites(this.playlist._id, StreamCode.Live, this.stream.stream_id);
         this.alertService.info('Added to favorites');
       }
     }
@@ -125,6 +127,13 @@ export class LiveStreamComponent implements OnInit {
   }
 
   // ------------------------------------ Search and move ----------------------------------------
+
+  onMoveCategoryTrigger(category: Category) {
+    this.currentCategory = category;
+    this.stream = null;
+    let streamsLocal = this.findByGeneralSearch(category, this.searchText, this.sortCode, this.streamsAll);
+    this.setPageOnStream(1, streamsLocal);
+  }
 
   onSearchTrigger(searchText: string) {
     this.searchText = searchText;
@@ -144,13 +153,6 @@ export class LiveStreamComponent implements OnInit {
     this.setPageOnStream(page, streamsLocal);
   }
 
-  onMoveCategoryTrigger(category: Category) {
-    this.currentCategory = category;
-    this.stream = null;
-    let streamsLocal = this.findByGeneralSearch(this.currentCategory, null, null, this.streamsAll);
-    this.setPageOnStream(1, streamsLocal);
-  }
-
   setPageOnStream(page: number, streamsFiltered: Live[]) {
     this.currentPage = page;
     this.maxPage = Math.ceil(streamsFiltered.length / PageHelper.getNumberItemsOnPage())
@@ -160,32 +162,16 @@ export class LiveStreamComponent implements OnInit {
   }
 
   findByGeneralSearch(category: Category, searchText: string, sortCode: SortCode, streamsToFilter: Live[]): Live[] {
-    let streamsFilteredLocal = [];
+    let streamsFilteredLocal: StreamBase[] = [];
 
-    try{     
-      let searchIsNullOrEmpty = searchText == null || searchText == "";
-      searchText = searchIsNullOrEmpty ? searchText : searchText.toLowerCase();
-      if (category.id == CategoryHelper.allCategoryId) {
-        for (let i = 0; i < streamsToFilter.length; i++) {
-          if (searchIsNullOrEmpty || streamsToFilter[i].name.toLowerCase().includes(searchText))
-            streamsFilteredLocal.push(streamsToFilter[i]);
-        }
-      }
-  
-      else if (category.id == CategoryHelper.favoritesCategoryId) {
-        let favorites = this.dbService.findFavorites(this.playlist._id, StreamCode.Live);
-  
-        for (let f = 0; f < favorites.length; f++) {
-          let favorite = streamsToFilter.find(x => x.stream_id.toString() == favorites[f]);
-          if (favorite != null && (searchIsNullOrEmpty || favorite.name.toLowerCase().includes(searchText)))
-            streamsFilteredLocal.push(favorite);
-        }
-      }
+    try{
+      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamCode.Live);
     }
     catch(err){
       this.alertService.error(JSON.stringify(err));
     }
-    return SortHelper.sortSreamsLive(streamsFilteredLocal, sortCode);
+
+    return <Live[]>streamsFilteredLocal;
   }
 
 
