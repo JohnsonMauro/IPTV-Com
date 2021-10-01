@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Playlist } from '../models/app/playlist';
-import { StreamCode } from '../models/app/streamCode';
+import { StreamTypeCode } from '../models/app/streamTypeCode';
 
 declare var webOS: any;
 
@@ -45,15 +45,15 @@ export class DbService {
   deletePlaylist(playlist: Playlist) {
     let playlists = this.findPlaylists();
 
-    localStorage.removeItem(this.getFavoriteKey(playlist._id, StreamCode.Live));
-    localStorage.removeItem(this.getFavoriteKey(playlist._id, StreamCode.VOD));
-    localStorage.removeItem(this.getFavoriteKey(playlist._id, StreamCode.Serie));
+    localStorage.removeItem(this.getFavoriteKey(playlist._id, StreamTypeCode.Live));
+    localStorage.removeItem(this.getFavoriteKey(playlist._id, StreamTypeCode.VOD));
+    localStorage.removeItem(this.getFavoriteKey(playlist._id, StreamTypeCode.Serie));
 
     playlists.splice(playlists.indexOf(playlist), 1);
     localStorage.setItem(this.getPlayListKey(), JSON.stringify(playlists));
   }
 
-  addToFavorites(playlistId: string, streamType: StreamCode, streamId: string) {
+  addToFavorites(playlistId: string, streamType: StreamTypeCode, streamId: string) {
 
     let favoritesKey = this.getFavoriteKey(playlistId, streamType);
     let favorites = this.findFavoritesByKey(favoritesKey);
@@ -65,7 +65,7 @@ export class DbService {
     localStorage.setItem(favoritesKey, JSON.stringify(favorites));
   }
 
-  removeFromFavorites(playlistId: string, streamType: StreamCode, streamId: string) {
+  removeFromFavorites(playlistId: string, streamType: StreamTypeCode, streamId: string) {
     let favoritesKey = this.getFavoriteKey(playlistId, streamType);
     let favorites = this.findFavoritesByKey(favoritesKey);
 
@@ -78,7 +78,7 @@ export class DbService {
     localStorage.setItem(favoritesKey, JSON.stringify(favorites));
   }
 
-  findFavorites(playlistId: string, streamType: StreamCode): string[] {
+  findFavorites(playlistId: string, streamType: StreamTypeCode): string[] {
     return this.findFavoritesByKey(this.getFavoriteKey(playlistId, streamType));
   }
 
@@ -91,7 +91,7 @@ export class DbService {
   private getPlayListKey() {
     return "playlists";
   }
-  private getFavoriteKey(playlistId: string, streamType: StreamCode) {
+  private getFavoriteKey(playlistId: string, streamType: StreamTypeCode) {
     return playlistId + "_streamCode" + streamType;
   }
 }

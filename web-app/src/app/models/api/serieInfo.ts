@@ -11,8 +11,9 @@ export class SerieInfo {
 
 export class SerieSeason {
 
-    constructor(name: string,
+    constructor(
         season_id: string,
+        name: string,
         num: string,
         season_image: string) {
 

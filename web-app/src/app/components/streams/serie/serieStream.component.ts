@@ -10,7 +10,7 @@ import { Serie } from 'src/app/models/api/serie';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
 import { SortCode } from 'src/app/models/app/sortCode';
-import { StreamCode } from 'src/app/models/app/streamCode';
+import { StreamTypeCode } from 'src/app/models/app/streamTypeCode';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
@@ -111,11 +111,11 @@ export class SerieStreamComponent implements OnInit {
         return;
 
       if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
-        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.Serie, this.stream.stream_id);
+        this.dbService.removeFromFavorites(this.playlist._id, StreamTypeCode.Serie, this.stream.stream_id);
         this.alertService.info('Removed from favorites');
       }
       else {
-        this.dbService.addToFavorites(this.playlist._id, StreamCode.Serie, this.stream.stream_id);
+        this.dbService.addToFavorites(this.playlist._id, StreamTypeCode.Serie, this.stream.stream_id);
         this.alertService.info('Added to favorites');
       }
     }
@@ -180,7 +180,7 @@ export class SerieStreamComponent implements OnInit {
     let streamsFilteredLocal: StreamBase[] = [];
 
     try{     
-      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamCode.Serie);
+      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamTypeCode.Serie);
     }
     catch(err){
       this.alertService.error(JSON.stringify(err));

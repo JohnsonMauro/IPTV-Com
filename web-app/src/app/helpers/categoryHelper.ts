@@ -10,8 +10,8 @@ export class CategoryHelper {
 
   static getDefaultCategories(): Category[] {
     return [
-      {id: CategoryHelper.favoritesCategoryId, name: CategoryHelper.favoritesCategoryName }
-      ,{id: CategoryHelper.allCategoryId, name: CategoryHelper.allCategoryName }
+      {id: CategoryHelper.favoritesCategoryId, name: CategoryHelper.favoritesCategoryName, parent_id: null }
+      ,{id: CategoryHelper.allCategoryId, name: CategoryHelper.allCategoryName, parent_id: null }
     ];
   }
 }

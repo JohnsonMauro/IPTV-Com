@@ -13,14 +13,19 @@ import { Serie } from '../models/api/serie';
 import { PlaylistInfo } from '../models/api/playlistInfo';
 import { SerieEpisode, SerieInfo, SerieSeason } from '../models/api/serieInfo';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { Category } from '../models/app/category';
 
 
 @Injectable()
 export class ApiService {
 
+  private liveCategoriesActionParameter = "&action=get_live_categories";
   private liveStreamActionParameter = "&action=get_live_streams";
+
+  private vodCategoriesActionParameter = "&action=get_vod_categories";
   private vodStreamActionParameter = "&action=get_vod_streams";
   private vodStreamInfoActionParameter = "&action=get_vod_info";
+
   private serieStreamActionParameter = "&action=get_series";
   private serieInfoStreamActionParameter = "&action=get_series_info&series_id=";
 
@@ -33,8 +38,16 @@ export class ApiService {
     return this.createDefaultPipesGet<PlaylistInfo>(ApiHelper.generateApiUrl(playlist), false, this.mapPlaylistInfo);
   }
 
+  findLiveCategories(playlist: Playlist): Observable<Category[]> {
+    return this.createDefaultPipesGet<Category[]>(ApiHelper.generateApiUrl(playlist) + this.liveCategoriesActionParameter, true, this.mapLiveCategory);
+  }
+
   findLiveStreams(playlist: Playlist): Observable<Live[]> {
     return this.createDefaultPipesGet<Live[]>(ApiHelper.generateApiUrl(playlist) + this.liveStreamActionParameter, true, this.mapLive);
+  }
+
+  findVodCategories(playlist: Playlist): Observable<Category[]> {
+    return this.createDefaultPipesGet<Category[]>(ApiHelper.generateApiUrl(playlist) + this.vodCategoriesActionParameter, true, this.mapVODCategory);
   }
 
   findVodStreams(playlist: Playlist): Observable<VOD[]> {
@@ -63,11 +76,24 @@ export class ApiService {
       );
   }
 
+  //------------------------------------------------------ START Mappings ---------------------------------------------------
+
   private mapPlaylistInfo(result: any): PlaylistInfo {
     return {
       status: result.user_info.status,
       expiration_date: result.user_info.exp_date
     }
+  }
+
+  private mapLiveCategory(result: any[]): Category[] {
+    return result.map(res =>
+      { return { id: res.category_id, name: res.category_name, parent_id: res.parent_id}; });
+  }
+
+
+  private mapVODCategory(result: any[]): Category[] {
+    return result.map(res =>
+      { return { id: res.category_id, name: res.category_name, parent_id: res.parent_id}; });
   }
 
   private mapVODDetail(result: any): VODInfo {
@@ -123,5 +149,7 @@ export class ApiService {
     });
     return serieInfo;
   }
+
+    //------------------------------------------------------ END Mappings ---------------------------------------------------
 
 }

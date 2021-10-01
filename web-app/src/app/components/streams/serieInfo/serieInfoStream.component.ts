@@ -6,11 +6,10 @@ import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { PageHelper } from 'src/app/helpers/pageHelper';
 import { SearchService } from 'src/app/services/searchService';
-import { Serie } from 'src/app/models/api/serie';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
 import { SortCode } from 'src/app/models/app/sortCode';
-import { StreamCode } from 'src/app/models/app/streamCode';
+import { StreamTypeCode } from 'src/app/models/app/streamTypeCode';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
@@ -30,9 +29,9 @@ export class SerieInfoStreamComponent implements OnInit {
   searchText: string;
   maxPage = 1;
   currentPage = 1;
-  categories = CategoryHelper.getDefaultCategories();
-  currentCategory = this.categories[1];
-  
+  categories: Category[] = [{ id: CategoryHelper.allCategoryId, name: CategoryHelper.allCategoryName, parent_id: null }]
+  currentCategory = this.categories[0];
+
   playlist: Playlist;
   streamsAll: SerieEpisode[] = [];
   streams: SerieEpisode[] = [];
@@ -49,7 +48,7 @@ export class SerieInfoStreamComponent implements OnInit {
     , private spatialNavigation: SpacialNavigationService
     , private spinnerService: SpinnerService
     , private searchService: SearchService
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -70,10 +69,17 @@ export class SerieInfoStreamComponent implements OnInit {
   populateAllStreams(streamId: string) {
     this.apiService.findSeriesInfoStreams(this.playlist, streamId).subscribe(result => {
       this.streamsAll = result?.episodes ?? [];
+
       if (this.streamsAll.length == 0)
         return;
 
       this.setPageOnStream(1, this.streamsAll);
+
+      let seasons = result?.seasons;
+      if(seasons != null && seasons.length > 0){
+        seasons.forEach(x => this.categories.push({id: x.num, name: x.name, parent_id: null}));
+      }
+
     });
   }
 
@@ -81,9 +87,9 @@ export class SerieInfoStreamComponent implements OnInit {
   selectStream(stream: SerieEpisode) {
     try {
       this.isImageError = false;
-      if (this.stream == stream){
+      if (this.stream == stream) {
         this.onFullscreenTrigger(true);
-      }      
+      }
       else {
         this.source = ApiHelper.generateSerieEpisodeUrl(this.playlist, stream.stream_id, stream.extension);
         this.stream = stream;
@@ -98,10 +104,10 @@ export class SerieInfoStreamComponent implements OnInit {
 
   populateStreamDetail(stream: SerieEpisode) {
     this.apiService.getVodStreamInfo(this.playlist, stream.stream_id)
-    .subscribe(result => {
-      if(result == null)
-      this.alertService.info('Stream info not provided');
-    });
+      .subscribe(result => {
+        if (result == null)
+          this.alertService.info('Stream info not provided');
+      });
   }
 
   getFavoriteDescription(): string {
@@ -114,11 +120,11 @@ export class SerieInfoStreamComponent implements OnInit {
         return;
 
       if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
-        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.Serie, this.stream.stream_id);
+        this.dbService.removeFromFavorites(this.playlist._id, StreamTypeCode.Serie, this.stream.stream_id);
         this.alertService.info('Removed from favorites');
       }
       else {
-        this.dbService.addToFavorites(this.playlist._id, StreamCode.Serie, this.stream.stream_id);
+        this.dbService.addToFavorites(this.playlist._id, StreamTypeCode.Serie, this.stream.stream_id);
         this.alertService.info('Added to favorites');
       }
     }
@@ -128,8 +134,8 @@ export class SerieInfoStreamComponent implements OnInit {
   }
 
   onFullscreenTrigger(isFullScreen: boolean) {
-    if(this.stream == null)
-    return;
+    if (this.stream == null)
+      return;
     if (isFullScreen)
       this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
     else
@@ -176,10 +182,10 @@ export class SerieInfoStreamComponent implements OnInit {
   findByGeneralSearch(category: Category, searchText: string, sortCode: SortCode, streamsToFilter: SerieEpisode[]): SerieEpisode[] {
     let streamsFilteredLocal: StreamBase[] = [];
 
-    try{     
-      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamCode.Serie);
+    try {
+      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamTypeCode.Serie);
     }
-    catch(err){
+    catch (err) {
       this.alertService.error(JSON.stringify(err));
     }
 

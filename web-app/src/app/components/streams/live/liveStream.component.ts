@@ -11,7 +11,7 @@ import { StreamBase } from 'src/app/models/api/streamBase';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
 import { SortCode } from 'src/app/models/app/sortCode';
-import { StreamCode } from 'src/app/models/app/streamCode';
+import { StreamTypeCode } from 'src/app/models/app/streamTypeCode';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
@@ -71,6 +71,10 @@ export class LiveStreamComponent implements OnInit {
         return;
 
       this.setPageOnStream(1, this.streamsAll);
+
+      this.apiService.findLiveCategories(this.playlist).subscribe(result => {
+        result.forEach(x => this.categories.push(x));
+      });
     });
   }
 
@@ -112,11 +116,11 @@ export class LiveStreamComponent implements OnInit {
         return;
 
       if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
-        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.Live, this.stream.stream_id);
+        this.dbService.removeFromFavorites(this.playlist._id, StreamTypeCode.Live, this.stream.stream_id);
         this.alertService.info('Removed from favorites');
       }
       else {
-        this.dbService.addToFavorites(this.playlist._id, StreamCode.Live, this.stream.stream_id);
+        this.dbService.addToFavorites(this.playlist._id, StreamTypeCode.Live, this.stream.stream_id);
         this.alertService.info('Added to favorites');
       }
     }
@@ -164,7 +168,7 @@ export class LiveStreamComponent implements OnInit {
     let streamsFilteredLocal: StreamBase[] = [];
 
     try{
-      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamCode.Live);
+      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamTypeCode.Live);
     }
     catch(err){
       this.alertService.error(JSON.stringify(err));

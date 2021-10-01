@@ -11,7 +11,7 @@ import { VODInfo } from 'src/app/models/api/vodInfo';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
 import { SortCode } from 'src/app/models/app/sortCode';
-import { StreamCode } from 'src/app/models/app/streamCode';
+import { StreamTypeCode } from 'src/app/models/app/streamTypeCode';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
@@ -73,6 +73,11 @@ export class VodStreamComponent implements OnInit {
         return;
 
       this.setPageOnStream(1, this.streamsAll);
+
+      this.apiService.findVodCategories(this.playlist).subscribe(result => {
+        result.forEach(x => this.categories.push(x));
+      });
+      
     });
   }
 
@@ -114,11 +119,11 @@ export class VodStreamComponent implements OnInit {
         return;
 
       if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
-        this.dbService.removeFromFavorites(this.playlist._id, StreamCode.VOD, this.stream.stream_id);
+        this.dbService.removeFromFavorites(this.playlist._id, StreamTypeCode.VOD, this.stream.stream_id);
         this.alertService.info('Removed from favorites');
       }
       else {
-        this.dbService.addToFavorites(this.playlist._id, StreamCode.VOD, this.stream.stream_id);
+        this.dbService.addToFavorites(this.playlist._id, StreamTypeCode.VOD, this.stream.stream_id);
         this.alertService.info('Added to favorites');
       }
     }
@@ -178,7 +183,7 @@ export class VodStreamComponent implements OnInit {
     let streamsFilteredLocal: StreamBase[] = [];
 
     try{     
-      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamCode.VOD);
+      streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamTypeCode.VOD);
     }
     catch(err){
       this.alertService.error(JSON.stringify(err));

@@ -13,7 +13,7 @@
 
     <div class="content-header-right">
         <div class="content-header-item">
-            <div class="movable movable-txt" (keyup)="executeWrapperTextKeyUp($event)">
+            <div class="movable movable-txt" style="width: 10vw;" (keyup)="executeWrapperTextKeyUp($event)">
                 <input type="text" placeholder="Search..." (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="searchText" />
             </div>
         </div>
@@ -21,20 +21,20 @@
             <input type="image" src="images/search.png" loading=lazy alt="icon" title="Execute search" class="movable button content-header-image" (click)="search()" />
         </div>
         <div class="content-header-item">
-            <select class="movable movable-select" placeholder="Sort" [(ngModel)]="sortCode" >
+            <select class="movable movable-select" style="width: 8vw;" placeholder="Sort" [(ngModel)]="sortCode" >
                 <option [value]="99">Sort...</option>
 
                 <option [value]="0" class="select-option">
-                    Name - [asc]
+                    Name [asc]
                 </option>
                 <option [value]="1" class="select-option">
-                    Name - [desc]
+                    Name [desc]
                 </option>
                 <option [value]="2" class="select-option">
-                    Date - [asc]
+                    Date [asc]
                 </option>
                 <option [value]="3" class="select-option">
-                    Date - [desc]
+                    Date [desc]
                 </option>
             </select>
         </div>
