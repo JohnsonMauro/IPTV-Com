@@ -2,7 +2,6 @@ import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter }
 import { ActivatedRoute, Router } from '@angular/router';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { SortCode } from 'src/app/models/app/sortCode';
-import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
 
 
 @Component({
@@ -18,7 +17,7 @@ export class HeaderComponent implements OnInit {
 	private headerBackButtonElement: ElementRef;
 
   searchText: string;
-  sortCode: SortCode;
+  sortCode = SortCode.Default;
 
   sortCodesName = Object.values(SortCode).filter(f => isNaN(Number(f)));
 
