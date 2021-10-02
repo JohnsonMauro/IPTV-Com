@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Playlist } from '../models/app/playlist';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Live } from '../models/api/live';
 import { ApiHelper } from '../helpers/apiHelper';
 import { VOD } from '../models/api/vod';
@@ -71,7 +71,7 @@ export class ApiService {
     return this.httpClient.get<T>(url)
       .pipe(
         map(res => mapFunction != null ? mapFunction(res) : res == null && isArray ? [] : res),
-        catchError(err => { this.alertService.error(JSON.stringify(err)); throw (err) }),
+        catchError(err => { console.log(err); this.alertService.error(err); return throwError(err) }),
         finalize(() => this.spinnerService.hideSpinner())
       );
   }

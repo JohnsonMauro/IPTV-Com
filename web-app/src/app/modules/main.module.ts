@@ -26,6 +26,7 @@ import { SpinnerComponent } from '../components/global/spinner/spinner.component
 import { SerieStreamComponent } from '../components/streams/serie/serieStream.component';
 import { SearchService } from '../services/searchService';
 import { SerieInfoStreamComponent } from '../components/streams/serieInfo/serieInfoStream.component';
+import { AppSettingsService } from '../services/appSettingsServce';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,7 @@ import { SerieInfoStreamComponent } from '../components/streams/serieInfo/serieI
     FormsModule,
     HttpClientModule
   ],
-  providers: [SpacialNavigationService, AlertService, SpinnerService, DbService, ApiService, SearchService],
+  providers: [SpacialNavigationService, AlertService, SpinnerService, DbService, ApiService, SearchService, AppSettingsService],
   bootstrap: [MainComponent]
 })
 export class MainModule { }

@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
+import { AppSettings } from '../models/app/appSettings';
 import { Playlist } from '../models/app/playlist';
 import { StreamTypeCode } from '../models/app/streamTypeCode';
 
-declare var webOS: any;
 
 @Injectable()
 export class DbService {
 
   constructor() {
-    //this.webOS = webOS;
   }
 
 
@@ -82,6 +81,16 @@ export class DbService {
     return this.findFavoritesByKey(this.getFavoriteKey(playlistId, streamType));
   }
 
+
+  getAppSettings(): AppSettings {
+    let settings = localStorage.getItem(this.getAppSettingsKey());
+    return settings != null ? JSON.parse(settings) : null;
+  }
+
+  setAppSettings(appSettings: AppSettings) {
+    localStorage.setItem(this.getAppSettingsKey(), JSON.stringify(appSettings));
+  }
+
   private findFavoritesByKey(favoriteKey: string): string[] {
     let storageResult = localStorage.getItem(favoriteKey);
     let list = storageResult == null ? [] : JSON.parse(storageResult);
@@ -93,5 +102,9 @@ export class DbService {
   }
   private getFavoriteKey(playlistId: string, streamType: StreamTypeCode) {
     return playlistId + "_streamCode" + streamType;
+  }
+
+  private getAppSettingsKey(){
+    return "app_settings";
   }
 }
