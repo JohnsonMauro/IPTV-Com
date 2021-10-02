@@ -1,4 +1,5 @@
 import { StreamBase } from "./streamBase";
+import { StreamInfo } from "./streamInfo";
 
 export class Serie extends StreamBase{
     constructor(
@@ -15,16 +16,18 @@ export class Serie extends StreamBase{
 
         super(stream_id, name,category_id,lastDate,stream_image);
         this.num = num;
-        this.cast = cast;
-        this.description = description;
-        this.release_date = release_date;
-        this.duration = duration;
+
+        this.streamInfo = {
+            stream_image: stream_image,
+            cast: cast,
+            description: description,
+            release_date: release_date,
+            duration: duration,
+            genre: null
+        }
+        
     }
 
 num: number;
-genre: string;
-cast: string;
-description: string;
-release_date:  string;
-duration: string;
+streamInfo: StreamInfo;
 }

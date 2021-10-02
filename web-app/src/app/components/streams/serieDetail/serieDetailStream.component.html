@@ -1,6 +1,6 @@
 
 <div class="content-main-header">
-    <app-header (onSearch)="onSearchTrigger($event)" (onSort)="onSortTrigger($event)" [backRoute]="'playlist/'+playlist._id"></app-header>
+    <app-header (onSearch)="onSearchTrigger($event)" (onSort)="onSortTrigger($event)" [backRoute]="'seriestream/'+playlist._id"></app-header>
 </div>
 
 
@@ -19,8 +19,8 @@
                 <button type="button" class="movable content-folder" (click)="selectStream(streamItem)">
                     <div class="content-folder-left">
                         <div class="content-folder-icon ">
-                            <img class="content-icon content-icon-stream" alt="icon" [src]="streamItem.stream_image"
-                            onerror="this.className='content-icon';this.src='images/movie.png';" loading=lazy />
+                            <img class="content-icon content-icon-serie" alt="icon" [src]="streamItem.stream_image"
+                            onerror="this.className='content-icon';this.src='images/serie.png';" loading=lazy />
                         </div>
                         <div class="content-folder-text">
                             {{streamItem.name.trim()}}
@@ -38,12 +38,10 @@
 
 
 
-
     <div class="content-main-right ">
-        
         <div class="content-main-wrapper">
             
-            <div class="content-main-line">
+            <div class="content-line-serie-mame">
                 {{stream == null ? '...' : stream.name}}
             </div>
     
@@ -52,9 +50,9 @@
             <div class="content-main-line-spacer">
             </div>
     
-           <app-streamInfo [streamInfo]="streamInfo" [stream]="stream" [isImageError]="isImageError" [streamTypeImage]="'images/movie.png'" ></app-streamInfo>
+            <app-streamInfo [streamInfo]="streamInfo" [stream]="stream" [isImageError]="isImageError" [streamTypeImage]="'images/serie.png'" ></app-streamInfo>
             
-    
+   
             <div class="content-main-line content-main-line-bottom-right">
                    
                 <div class="content-main-line-left">
@@ -82,16 +80,15 @@
                         </div>
                     </button>
                 </div>
-            </div>
-                
         </div>
 
-    </div>
+        </div>
+
+
+</div>
 
     <div *ngIf="isFullscreen">
         <app-player [source]="source" [name]="stream.name" [isLiveStream]="false" [isFullscreen]="true"
-        (onExitFullscreen)="onFullscreenTrigger(false)"></app-player>
+        (onExitFullscreen)="onFullscreenTrigger(false)" (onEndedPlay)="onEndedPlay()"></app-player>
     </div>
-
-   
 </div>

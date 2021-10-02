@@ -39,101 +39,55 @@
 
 
     <div class="content-main-right ">
-        <div class="content-main-line-spacer">
-        </div>
 
-        <div class="content-line-serie-mame">
-            {{stream == null ? '...' : stream.name}}
-        </div>
-
-
-        <div class="content-main-line-spacer">
-        </div>
-        <div class="content-main-line-spacer">
-        </div>
-
-        <div class="content-line-serie-info">
-            <div class="content-line-serie-info-poster">
-                <img *ngIf="stream != null && !isImageError" class="content-line-serie-info-poster-image" alt="icon" alt="icon" [src]="stream.stream_image" (error)="isImageError = true" loading=lazy /> 
-                <img *ngIf="stream == null || isImageError" alt="icon" src="images/movie.png" loading=lazy /> 
+        <div class="content-main-wrapper">
+    
+            <div class="content-line-serie-mame">
+                {{stream == null ? '...' : stream.name}}
             </div>
-
-            <div class="content-line-serie-info-details">
-                <div class="content-line-serie-info-details-item">
-                    Release
-                </div>
-                <div>
-                    {{stream == null ? '...' : stream.release_date}}
-                </div>
-                <div class="content-line-serie-info-details-spacer">
-                </div>
-
-                <div class="content-line-serie-info-details-item">
-                    Episodes duration
-                </div>
-                <div>
-                    {{stream == null ? '...' : stream.duration}}
-                </div>
-                <div class="content-line-serie-info-details-spacer">
-                </div>
-
-                <div class="content-line-serie-info-details-item">
-                    Cast
-                </div>
-                <div>
-                    {{stream == null ? '...' :stream.cast}}
-                </div>
-                <div class="content-line-serie-info-details-spacer">
-                </div>
-
-                <div class="content-line-serie-info-details-item">
-                    Description
-                </div>
-                <div>
-                    {{stream == null ? '...' : stream.description}}
-                </div>
+    
+    
+            <div class="content-main-line-spacer">
             </div>
-
-        </div>
-        
-
-        <div class="content-main-line-spacer">
-        </div>
-        <div class="content-main-line-spacer">
-        </div>
-        <div class="content-main-line-spacer">
-        </div>
-        <div class="content-main-line-spacer">
-        </div>
-        
-
-        <div class="content-main-line">
-            <div class="content-main-line-left">
-                <button type="button" class="movable content-button" (click)="moveToSerieInfo()">
-                    <div class="content-button-center">
-                        <div class="content-button-icon">
-                            <img alt="icon" src="images/folder.png" loading=lazy class="content-icon" />
+            <div class="content-main-line-spacer">
+            </div>
+    
+            <app-streamInfo [streamInfo]="streamInfo" [stream]="stream" [isImageError]="isImageError" [streamTypeImage]="'images/serie.png'" ></app-streamInfo>
+            
+    
+            <div class="content-main-line content-main-line-bottom-right">
+                   
+                <div class="content-main-line-left">
+                    <button type="button" class="movable content-button" (click)="moveToSerieInfo()">
+                        <div class="content-button-center">
+                            <div class="content-button-icon">
+                                <img alt="icon" src="images/folder.png" loading=lazy class="content-icon" />
+                            </div>
+                            <div class="content-button-text">
+                                Open
+                            </div> 
                         </div>
-                        <div class="content-button-text">
-                            Open
-                        </div> 
-                    </div>
-                </button>
-            </div>
-
-            <div class="content-main-line-right">
-                <button type="button" class="movable content-button" (click)="manageFavorites()">
-                    <div class="content-button-center">
-                        <div class="content-button-icon">
-                            <img alt="icon" src="images/star.png" loading=lazy class="content-icon" />
+                    </button>
+                </div>
+    
+                <div class="content-main-line-right">
+                    <button type="button" class="movable content-button" (click)="manageFavorites()">
+                        <div class="content-button-center">
+                            <div class="content-button-icon">
+                                <img alt="icon" src="images/star.png" loading=lazy class="content-icon" />
+                            </div>
+                            <div class="content-button-text">
+                                {{ getFavoriteDescription() }}
+                            </div>  
                         </div>
-                        <div class="content-button-text">
-                            {{ getFavoriteDescription() }}
-                        </div>  
-                    </div>
-                </button>
-            </div>
+                    </button>
+                </div>
+    
+        </div>
+
         </div>
 
     </div>
+
+
 </div>

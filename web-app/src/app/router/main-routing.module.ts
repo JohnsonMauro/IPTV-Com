@@ -5,7 +5,7 @@ import { LiveStreamComponent } from '../components/streams/live/liveStream.compo
 import { PlaylistComponent } from '../components/playlist/playlist.component';
 import { VodStreamComponent } from '../components/streams/vod/vodStream.component';
 import { SerieStreamComponent } from '../components/streams/serie/serieStream.component';
-import { SerieInfoStreamComponent } from '../components/streams/serieInfo/serieInfoStream.component';
+import { SerieDetailStreamComponent } from '../components/streams/serieDetail/serieDetailStream.component';
 
 const routes: Routes = [
  {path: '', component: HomeComponent}
@@ -14,7 +14,7 @@ const routes: Routes = [
  ,{path: 'livestream/:id', component: LiveStreamComponent}
  ,{path: 'vodstream/:id', component: VodStreamComponent}
  ,{path: 'seriestream/:id', component: SerieStreamComponent}
- ,{path: 'serieinfostream/:id/:stream_id', component: SerieInfoStreamComponent}
+ ,{path: 'seriedetailstream/:id/:stream_id', component: SerieDetailStreamComponent}
 ];
 
 @NgModule({

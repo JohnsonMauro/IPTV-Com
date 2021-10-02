@@ -1,7 +1,8 @@
-export class VODInfo {
+export class StreamInfo {
     stream_image: string;
-    release_date: Date;
+    release_date: string;
     cast: string;
     description: string;
     duration:string;
+    genre: string;
     }

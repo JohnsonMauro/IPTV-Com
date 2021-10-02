@@ -7,7 +7,7 @@ import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { PageHelper } from 'src/app/helpers/pageHelper';
 import { VOD } from 'src/app/models/api/vod';
-import { VODInfo } from 'src/app/models/api/vodInfo';
+import { StreamInfo } from 'src/app/models/api/streamInfo';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
 import { SortCode } from 'src/app/models/app/sortCode';
@@ -22,9 +22,7 @@ import { SearchService } from 'src/app/services/searchService';
 
 @Component({
   selector: 'app-vodStream',
-  templateUrl: './vodStream.component.html',
-  styleUrls: ['./vodStream.component.css']
-})
+  templateUrl: './vodStream.component.html'})
 export class VodStreamComponent implements OnInit {
 
   sortCode: SortCode;
@@ -38,7 +36,7 @@ export class VodStreamComponent implements OnInit {
   streamsAll: VOD[] = [];
   streams: VOD[] = [];
   stream: VOD;
-  streamInfo: VODInfo;
+  streamInfo: StreamInfo;
   source: string;
 
   isImageError = false;

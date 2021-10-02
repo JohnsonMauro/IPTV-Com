@@ -98,8 +98,6 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    margin: 0;
-    padding: 0;
 }
 
 .content-button-icon {
@@ -108,20 +106,14 @@
     display: flex;
     align-items: center;
     vertical-align: middle;
-    margin: 0;
-    padding: 0;
 }
 
 .content-button-text {
     padding-left: 10px;
-    margin: 0;
-    padding: 0;
 }
 
 .content-folder-icon {
     height: 100%; width: 15%; text-align: center; display: flex; justify-content: center; align-items: center;
-    margin: 0;
-    padding: 0;
 }
 
 .content-folder-text {

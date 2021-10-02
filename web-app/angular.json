@@ -33,7 +33,8 @@
             "styles": [
               "src/assets/css/general.css",
               "src/assets/css/movable.css",
-              "src/assets/css/elements.css"
+              "src/assets/css/elements.css",
+              "src/assets/css/streaminfo.css"
             ],
             "scripts": [
               "src/assets/js/spatialNavigation.js"

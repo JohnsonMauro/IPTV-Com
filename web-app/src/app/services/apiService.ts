@@ -8,10 +8,10 @@ import { VOD } from '../models/api/vod';
 import { catchError, finalize, map, mapTo, tap } from 'rxjs/operators';
 import { AlertService } from './alertService';
 import { SpinnerService } from './spinnerService';
-import { VODInfo } from '../models/api/vodInfo';
+import { StreamInfo } from '../models/api/streamInfo';
 import { Serie } from '../models/api/serie';
 import { PlaylistInfo } from '../models/api/playlistInfo';
-import { SerieEpisode, SerieInfo, SerieSeason } from '../models/api/serieInfo';
+import { SerieEpisode, SerieDetail, SerieSeason } from '../models/api/serieDetail';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Category } from '../models/app/category';
 
@@ -54,16 +54,16 @@ export class ApiService {
     return this.createDefaultPipesGet<VOD[]>(ApiHelper.generateApiUrl(playlist) + this.vodStreamActionParameter, true, this.mapVOD);
   }
 
-  getVodStreamInfo(playlist: Playlist, stream_id: string): Observable<VODInfo> {
-    return this.createDefaultPipesGet<VODInfo>(ApiHelper.generateApiUrl(playlist) + this.vodStreamInfoActionParameter + "&vod_id=" + stream_id, false, this.mapVODDetail);
+  getVodStreamInfo(playlist: Playlist, stream_id: string): Observable<StreamInfo> {
+    return this.createDefaultPipesGet<StreamInfo>(ApiHelper.generateApiUrl(playlist) + this.vodStreamInfoActionParameter + "&vod_id=" + stream_id, false, this.mapVODDetail);
   }
 
   findSeriesStreams(playlist: Playlist): Observable<Serie[]> {
     return this.createDefaultPipesGet<Serie[]>(ApiHelper.generateApiUrl(playlist) + this.serieStreamActionParameter, true, this.mapSerie);
   }
 
-  findSeriesInfoStreams(playlist: Playlist, stream_id: string): Observable<SerieInfo> {
-    return this.createDefaultPipesGet<SerieInfo>(ApiHelper.generateApiUrl(playlist) + this.serieInfoStreamActionParameter + stream_id, false, this.mapSerieInfo);
+  findSeriesInfoStreams(playlist: Playlist, stream_id: string): Observable<SerieDetail> {
+    return this.createDefaultPipesGet<SerieDetail>(ApiHelper.generateApiUrl(playlist) + this.serieInfoStreamActionParameter + stream_id, false, this.mapSerieInfo);
   }
 
   private createDefaultPipesGet<T>(url: string, isArray: boolean, mapFunction: (item: any) => any = null): Observable<T> {
@@ -96,13 +96,14 @@ export class ApiService {
       { return { id: res.category_id, name: res.category_name, parent_id: res.parent_id}; });
   }
 
-  private mapVODDetail(result: any): VODInfo {
+  private mapVODDetail(result: any): StreamInfo {
     return {
       cast: result.info.cast,
       description: result.info.plot,
       duration: result.info.duration,
       stream_image: result.info.movie_image,
-      release_date: result.info.releasedate
+      release_date: result.info.releasedate,
+      genre: null
     }
   }
 
@@ -122,7 +123,7 @@ export class ApiService {
   }
 
   private mapSerieInfo(result: any): any {
-    let serieInfo = new SerieInfo();
+    let serieInfo = new SerieDetail();
     serieInfo.seasons = (<any[]>(result.seasons)).map(res => new SerieSeason(res.id, res.name, res.season_number, res.cover));
 
     serieInfo.seasons.forEach(season => {

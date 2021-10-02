@@ -16,14 +16,13 @@ import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../../services/spacialNavigationService';
 import { StreamBase } from 'src/app/models/api/streamBase';
-import { SerieEpisode } from 'src/app/models/api/serieInfo';
+import { SerieEpisode } from 'src/app/models/api/serieDetail';
+import { StreamInfo } from 'src/app/models/api/streamInfo';
 
 @Component({
-  selector: 'app-serieInfoStream',
-  templateUrl: './serieInfoStream.component.html',
-  styleUrls: ['./serieInfoStream.component.css']
-})
-export class SerieInfoStreamComponent implements OnInit {
+  selector: 'app-serieDetailStream',
+  templateUrl: './serieDetailStream.component.html'})
+export class SerieDetailStreamComponent implements OnInit {
 
   sortCode: SortCode;
   searchText: string;
@@ -36,6 +35,7 @@ export class SerieInfoStreamComponent implements OnInit {
   streamsAll: SerieEpisode[] = [];
   streams: SerieEpisode[] = [];
   stream: SerieEpisode;
+  streamInfo: StreamInfo;
   source: string;
 
   isImageError = false;
@@ -103,11 +103,7 @@ export class SerieInfoStreamComponent implements OnInit {
 
 
   populateStreamDetail(stream: SerieEpisode) {
-    this.apiService.getVodStreamInfo(this.playlist, stream.stream_id)
-      .subscribe(result => {
-        if (result == null)
-          this.alertService.info('Stream info not provided');
-      });
+    this.streamInfo = stream.streamInfo;
   }
 
   getFavoriteDescription(): string {

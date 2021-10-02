@@ -25,8 +25,9 @@ import { CategoryComponent } from '../components/category/category.component';
 import { SpinnerComponent } from '../components/global/spinner/spinner.component';
 import { SerieStreamComponent } from '../components/streams/serie/serieStream.component';
 import { SearchService } from '../services/searchService';
-import { SerieInfoStreamComponent } from '../components/streams/serieInfo/serieInfoStream.component';
+import { SerieDetailStreamComponent } from '../components/streams/serieDetail/serieDetailStream.component';
 import { AppSettingsService } from '../services/appSettingsServce';
+import { StreamInfoComponent } from '../components/streamInfo/streamInfo.component';
 
 @NgModule({
   declarations: [
@@ -38,8 +39,9 @@ import { AppSettingsService } from '../services/appSettingsServce';
     PlaylistComponent,
     VodStreamComponent,
     SerieStreamComponent,
-    SerieInfoStreamComponent,
+    SerieDetailStreamComponent,
 
+    StreamInfoComponent,
     PlayerComponent,
     PageComponent,
     CategoryComponent,

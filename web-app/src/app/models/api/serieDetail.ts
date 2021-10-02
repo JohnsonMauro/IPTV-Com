@@ -1,6 +1,7 @@
 import { StreamBase } from "./streamBase";
+import { StreamInfo } from "./streamInfo";
 
-export class SerieInfo {
+export class SerieDetail {
     constructor(){
         this.seasons = [];
         this.episodes = [];
@@ -36,20 +37,23 @@ export class SerieEpisode extends StreamBase{
         lastDate: number,
         stream_image: string,
         description: string,
-        release_date: Date,
+        release_date: string,
         duration: string,
         extension: string) {
 
         super(name, stream_id, category_id, lastDate, stream_image);
-        this.description = description;
-        this.release_date = release_date;
-        this.duration = duration;
         this.extension = extension;
+
+        this.streamInfo = {
+            stream_image: stream_image,
+            cast: null,
+            description: description,
+            release_date: release_date,
+            duration: duration,
+            genre: null
+        }     
     }
 
-    release_date: Date;
-    cast: string;
-    description: string;
-    duration:string;
+    streamInfo: StreamInfo;
     extension:string;
 }

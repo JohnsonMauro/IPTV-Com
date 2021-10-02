@@ -17,12 +17,11 @@ import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../../services/spacialNavigationService';
 import { StreamBase } from 'src/app/models/api/streamBase';
+import { StreamInfo } from 'src/app/models/api/streamInfo';
 
 @Component({
   selector: 'app-serieStream',
-  templateUrl: './serieStream.component.html',
-  styleUrls: ['./serieStream.component.css']
-})
+  templateUrl: './serieStream.component.html'})
 export class SerieStreamComponent implements OnInit {
 
   sortCode: SortCode;
@@ -36,6 +35,7 @@ export class SerieStreamComponent implements OnInit {
   streamsAll: Serie[] = [];
   streams: Serie[] = [];
   stream: Serie;
+  streamInfo: StreamInfo;
   source: string;
 
   isImageError = false;
@@ -94,11 +94,7 @@ export class SerieStreamComponent implements OnInit {
 
 
   populateStreamDetail(stream: Serie) {
-    this.apiService.getVodStreamInfo(this.playlist, stream.stream_id)
-    .subscribe(result => {
-      if(result == null)
-      this.alertService.info('Stream info not provided');
-    });
+    this.streamInfo = stream.streamInfo;
   }
 
   getFavoriteDescription(): string {
@@ -138,7 +134,7 @@ export class SerieStreamComponent implements OnInit {
   moveToSerieInfo(){
     if(this.stream == null)
     return;
-    this.route.navigate(['serieinfostream', this.playlist._id, this.stream.stream_id]);
+    this.route.navigate(['seriedetailstream', this.playlist._id, this.stream.stream_id]);
   }
 
   // ------------------------------------ Search and move ----------------------------------------
