@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { AlertService } from 'src/app/services/alertService';
 import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
@@ -13,6 +13,9 @@ export class PlayerComponent implements OnInit {
 
 	@ViewChild("videoPlayerElement")
 	private videoPlayerEement: ElementRef;
+
+	@ViewChild("buttonHideFooterElement")
+	private buttonHideFooterElement: ElementRef;
 
 	private _source: string;
 	@Input() set source(value: string) {
@@ -36,7 +39,7 @@ export class PlayerComponent implements OnInit {
 
 
 	videoPlayerMovableClass = "content-videoplayer-footer-controls";
-	isDisplayControls = false;
+	isDisplayFooter = false;
 	canPlay = false;
 	currentTimeText: string;
 	durationText: string;
@@ -75,9 +78,9 @@ export class PlayerComponent implements OnInit {
 	}
 
 	getImagePlayOrPause(): string {
-		if(this.isVideoElementReady){
-			if(this.videoPlayerEement.nativeElement.paused)
-			return "images/play.png";
+		if (this.isVideoElementReady) {
+			if (this.videoPlayerEement.nativeElement.paused)
+				return "images/play.png";
 		}
 		return "images/pause.png";
 	}
@@ -95,15 +98,19 @@ export class PlayerComponent implements OnInit {
 	}
 
 	onVideoClick() {
-		if (this.isFullscreen)
-			this.isDisplayControls = true;
+		if (this.isFullscreen) {
+			this.displayOrHideFooter(true);
+		}
 	}
 
 	onDisplayFullscreenChange() {
-		if (this.isFullscreen)
+		if (this.isFullscreen) {
 			this.spatialNavigation.add(this.videoPlayerMovableClass, "." + this.videoPlayerMovableClass);
-		else
+		}
+		else {
 			this.spatialNavigation.remove(this.videoPlayerMovableClass);
+
+		}
 	}
 
 	onSourceChange() {
@@ -145,6 +152,36 @@ export class PlayerComponent implements OnInit {
 
 	onEnded() {
 		this.onEndedPlay.emit();
+	}
+
+	displayOrHideFooter(isDisplay: boolean = null) {
+		if (isDisplay == null) {
+			this.isDisplayFooter = !this.isDisplayFooter;
+		}
+		else {
+			this.isDisplayFooter = isDisplay;
+		}
+
+		this.buttonHideFooterElement.nativeElement.focus();
+	}
+
+	@HostListener('window:keydown', ['$event'])
+	handleKeyDown(event: KeyboardEvent) {
+		if (!this.isFullscreen) {
+			return;
+		}
+
+		switch (event.keyCode) {
+			case 461:
+				if (this.isDisplayFooter) {
+					this.displayOrHideFooter(false);
+				}
+				else {
+					this.onExitFullscreen.emit()
+				}
+				break;
+			default: break;
+		}
 	}
 
 	ngAfterViewInit() {

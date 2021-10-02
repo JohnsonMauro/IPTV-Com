@@ -12,7 +12,7 @@
 
             <div *ngFor="let playlist of playlists" class="content-main-line">
 
-                <button type="button" class="movable content-folder" (click)="onSelectPlayslist(playlist)">
+                <button type="button" class="movable content-folder" (click)="onSelectPlayslist(playlist)" [disabled]="getIsAppBlocked()">
                     <div class="content-folder-left">
                         <div class="content-folder-icon ">
                             <img class="content-icon content-icon-serie" alt="icon" src="images/folder.png"
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="content-main-line-right">
-                    <button type="button" class="movable content-button">
+                    <button type="button" class="movable content-button" (click)="displaySettings(true)" >
                         <div class="content-button-center">
                             <div class="content-button-icon">
                                 <img alt="icon" src="images/settings.png" loading=lazy class="content-icon" />
@@ -64,6 +64,14 @@
 
 </div>
 
+
+<div *ngIf="isDisplaySettings">
+    <div class="content-main-popup-shadow">
+    </div>
+    <div class="content-home-addplaylist-position">
+        <app-settings (onCancel)="displaySettings(false)" (onSave)="appSettingSave()"></app-settings>
+    </div>
+</div>
 
 
 <div *ngIf="isDisplayAddPlaylist">

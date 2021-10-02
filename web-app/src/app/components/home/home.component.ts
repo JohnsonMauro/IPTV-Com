@@ -4,6 +4,7 @@ import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
+import { AppSettingsService } from 'src/app/services/appSettingsService';
 import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../services/spacialNavigationService';
@@ -17,18 +18,21 @@ export class HomeComponent implements OnInit {
 
   isBack = false;
   isDisplayAddPlaylist: boolean = false;
+  isDisplaySettings: boolean = false;
 
   constructor(private spatialNavigation: SpacialNavigationService
     ,private alertService: AlertService
     ,private dbService: DbService
     ,private route: Router
     ,private spinnerService: SpinnerService
+    ,private appSettingsService: AppSettingsService
     ) {
   }
 
   playlists: Array<Playlist>;
 
   ngOnInit(): void {
+    console.log('init');
     try{
       this.spinnerService.displaySpinner();
       this.playlists = this.dbService.findPlaylists();
@@ -56,6 +60,17 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  displaySettings(display: boolean){
+    if(display){
+      this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
+      this.isDisplaySettings = true;
+    }
+    else{
+      this.isDisplaySettings = false;
+      this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
+    }
+  }
+
   addPlaylist(playlist: Playlist){
     try{
       this.spinnerService.displaySpinner();
@@ -71,6 +86,15 @@ export class HomeComponent implements OnInit {
     finally{
       this.spinnerService.hideSpinner();
     }
+  }
+
+  getIsAppBlocked(): boolean{
+    return this.appSettingsService.getIsAppBlocked();
+  }
+
+  appSettingSave(){
+    this.alertService.info("Settings saved, please restart the app");
+    this.displaySettings(false);
   }
 
   ngAfterViewInit() {

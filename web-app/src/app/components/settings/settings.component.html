@@ -1,82 +1,83 @@
-<div class="content-manageplaylist">
+<div class="content-settings">
 
-    <div class="content-manageplaylist-title">
-        <label>Add playlist</label>
+    <div class="content-settings-title">
+        <label>Settings</label>
     </div>
 
-    <table class="content-manageplaylist-form">
-        <tr>
-            <td>
-                <label>Name</label>
-            </td>
-            <td class="content-manageplaylist-input">
-                <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
-                    <input type="text" placeholder="Name" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.name" />
+    <div class="content-main-line" style="height: 14vh;">
+
+        <div class="content-main-line">
+            <div class="content-settings-text">
+                <label>Email</label>
+            </div>
+            <div class="content-settings-value">
+                <div [className]="'movable movable-txt content-settings-input  ' +settingsMovableClass"
+                    (keyup)="executeWrapperTextKeyUp($event)">
+                    <input type="text" placeholder="mail@mail.com" (keydown)="executeTextKeyDown($event)"
+                        (keyup)="executeTextKeyUp($event)" [(ngModel)]="appSettings.email" />
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>User</label>
-            </td>
-            <td class="content-manageplaylist-input">
-                <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
-                    <input type="text" placeholder="User" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.user" />
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>Pasword</label>
-            </td>
-            <td class="content-manageplaylist-input">
-                <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
-                    <input type="Password" placeholder="Password" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.password" />
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>Url</label>
-            </td>
-            <td class="content-manageplaylist-input">
-                <div [className]="'movable movable-txt ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)" >
-                    <input type="text" placeholder="http://srv.com:80" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="playlist.url" [disabled]="playlist._id != null" />
-                </div>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+
+      
+        <div class="content-main-line">
+            <div class="content-settings-text">
+                <label>Device Key</label>
+            </div>
+
+            <div class="content-settings-middle" (keyup)="executeWrapperTextKeyUp($event)">
+                {{appSettings.deviceKey}}
+            </div>
+
+            <div class="content-settings-last" (keyup)="executeWrapperTextKeyUp($event)">
+                <button type="button" [className]="'movable content-button ' + settingsMovableClass"
+                    (click)="generateDeviceKey()">
+                    <div class="content-button-center">
+                        <div class="content-button-icon">
+                            <img alt="icon" src="images/refresh.png" loading=lazy class="content-icon" />
+                        </div>
+                        <div class="content-button-text">
+                            Refresh
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+    </div>
 
 
-   
-    <div class="content-manageplaylist-controls">
+<div class="content-main-line" style="position: relative; display: block;">
+       
+    <div class="content-settings-controls">
         <div class="content-main-line-left">
-            <button type="button" [className]="'movable content-button ' + managePlaylistMovableClass" (click)="save()">
+            <button type="button" [className]="'movable content-button ' + settingsMovableClass" (click)="save()">
                 <div class="content-button-center">
-                    <img alt="icon" src="images/save.png" class="content-icon" />
-                    Save
+                    <div class="content-button-icon">
+                        <img alt="icon" src="images/save.png" loading=lazy class="content-icon" />
+                    </div>
+                    <div class="content-button-text">
+                        Save
+                    </div>
                 </div>
             </button>
         </div>
 
         <div class="content-main-line-right">
-            <button type="button" [className]="'movable content-button ' + managePlaylistMovableClass" (click)="onCancel.emit()">
+            <button type="button" [className]="'movable content-button ' + settingsMovableClass"
+                (click)="onCancel.emit()">
                 <div class="content-button-center">
-                    <img alt="icon" src='images/back.png' class="content-icon" />
-                    Cancel
+                    <div class="content-button-icon">
+                        <img alt="icon" src="images/back.png" loading=lazy class="content-icon" />
+                    </div>
+                    <div class="content-button-text">
+                        Cancel
+                    </div>
                 </div>
             </button>
         </div>
     </div>
 
-               
-      
-               
-
-
-
-
-
-
+</div>
 
 </div>

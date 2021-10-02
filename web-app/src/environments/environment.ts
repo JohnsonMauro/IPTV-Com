@@ -5,7 +5,7 @@
 export const environment = {
   production: false
   ,encryptSecret: "encryptSecret"
-  ,pageItems: 8
+  ,validateDeviceKeyUrl: ""
 };
 
 /*

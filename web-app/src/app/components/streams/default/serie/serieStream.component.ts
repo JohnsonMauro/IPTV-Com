@@ -15,7 +15,6 @@ import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
-import { SpacialNavigationService } from '../../../services/spacialNavigationService';
 import { StreamBase } from 'src/app/models/api/streamBase';
 import { StreamInfo } from 'src/app/models/api/streamInfo';
 
@@ -46,7 +45,6 @@ export class SerieStreamComponent implements OnInit {
     , private alertService: AlertService
     , private dbService: DbService
     , private apiService: ApiService
-    , private spatialNavigation: SpacialNavigationService
     , private spinnerService: SpinnerService
     , private searchService: SearchService
     ) {
@@ -80,7 +78,7 @@ export class SerieStreamComponent implements OnInit {
     try {
       this.isImageError = false;
       if (this.stream == stream){
-        this.moveToSerieInfo();
+        this.moveToSerieDetail();
       }      
       else {
         this.stream = stream;
@@ -120,18 +118,7 @@ export class SerieStreamComponent implements OnInit {
     }
   }
 
-  onFullscreenTrigger(isFullScreen: boolean) {
-    if(this.stream == null)
-    return;
-    if (isFullScreen)
-      this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
-    else
-      this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
-
-    this.isFullscreen = isFullScreen;
-  }
-
-  moveToSerieInfo(){
+  moveToSerieDetail(){
     if(this.stream == null)
     return;
     this.route.navigate(['seriedetailstream', this.playlist._id, this.stream.stream_id]);
@@ -188,7 +175,6 @@ export class SerieStreamComponent implements OnInit {
 
   // -------------------------------------------- onDestroy ---------------------------------------------
   ngAfterViewInit() {
-    this.spatialNavigation.focus();
   }
 
   ngOnDestroy() {

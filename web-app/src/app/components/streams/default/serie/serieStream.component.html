@@ -19,7 +19,7 @@
                 <button type="button" class="movable content-folder" (click)="selectStream(streamItem)">
                     <div class="content-folder-left">
                         <div class="content-folder-icon ">
-                            <img class="content-icon content-icon-serie" alt="icon" [src]="streamItem.stream_image"
+                            <img class="content-icon content-icon-poster" alt="icon" [src]="streamItem.stream_image"
                             onerror="this.className='content-icon';this.src='images/serie.png';" loading=lazy />
                         </div>
                         <div class="content-folder-text">
@@ -58,7 +58,7 @@
             <div class="content-main-line content-main-line-bottom-right">
                    
                 <div class="content-main-line-left">
-                    <button type="button" class="movable content-button" (click)="moveToSerieInfo()">
+                    <button type="button" class="movable content-button" (click)="moveToSerieDetail()">
                         <div class="content-button-center">
                             <div class="content-button-icon">
                                 <img alt="icon" src="images/folder.png" loading=lazy class="content-icon" />

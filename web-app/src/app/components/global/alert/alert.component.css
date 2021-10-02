@@ -1,12 +1,13 @@
 .notification-area {
     position: fixed;
-    top: 10px;
+    bottom: 10px;
     right: 10px;
     width: 30vw;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     max-height: 80vh;
+    z-index: 10;
 }
 
 .notification-area .notification {

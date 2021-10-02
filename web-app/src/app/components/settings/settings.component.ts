@@ -1,61 +1,60 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
-import { Playlist } from 'src/app/models/app/playlist';
+import { AppSettings } from 'src/app/models/app/appSettings';
 import { AlertService } from 'src/app/services/alertService';
+import { AppSettingsService } from 'src/app/services/appSettingsService';
 import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
 
 @Component({
-  selector: 'app-managePlaylist',
-  templateUrl: './managePlaylist.component.html',
-  styleUrls: ['./managePlaylist.component.css']
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.css']
 })
-export class ManagePlaylistComponent implements OnInit {
+export class SettingsComponent implements OnInit {
 
   constructor(private spatialNavigation: SpacialNavigationService
-    ,private alertService: AlertService) {
+    ,private alertService: AlertService
+    ,private settingsService: AppSettingsService) {
   }
-  
-  managePlaylistMovableClass = "movable-addplaylist";
 
-  @Input()
-  playlist = new Playlist();
+  appSettings: AppSettings;
+  
+  settingsMovableClass = "movable-settings";
 
   executeWrapperTextKeyUp = MovableHelper.executeDefaultKeyUpForTextWrapper;
   executeTextKeyDown = MovableHelper.executeDefaultKeyDownForInputText;
   executeTextKeyUp = MovableHelper.executeDefaultKeyUpForInputText;
   
   @Output()
-  onSave = new EventEmitter<Playlist>();
+  onSave = new EventEmitter<void>();
 
   @Output()
   onCancel = new EventEmitter<null>();
 
   ngOnInit(): void {
-    
+    this.appSettings = this.settingsService.getAppSettings();
   }
 
   ngAfterViewInit (){
-    this.spatialNavigation.remove(this.managePlaylistMovableClass);
-    this.spatialNavigation.add(this.managePlaylistMovableClass, "."+this.managePlaylistMovableClass);
+    this.spatialNavigation.remove(this.settingsMovableClass);
+    this.spatialNavigation.add(this.settingsMovableClass, "."+this.settingsMovableClass);
   }
 
   save(){
-    if(this.isPlaylistValid())
-    {
-      this.onSave.emit(this.playlist);
+
+    if(this.appSettings.email == null || this.appSettings.email == ""
+    || this.appSettings.deviceKey == null || this.appSettings.deviceKey == ""){
+      this.alertService.warning("All fields are required");
       return;
     }
-    this.alertService.warning("All fields are required");
+
+    this.settingsService.setAppSettings(this.appSettings);
+    this.onSave.emit();
   }
 
-  isPlaylistValid(): boolean{
-    if(this.playlist.name
-    && this.playlist.user
-    && this.playlist.password
-    && this.playlist.url)
-    return true;
-
-    return false;
+  generateDeviceKey(){
+    let generatedKey = EncryptHelper.generateRandomDeviceKey();
+    this.appSettings.deviceKey = generatedKey;
   }
 }

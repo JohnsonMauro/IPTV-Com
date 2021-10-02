@@ -14,7 +14,7 @@ import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
-import { SpacialNavigationService } from '../../../services/spacialNavigationService';
+import { SpacialNavigationService } from '../../../../services/spacialNavigationService';
 import { StreamBase } from 'src/app/models/api/streamBase';
 import { SerieEpisode } from 'src/app/models/api/serieDetail';
 import { StreamInfo } from 'src/app/models/api/streamInfo';

@@ -1,4 +1,4 @@
-import * as CryptoJS from 'crypto-js';  
+import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment';
 
 export class EncryptHelper {
@@ -11,6 +11,16 @@ export class EncryptHelper {
   public static decrypt(text: string): string {
     let result = CryptoJS.AES.decrypt(text, environment.encryptSecret).toString(CryptoJS.enc.Utf8);
     return result
+  }
+
+  public static generateRandomDeviceKey(): string {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    for (var i = 0; i < 10; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    console.log(result);
+    return result;
   }
 }
 

@@ -1,6 +1,6 @@
 
-<div class="container-videoplayer" [style.position]="isFullscreen ? 'fixed' : 'relative'">
-    <div #videoPlayerContent class='container-videoplayer' (click)="onVideoClick()">
+<div class="container-videoplayer" [style.position]="isFullscreen ? 'fixed' : 'relative'" [style.zIndex]="isFullscreen ? 2 : 1">
+    <div class='container-videoplayer' (click)="onVideoClick()">
         <img src="images/video_loading.gif" alt="loading" class="content-videoplayer-image" *ngIf="!canPlay">
         <video #videoPlayerElement class='content-videoplayer-video' (canplay)="onCanPlay()" (timeupdate)="onCurretTimeUpdate()" (ended)="onEnded()" >
             <source [src]="source">
@@ -8,22 +8,22 @@
         </video>
     </div>
 
-    <div class="content-videoplayer-footer" *ngIf="isFullscreen" [style.zIndex]="isDisplayControls ? 1 : -99">
+    <div class="content-videoplayer-footer" *ngIf="isFullscreen" [style.zIndex]="isDisplayFooter ? 1 : -99">
 
         <div style="margin-bottom: 20px; margin-top: 20px;">
-            <button class='movable content-button content-videoplayer-footer-controls' (click)="isDisplayControls = !isDisplayControls" custom-focus >
+            <button #buttonHideFooterElement class='movable content-button content-videoplayer-footer-controls' (click)="displayOrHideFooter()" custom-focus >
                 <div class="content-button-center">
                     <img alt="icon" src="images/minimize.png" loading=lazy class="content-videoplayer-footer-controls-icon" />
                 </div>
             </button>
             &nbsp;&nbsp;
-            <button *ngIf="!isLiveStream" class='movable content-button content-videoplayer-footer-controls' (click)="playOrPause()" [disabled]="!isDisplayControls">
+            <button *ngIf="!isLiveStream" class='movable content-button content-videoplayer-footer-controls' (click)="playOrPause()" [disabled]="!isDisplayFooter">
                 <div class="content-button-center">
                     <img alt="icon" src="{{getImagePlayOrPause()}}" loading=lazy class="content-videoplayer-footer-controls-icon" />
                 </div>
             </button>
             &nbsp;&nbsp;
-            <button class='movable content-button content-videoplayer-footer-controls' (click)="onExitFullscreen.emit()" [disabled]="!isDisplayControls">
+            <button class='movable content-button content-videoplayer-footer-controls' (click)="onExitFullscreen.emit()" [disabled]="!isDisplayFooter">
                 <div class="content-button-center">
                     <img alt="icon" src="images/back.png" loading=lazy class="content-videoplayer-footer-controls-icon" />
                 </div>
@@ -31,7 +31,7 @@
         </div>
        
 
-        <div *ngIf="!isLiveStream && isDisplayControls" class="content-videoplayer-footer-timer">
+        <div *ngIf="!isLiveStream && isDisplayFooter" class="content-videoplayer-footer-timer">
 
             <table style="width: 100%;">
                 <tr>
