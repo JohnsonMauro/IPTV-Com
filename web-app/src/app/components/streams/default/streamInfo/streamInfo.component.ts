@@ -1,5 +1,5 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
@@ -29,14 +29,21 @@ export class StreamInfoComponent implements OnInit {
   @Input()
   streamTypeImage: string;
   @Input()
-  isImageError: boolean;
-  @Input()
   stream: StreamBase;
   @Input()
-  streamInfo: StreamInfo
+  streamInfo: StreamInfo;
+
+  @Input() isImageError: boolean;
+  @Output() isImageErrorChange = new EventEmitter<boolean>(); 
+
 
   ngOnInit() {
    
+  }
+
+  imageError(){
+    this.isImageError = true;
+    this.isImageErrorChange.emit(true);
   }
 
 }

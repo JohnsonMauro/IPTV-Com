@@ -1,7 +1,7 @@
 <div class="content-line-stream-info">
     <div class="content-line-stream-info-poster">
         <img *ngIf="stream != null && !isImageError" class="content-line-stream-info-poster-image" alt="icon" alt="icon"
-            [src]="stream.stream_image" (error)="isImageError = true" loading=lazy />
+            [src]="stream.stream_image" (error)="imageError()" loading=lazy />
         <img *ngIf="stream == null || isImageError" alt="icon" src="{{streamTypeImage}}" loading=lazy />
     </div>
 

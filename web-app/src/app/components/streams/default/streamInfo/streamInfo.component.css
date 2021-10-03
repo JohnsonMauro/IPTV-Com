@@ -8,7 +8,7 @@
         float: left;
         overflow: hidden;
         height: 100%;
-        width: 40%;
+        width: 45%;
         margin-left: 2%;
         border: 3px solid #606060;
         display: flex;
@@ -23,7 +23,7 @@
     
         .content-line-stream-info-details {
             height: 100%;
-            width: 55%;
+            width: 50%;
             margin-left: 2%;
             float: left;
             overflow: hidden;

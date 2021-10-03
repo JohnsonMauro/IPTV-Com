@@ -17,6 +17,7 @@ import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { StreamBase } from 'src/app/models/api/streamBase';
 import { StreamInfo } from 'src/app/models/api/streamInfo';
+import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
 
 @Component({
   selector: 'app-serieStream',
@@ -42,6 +43,7 @@ export class SerieStreamComponent implements OnInit {
 
   constructor(private activatedroute: ActivatedRoute
     ,private route: Router
+    ,private spatialNavigation: SpacialNavigationService
     , private alertService: AlertService
     , private dbService: DbService
     , private apiService: ApiService
@@ -175,6 +177,7 @@ export class SerieStreamComponent implements OnInit {
 
   // -------------------------------------------- onDestroy ---------------------------------------------
   ngAfterViewInit() {
+    this.spatialNavigation.focus();
   }
 
   ngOnDestroy() {
