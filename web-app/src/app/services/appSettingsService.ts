@@ -83,7 +83,7 @@ export class AppSettingsService {
 
   private isExperimentalPeriodValid():boolean{
     let expirationDate = new Date(this.appSettings.startDate);
-    expirationDate.setDate(expirationDate.getDate() -1);
+    expirationDate.setDate(expirationDate.getDate() +1);
     return expirationDate > new Date();
   }
 
