@@ -13,31 +13,15 @@ export class MainComponent implements OnInit {
 
   constructor(
     private spatialNavigation: SpacialNavigationService
-    , private appSettingsService: AppSettingsService
-    , private alertService: AlertService) {
+    ) {
   }
 
   ngOnInit(): void {
 
   }
 
-  validateIfAppIsOperational() {
-    if (this.appSettingsService.isExperimentalPeriodValid()) {
-      this.appSettingsService.setIsAppBlocked(false);
-      this.alertService.info("Trial");
-    }
-    else {
-      this.appSettingsService.getEmailDeviceKeyStatus().subscribe(
-        () => {
-          this.appSettingsService.setIsAppBlocked(false);
-        }
-      );
-    }
-  }
-
   ngAfterViewInit() {
     this.spatialNavigation.add(MovableHelper.getMovableSectionIdGeneral(), ".movable");
-    this.validateIfAppIsOperational();
   }
 }
 

@@ -67,7 +67,7 @@ export class SerieDetailStreamComponent implements OnInit {
   }
 
   populateAllStreams(streamId: string) {
-    this.apiService.findSeriesInfoStreams(this.playlist, streamId).subscribe(result => {
+    this.apiService.findSeriesInfoStreamsAsync(this.playlist, streamId).subscribe(result => {
       this.streamsAll = result?.episodes ?? [];
 
       if (this.streamsAll.length == 0)

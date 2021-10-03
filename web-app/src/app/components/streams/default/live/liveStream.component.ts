@@ -65,14 +65,14 @@ export class LiveStreamComponent implements OnInit {
   }
 
   populateAllStreams() {
-    this.apiService.findLiveStreams(this.playlist).subscribe(result => {
+    this.apiService.findLiveStreamsAsync(this.playlist).subscribe(result => {
       this.streamsAll = result;
       if (this.streamsAll.length == 0)
         return;
 
       this.setPageOnStream(1, this.streamsAll);
 
-      this.apiService.findLiveCategories(this.playlist).subscribe(result => {
+      this.apiService.findLiveCategoriesAsync(this.playlist).subscribe(result => {
         result.forEach(x => this.categories.push(x));
       });
     });

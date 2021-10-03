@@ -38,31 +38,31 @@ export class ApiService {
     return this.createDefaultPipesGet<PlaylistInfo>(ApiHelper.generateApiUrl(playlist), false, this.mapPlaylistInfo);
   }
 
-  findLiveCategories(playlist: Playlist): Observable<Category[]> {
+  findLiveCategoriesAsync(playlist: Playlist): Observable<Category[]> {
     return this.createDefaultPipesGet<Category[]>(ApiHelper.generateApiUrl(playlist) + this.liveCategoriesActionParameter, true, this.mapLiveCategory);
   }
 
-  findLiveStreams(playlist: Playlist): Observable<Live[]> {
+  findLiveStreamsAsync(playlist: Playlist): Observable<Live[]> {
     return this.createDefaultPipesGet<Live[]>(ApiHelper.generateApiUrl(playlist) + this.liveStreamActionParameter, true, this.mapLive);
   }
 
-  findVodCategories(playlist: Playlist): Observable<Category[]> {
+  findVodCategoriesAsync(playlist: Playlist): Observable<Category[]> {
     return this.createDefaultPipesGet<Category[]>(ApiHelper.generateApiUrl(playlist) + this.vodCategoriesActionParameter, true, this.mapVODCategory);
   }
 
-  findVodStreams(playlist: Playlist): Observable<VOD[]> {
+  findVodStreamsAsync(playlist: Playlist): Observable<VOD[]> {
     return this.createDefaultPipesGet<VOD[]>(ApiHelper.generateApiUrl(playlist) + this.vodStreamActionParameter, true, this.mapVOD);
   }
 
-  getVodStreamInfo(playlist: Playlist, stream_id: string): Observable<StreamInfo> {
+  getVodStreamInfoAsync(playlist: Playlist, stream_id: string): Observable<StreamInfo> {
     return this.createDefaultPipesGet<StreamInfo>(ApiHelper.generateApiUrl(playlist) + this.vodStreamInfoActionParameter + "&vod_id=" + stream_id, false, this.mapVODDetail);
   }
 
-  findSeriesStreams(playlist: Playlist): Observable<Serie[]> {
+  findSeriesStreamsAsync(playlist: Playlist): Observable<Serie[]> {
     return this.createDefaultPipesGet<Serie[]>(ApiHelper.generateApiUrl(playlist) + this.serieStreamActionParameter, true, this.mapSerie);
   }
 
-  findSeriesInfoStreams(playlist: Playlist, stream_id: string): Observable<SerieDetail> {
+  findSeriesInfoStreamsAsync(playlist: Playlist, stream_id: string): Observable<SerieDetail> {
     return this.createDefaultPipesGet<SerieDetail>(ApiHelper.generateApiUrl(playlist) + this.serieInfoStreamActionParameter + stream_id, false, this.mapSerieInfo);
   }
 
@@ -71,7 +71,7 @@ export class ApiService {
     return this.httpClient.get<T>(url)
       .pipe(
         map(res => mapFunction != null ? mapFunction(res) : res == null && isArray ? [] : res),
-        catchError(err => { console.log(err); this.alertService.error(JSON.stringify(err)); return throwError(err) }),
+        catchError(err => { console.log(err); this.alertService.error(err?.error ?? err?.message); return throwError(err) }),
         finalize(() => this.spinnerService.hideSpinner())
       );
   }

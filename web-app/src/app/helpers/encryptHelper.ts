@@ -16,10 +16,15 @@ export class EncryptHelper {
   public static generateRandomDeviceKey(): string {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    for (var i = 0; i < 10; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    for (let t = 0; t < 3; t++) { 
+      for (let i = 0; i < 5; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      if(t < 2)
+      {
+        result += '-';
+      }
     }
-    console.log(result);
     return result;
   }
 }

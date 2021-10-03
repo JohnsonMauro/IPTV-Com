@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AppSettings } from '../models/app/appSettings';
@@ -13,7 +13,9 @@ import { SpinnerService } from './spinnerService';
 @Injectable()
 export class AppSettingsService {
 
-  private isAppBlocked = true;
+  private isAlreadyVerified = false;
+  private isAppAvailable = false;
+  private isAppAvailableSubject = new Subject<boolean>();
   private appSettings: AppSettings;
 
   constructor(
@@ -41,12 +43,8 @@ export class AppSettingsService {
   return this.appSettings;
   }
 
-  getIsAppBlocked() {
-    return this.isAppBlocked;
-    }
-
-  setIsAppBlocked(value: boolean) {
-      this.isAppBlocked = value;
+  getIsAppAvailable(): Subject<boolean> {
+    return this.isAppAvailableSubject;
     }
 
   setAppSettings(appSettings: AppSettings) {
@@ -54,26 +52,55 @@ export class AppSettingsService {
     this.appSettings = appSettings;
     }
 
-  isExperimentalPeriodValid():boolean{
+  validateApplication(){
+    if(this.isAlreadyVerified){
+      this.isAppAvailableSubject.next(this.isAppAvailable);
+      return;
+    }
+    else if(this.isExperimentalPeriodValid()){
+      this.alertService.info("In trial period");
+      this.isAppAvailable = true;
+      this.isAppAvailableSubject.next(this.isAppAvailable);
+    }
+    else {
+      if(this.appSettings.email == null || this.appSettings.email == "" 
+      || this.appSettings.deviceKey == null || this.appSettings.deviceKey == "")
+      {
+        this.alertService.warning("Email or Device Key are empty and cannot be validated");
+      }
+      else{
+        this.getEmailDeviceKeyStatusAsync().subscribe(
+          ()=> { 
+            this.isAppAvailable = true;
+            this.isAppAvailableSubject.next(this.isAppAvailable);
+          }
+        );
+      } 
+    }
+    
+    this.isAlreadyVerified = true;
+  }
+
+  private isExperimentalPeriodValid():boolean{
     let expirationDate = new Date(this.appSettings.startDate);
-    expirationDate.setDate(expirationDate.getDate() +1);
+    expirationDate.setDate(expirationDate.getDate() -1);
     return expirationDate > new Date();
   }
 
-  getEmailDeviceKeyStatus():Observable<string> {
+  private getEmailDeviceKeyStatusAsync():Observable<any> {
     let emailDeviceKey = new EmailDeviceKey();
     emailDeviceKey.email = this.appSettings.email;
     emailDeviceKey.deviceKey = this.appSettings.deviceKey;
     
-    return this.createDefaultPipePost<string>(environment.validateDeviceKeyUrl, JSON.stringify(emailDeviceKey));
+    return this.createDefaultPipePost<any>(environment.validateDeviceKeyUrl, JSON.stringify(emailDeviceKey));
   }
 
   private createDefaultPipePost<T>(url: string, data: string): Observable<T> {
     this.spinnerService.displaySpinner();
     return this.httpClient.post<T>(url, data)
       .pipe(
-        catchError(err => { console.log(err); this.alertService.error(err.error); return throwError(err) }),
-        finalize(() => this.spinnerService.hideSpinner())
+        catchError(err => { console.log(err); this.alertService.error(err?.error ?? err?.message); return throwError(err) }),
+        finalize(() => {this.spinnerService.hideSpinner();})
       );
   }
 }

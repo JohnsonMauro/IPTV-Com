@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable, Subscriber, Subscription } from 'rxjs';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { Playlist } from 'src/app/models/app/playlist';
@@ -19,6 +20,8 @@ export class HomeComponent implements OnInit {
   isBack = false;
   isDisplayAddPlaylist: boolean = false;
   isDisplaySettings: boolean = false;
+  isAppAvailable = false;
+  isAppAvailableSubscription: Subscription;
 
   constructor(private spatialNavigation: SpacialNavigationService
     ,private alertService: AlertService
@@ -32,10 +35,11 @@ export class HomeComponent implements OnInit {
   playlists: Array<Playlist>;
 
   ngOnInit(): void {
-    console.log('init');
     try{
       this.spinnerService.displaySpinner();
       this.playlists = this.dbService.findPlaylists();
+      this.subscriveToEvents(true);
+      this.appSettingsService.validateApplication();
     }
    catch(error: any){
     this.alertService.error(JSON.stringify(error));
@@ -88,10 +92,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getIsAppBlocked(): boolean{
-    return this.appSettingsService.getIsAppBlocked();
-  }
-
   appSettingSave(){
     this.alertService.info("Settings saved, please restart the app");
     this.displaySettings(false);
@@ -102,7 +102,19 @@ export class HomeComponent implements OnInit {
     this.spatialNavigation.focus();
   }
 
+  subscriveToEvents(isSubscribe: boolean){
+    if(isSubscribe)
+    {
+      this.isAppAvailableSubscription = this.appSettingsService.getIsAppAvailable().subscribe(x => this.isAppAvailable = x);
+    }
+    else{
+      this.isAppAvailableSubscription.unsubscribe();
+    }
+    
+  }
+
   ngOnDestroy() {
     this.playlists.length = 0;
+    this.subscriveToEvents(false);
   }
 }

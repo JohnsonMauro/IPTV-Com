@@ -64,7 +64,7 @@ export class SerieStreamComponent implements OnInit {
   }
 
   populateAllStreams() {
-    this.apiService.findSeriesStreams(this.playlist).subscribe(result => {
+    this.apiService.findSeriesStreamsAsync(this.playlist).subscribe(result => {
       this.streamsAll = result;
       if (this.streamsAll.length == 0)
         return;
