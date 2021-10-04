@@ -10,6 +10,11 @@
 
         <div class="content-main-wrapper">
 
+            <div *ngIf="playlists == null || playlists.length == 0" class="content-main-line">
+               {{getLabel('NoPlaylistFound')}}
+            </div>
+
+
             <div *ngFor="let playlist of playlists" class="content-main-line">
 
                 <button type="button" class="movable content-folder" (click)="onSelectPlayslist(playlist)" [disabled]="!isAppAvailable">

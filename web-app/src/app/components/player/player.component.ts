@@ -180,14 +180,14 @@ export class PlayerComponent implements OnInit {
 					this.onExitFullscreen.emit()
 				}
 				break;
-			case 179:
+			case 415:
 			case 19:
 				this.playOrPause();
 				break;
-			case 227:
+			case 412:
 				this.setTime(-10);
 				break;
-			case 228:
+			case 417:
 				this.setTime(10);
 				break;
 			default: break;

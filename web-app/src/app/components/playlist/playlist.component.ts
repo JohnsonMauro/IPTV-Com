@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
-import { PlaylistInfo } from 'src/app/models/api/playlistInfo';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
-import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
 import { LanguageService } from 'src/app/services/languageService';
 import { SpinnerService } from 'src/app/services/spinnerService';
@@ -20,7 +18,6 @@ export class PlaylistComponent implements OnInit {
   constructor(private spatialNavigation: SpacialNavigationService
     , private alertService: AlertService
     , private dbService: DbService
-    , private route: Router
     , private activatedRoute: ActivatedRoute
     ,private spinnerService: SpinnerService
     ,private router: Router
@@ -45,7 +42,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   moveTo(route: string) {
-    this.route.navigate([route, this.playlist._id]);
+    this.router.navigate([route, this.playlist._id]);
   }
 
   displayEditPlayslist(display: boolean){
@@ -81,7 +78,7 @@ export class PlaylistComponent implements OnInit {
     try {
       this.dbService.deletePlaylist(this.playlist);
       this.alertService.success('Playlist deleted');
-      this.route.navigate(['']);
+      this.router.navigate(['']);
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
@@ -97,6 +94,20 @@ export class PlaylistComponent implements OnInit {
   onBackTrigger(){
     this.router.navigate(["home", {isBack: true}]);
   }
+
+  @HostListener('window:keydown', ['$event'])
+	handleKeyDown(event: KeyboardEvent) {
+		if (this.isDisplayEditPlaylist) {
+			return;
+		}
+
+		switch (event.keyCode) {
+			case 461:
+					this.onBackTrigger();
+				break;
+			default: break;
+		}
+	}
 
   ngAfterViewInit() {
     if(!this.isBack)

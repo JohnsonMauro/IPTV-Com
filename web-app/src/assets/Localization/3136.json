@@ -32,6 +32,7 @@
     "Duration": "Duracao",
     "Description": "Descricao",
     "ReleaseDate": "Data lancamento",
-    "Cast": "Elenco"
+    "Cast": "Elenco",
+    "NoPlaylistFound":"Nenhuma playlist encontrada"
 }
 }
