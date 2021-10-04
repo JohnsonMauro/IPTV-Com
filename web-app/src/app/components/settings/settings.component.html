@@ -1,54 +1,65 @@
 <div class="content-settings">
 
     <div class="content-settings-title">
-        <label>Settings</label>
+        <label>{{getLabel('Settings')}}</label>
     </div>
 
-    <div class="content-main-line" style="height: 14vh;">
+    <div class="content-main-line" style="height: 7vh;">
+        <div class="content-settings-text">
+            <label>{{getLabel('Language')}}</label>
+        </div>
+        <div class="content-settings-value" style="text-align: right; display: flex; justify-content: right; vertical-align: middle;">
+            <select [className]="'movable movable-select '+settingsMovableClass" style="width: 100%;" placeholder="Sort"
+            [(ngModel)]="appSettings.language">
+            <option [value]="1033" class="select-option">English-US</option>
+            <option [value]="3136" class="select-option">Portugues-BR</option>
+        </select>
+            
+        </div>
+    </div>
 
-        <div class="content-main-line">
-            <div class="content-settings-text">
-                <label>Email</label>
-            </div>
-            <div class="content-settings-value">
-                <div [className]="'movable movable-txt content-settings-input  ' +settingsMovableClass"
-                    (keyup)="executeWrapperTextKeyUp($event)">
-                    <input type="text" placeholder="mail@mail.com" (keydown)="executeTextKeyDown($event)"
-                        (keyup)="executeTextKeyUp($event)" [(ngModel)]="appSettings.email" />
-                </div>
+
+    <div class="content-main-line" style="height: 7vh;">
+        <div class="content-settings-text">
+            <label>Email</label>
+        </div>
+        <div class="content-settings-value">
+            <div [className]="'movable movable-txt content-settings-input  ' +settingsMovableClass"
+                (keyup)="executeWrapperTextKeyUp($event)">
+                <input type="text" placeholder="mail@mail.com" (keydown)="executeTextKeyDown($event)"
+                    (keyup)="executeTextKeyUp($event)" [(ngModel)]="appSettings.email" />
             </div>
         </div>
+    </div>
 
-      
-        <div class="content-main-line">
-            <div class="content-settings-text">
-                <label>Device Key</label>
-            </div>
 
-            <div class="content-settings-middle" (keyup)="executeWrapperTextKeyUp($event)">
-                {{appSettings.deviceKey}}
-            </div>
+    <div class="content-main-line" style="height: 7vh;">
+        <div class="content-settings-text">
+            <label>{{getLabel('DeviceKey')}}</label>
+        </div>
 
-            <div class="content-settings-last" (keyup)="executeWrapperTextKeyUp($event)">
-                <button type="button" [className]="'movable content-button ' + settingsMovableClass"
-                    (click)="generateDeviceKey()">
-                    <div class="content-button-center">
-                        <div class="content-button-icon">
-                            <img alt="icon" src="images/refresh.png" loading=lazy class="content-icon" />
-                        </div>
-                        <div class="content-button-text">
-                            Refresh
-                        </div>
+        <div class="content-settings-middle" (keyup)="executeWrapperTextKeyUp($event)">
+            {{appSettings.deviceKey}}
+        </div>
+
+        <div class="content-settings-last" (keyup)="executeWrapperTextKeyUp($event)">
+            <button type="button" [className]="'movable content-button ' + settingsMovableClass"
+                (click)="generateDeviceKey()">
+                <div class="content-button-center">
+                    <div class="content-button-icon">
+                        <img alt="icon" src="images/refresh.png" loading=lazy class="content-icon" />
                     </div>
-                </button>
-            </div>
+                    <div class="content-button-text">
+                        {{getLabel('Refresh')}}
+                    </div>
+                </div>
+            </button>
         </div>
-
     </div>
 
 
-<div class="content-main-line" style="position: relative; display: block;">
-       
+    <div class="content-main-line" style="height: 7vh;">
+
         <div class="content-main-line-left">
             <button type="button" [className]="'movable content-button ' + settingsMovableClass" (click)="save()">
                 <div class="content-button-center">
@@ -56,7 +67,7 @@
                         <img alt="icon" src="images/save.png" loading=lazy class="content-icon" />
                     </div>
                     <div class="content-button-text">
-                        Save
+                        {{getLabel('Save')}}
                     </div>
                 </div>
             </button>
@@ -70,11 +81,11 @@
                         <img alt="icon" src="images/back.png" loading=lazy class="content-icon" />
                     </div>
                     <div class="content-button-text">
-                        Cancel
+                        {{getLabel('Back')}}
                     </div>
                 </div>
             </button>
         </div>
-</div>
+    </div>
 
 </div>

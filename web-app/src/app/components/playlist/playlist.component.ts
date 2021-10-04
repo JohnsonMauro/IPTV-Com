@@ -7,6 +7,7 @@ import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
+import { LanguageService } from 'src/app/services/languageService';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../services/spacialNavigationService';
 
@@ -22,7 +23,8 @@ export class PlaylistComponent implements OnInit {
     , private route: Router
     , private activatedRoute: ActivatedRoute
     ,private spinnerService: SpinnerService
-    ,private router: Router) {
+    ,private router: Router
+    ,private languageService: LanguageService) {
   }
 
   isDisplayEditPlaylist = false;
@@ -86,6 +88,10 @@ export class PlaylistComponent implements OnInit {
     }
     finally {
     }
+  }
+
+  getLabel(key: string): string{
+    return this.languageService.getLabel(key);
   }
 
   onBackTrigger(){

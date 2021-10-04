@@ -18,6 +18,7 @@ import { SpacialNavigationService } from '../../../../services/spacialNavigation
 import { StreamBase } from 'src/app/models/api/streamBase';
 import { SerieEpisode } from 'src/app/models/api/serieDetail';
 import { StreamInfo } from 'src/app/models/api/streamInfo';
+import { LanguageService } from 'src/app/services/languageService';
 
 @Component({
   selector: 'app-serieDetailStream',
@@ -28,7 +29,7 @@ export class SerieDetailStreamComponent implements OnInit {
   searchText: string;
   maxPage = 1;
   currentPage = 1;
-  categories: Category[] = [{ id: CategoryHelper.allCategoryId, name: CategoryHelper.allCategoryName, parent_id: null }]
+  categories: Category[] = [{ id: CategoryHelper.allCategoryId, name: null, parent_id: null }]
   currentCategory = this.categories[0];
 
   playlist: Playlist;
@@ -48,7 +49,8 @@ export class SerieDetailStreamComponent implements OnInit {
     , private spatialNavigation: SpacialNavigationService
     , private spinnerService: SpinnerService
     , private searchService: SearchService
-  ,private router: Router) {
+  ,private router: Router
+  , private languageService: LanguageService) {
   }
 
   ngOnInit() {
@@ -107,7 +109,7 @@ export class SerieDetailStreamComponent implements OnInit {
   }
 
   getFavoriteDescription(): string {
-    return this.currentCategory?.id == CategoryHelper.favoritesCategoryId ? "Remove from favorites" : "Add to favorites"
+    return this.getLabel(this.currentCategory?.id == CategoryHelper.favoritesCategoryId ? "RemoveFromFavorites" : "AddToFavorites");
   }
 
   manageFavorites() {
@@ -117,15 +119,15 @@ export class SerieDetailStreamComponent implements OnInit {
 
       if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
         this.dbService.removeFromFavorites(this.playlist._id, StreamTypeCode.Serie, this.stream.stream_id);
-        this.alertService.info('Removed from favorites');
+        this.alertService.info(this.getLabel("RemovedFromFavorites"));
       }
       else {
         this.dbService.addToFavorites(this.playlist._id, StreamTypeCode.Serie, this.stream.stream_id);
-        this.alertService.info('Added to favorites');
+        this.alertService.info(this.getLabel("AddedToFavorites"));
       }
     }
     catch (err) {
-      this.alertService.error(JSON.stringify(err));
+      this.alertService.error(err.toString());
     }
   }
 
@@ -152,6 +154,10 @@ export class SerieDetailStreamComponent implements OnInit {
     this.onMovePageTrigger(this.currentPage == this.maxPage ? 1 : this.currentPage + 1);
     this.selectStream(this.streams[0]);
     this.selectStream(this.streams[0]);
+  }
+
+  getLabel(key: string): string{
+    return this.languageService.getLabel(key);
   }
 
   // ------------------------------------ Search and move ----------------------------------------
@@ -198,7 +204,7 @@ export class SerieDetailStreamComponent implements OnInit {
       streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamTypeCode.Serie);
     }
     catch (err) {
-      this.alertService.error(JSON.stringify(err));
+      this.alertService.error(err.toString());
     }
 
     return <SerieEpisode[]>streamsFilteredLocal;

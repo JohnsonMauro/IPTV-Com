@@ -3,6 +3,7 @@ import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
+import { LanguageService } from 'src/app/services/languageService';
 import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
 
 @Component({
@@ -13,7 +14,8 @@ import { SpacialNavigationService } from 'src/app/services/spacialNavigationServ
 export class ManagePlaylistComponent implements OnInit {
 
   constructor(private spatialNavigation: SpacialNavigationService
-    ,private alertService: AlertService) {
+    ,private alertService: AlertService
+    ,private languageService: LanguageService) {
   }
   
   managePlaylistMovableClass = "movable-addplaylist";
@@ -46,7 +48,11 @@ export class ManagePlaylistComponent implements OnInit {
       this.onSave.emit(this.playlist);
       return;
     }
-    this.alertService.warning("All fields are required");
+    this.alertService.warning(this.getLabel("AllFieldsRequired"));
+  }
+
+  getLabel(key: string): string{
+    return this.languageService.getLabel(key);
   }
 
   isPlaylistValid(): boolean{

@@ -19,6 +19,7 @@ import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../../../services/spacialNavigationService';
 import { StreamBase } from 'src/app/models/api/streamBase';
 import { SearchService } from 'src/app/services/searchService';
+import { LanguageService } from 'src/app/services/languageService';
 
 @Component({
   selector: 'app-vodStream',
@@ -29,7 +30,7 @@ export class VodStreamComponent implements OnInit {
   searchText: string;
   maxPage = 1;
   currentPage = 1;
-  categories = CategoryHelper.getDefaultCategories();
+  categories: Category[] = CategoryHelper.getDefaultCategories();
   currentCategory = this.categories[1];
   
   playlist: Playlist;
@@ -49,7 +50,8 @@ export class VodStreamComponent implements OnInit {
     , private spatialNavigation: SpacialNavigationService
     , private spinnerService: SpinnerService
     , private searchService: SearchService
-    ,private router: Router) {
+    ,private router: Router
+    ,private languageService: LanguageService) {
   }
 
   ngOnInit() {
@@ -109,7 +111,7 @@ export class VodStreamComponent implements OnInit {
   }
 
   getFavoriteDescription(): string {
-    return this.currentCategory?.id == CategoryHelper.favoritesCategoryId ? "Remove from favorites" : "Add to favorites"
+    return this.getLabel(this.currentCategory?.id == CategoryHelper.favoritesCategoryId ? "RemoveFromFavorites" : "AddToFavorites");
   }
 
   manageFavorites() {
@@ -119,15 +121,15 @@ export class VodStreamComponent implements OnInit {
 
       if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
         this.dbService.removeFromFavorites(this.playlist._id, StreamTypeCode.VOD, this.stream.stream_id);
-        this.alertService.info('Removed from favorites');
+        this.alertService.info(this.getLabel("RemovedFromFavorites"));
       }
       else {
         this.dbService.addToFavorites(this.playlist._id, StreamTypeCode.VOD, this.stream.stream_id);
-        this.alertService.info('Added to favorites');
+        this.alertService.info(this.getLabel("AddedToFavorites"));
       }
     }
     catch (err) {
-      this.alertService.error(JSON.stringify(err));
+      this.alertService.error(err.toString());
     }
   }
 
@@ -140,6 +142,10 @@ export class VodStreamComponent implements OnInit {
       this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
 
     this.isFullscreen = isFullScreen;
+  }
+
+  getLabel(key: string): string{
+    return this.languageService.getLabel(key);
   }
 
   // ------------------------------------ Search and move ----------------------------------------
@@ -188,7 +194,7 @@ export class VodStreamComponent implements OnInit {
       streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamTypeCode.VOD);
     }
     catch(err){
-      this.alertService.error(JSON.stringify(err));
+      this.alertService.error(err.toString());
     }
 
     return <VOD[]>streamsFilteredLocal;

@@ -18,6 +18,7 @@ import { DbService } from 'src/app/services/dbServie';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { StreamBase } from 'src/app/models/api/streamBase';
 import { SearchService } from 'src/app/services/searchService';
+import { LanguageService } from 'src/app/services/languageService';
 
 @Component({
   selector: 'app-streamInfo',
@@ -25,6 +26,10 @@ import { SearchService } from 'src/app/services/searchService';
   styleUrls: ['./streamInfo.component.css']
 })
 export class StreamInfoComponent implements OnInit {
+
+constructor(private languageService: LanguageService){
+
+}
 
   @Input()
   streamTypeImage: string;
@@ -46,4 +51,7 @@ export class StreamInfoComponent implements OnInit {
     this.isImageErrorChange.emit(true);
   }
 
+  getLabel(key: string): string{
+    return this.languageService.getLabel(key);
+  }
 }

@@ -15,7 +15,7 @@
                         <img class="content-icon content-icon-serie" alt="icon" src="images/tv.png" loading=lazy />
                     </div>
                     <div class="content-folder-text">
-                        Live streams
+                        {{getLabel('LiveStream')}}
                     </div>
                 </div>
             </button>
@@ -29,7 +29,7 @@
                         <img class="content-icon content-icon-serie" alt="icon" src="images/movie.png" loading=lazy />
                     </div>
                     <div class="content-folder-text">
-                        Videos on demand
+                        {{getLabel('VodStream')}}
                     </div>
                 </div>
             </button>
@@ -61,7 +61,7 @@
             </div>
 
             <div class="content-line-playlist-info-item">
-                User
+                {{getLabel('User')}}
             </div>
             <div class="content-line-playlist-info-detail">
                 {{playlist.user}}
@@ -90,7 +90,7 @@
                             <img alt="icon" src="images/pen.png" loading=lazy class="content-icon" />
                         </div>
                         <div class="content-button-text">
-                            Edit
+                            {{getLabel('Edit')}}
                         </div>
                     </div>               
                 </button>
@@ -103,7 +103,7 @@
                             <img alt="icon" src="images/x.png" loading=lazy class="content-icon" />
                         </div>
                         <div class="content-button-text">
-                            Delete
+                            {{getLabel('Delete')}}
                         </div>
                     </div>
                 </button>

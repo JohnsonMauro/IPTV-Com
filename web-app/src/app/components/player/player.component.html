@@ -17,7 +17,7 @@
                 </div>
             </button>
             &nbsp;&nbsp;
-            <button *ngIf="!isLiveStream" class='movable content-button content-videoplayer-footer-controls' (click)="playOrPause()" [disabled]="!isDisplayFooter">
+            <button class='movable content-button content-videoplayer-footer-controls' (click)="playOrPause()" [disabled]="!isDisplayFooter">
                 <div class="content-button-center">
                     <img alt="icon" src="{{getImagePlayOrPause()}}" loading=lazy class="content-videoplayer-footer-controls-icon" />
                 </div>

@@ -17,6 +17,7 @@ import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
 import { EpgService } from 'src/app/services/epgService';
+import { LanguageService } from 'src/app/services/languageService';
 import { SearchService } from 'src/app/services/searchService';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../../../services/spacialNavigationService';
@@ -53,7 +54,8 @@ export class LiveStreamComponent implements OnInit {
     , private spinnerService: SpinnerService
     , private searchService: SearchService
     , private epgService: EpgService
-  , private router: Router) {
+  , private router: Router
+  , private languageService: LanguageService) {
   }
 
   ngOnInit() {
@@ -82,25 +84,21 @@ export class LiveStreamComponent implements OnInit {
       result.forEach(x => this.categories.push(x));
     });
 
-    let currentDate = new Date();
+    
 
-    let epgFromDb = this.dbService.findEpg(this.playlist._id);
+    let tempEpg = this.epgService.findTemporarytLiveEpg(this.playlist._id);
 
-    if (epgFromDb != null) {
-        var expirationDate = new Date(epgFromDb.date);
-        expirationDate.setDate(expirationDate.getDate() + 1);
-
-        if (expirationDate > currentDate){
-          this.epgAll = epgFromDb.epg.filter(x => x.endDate >= currentDate);
-          return;
-        }
-            
+    if(tempEpg.length > 0)
+    {
+      let currentDate = new Date();
+      this.epgAll = tempEpg.filter(x => x.endDate > currentDate);
     }
 
     this.epgService.getLiveEpgAsync(this.playlist).subscribe(result => {
       if(result.length > 0){
-        this.dbService.saveEpg(this.playlist._id, result);  
-        this.epgAll = result.filter(x => x.endDate >= currentDate);
+        let currentDate = new Date();
+        this.epgService.saveTemporaryLiveEpg(this.playlist._id, result);
+        this.epgAll = tempEpg.filter(x => x.endDate > currentDate);
       }   
     });
 
@@ -139,7 +137,7 @@ export class LiveStreamComponent implements OnInit {
   }
 
   getFavoriteDescription(): string {
-    return this.currentCategory?.id == CategoryHelper.favoritesCategoryId ? "Remove from favorites" : "Add to favorites"
+    return this.getLabel(this.currentCategory?.id == CategoryHelper.favoritesCategoryId ? "RemoveFromFavorites" : "AddToFavorites");
   }
 
   manageFavorites() {
@@ -149,16 +147,20 @@ export class LiveStreamComponent implements OnInit {
 
       if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
         this.dbService.removeFromFavorites(this.playlist._id, StreamTypeCode.Live, this.stream.stream_id);
-        this.alertService.info('Removed from favorites');
+        this.alertService.info(this.getLabel("RemovedFromFavorites"));
       }
       else {
         this.dbService.addToFavorites(this.playlist._id, StreamTypeCode.Live, this.stream.stream_id);
-        this.alertService.info('Added to favorites');
+        this.alertService.info(this.getLabel("AddedToFavorites"));
       }
     }
     catch (err) {
-      this.alertService.error(JSON.stringify(err));
+      this.alertService.error(err.toString());
     }
+  }
+
+  getLabel(key: string): string{
+    return this.languageService.getLabel(key);
   }
 
   // ------------------------------------ Search and move ----------------------------------------
@@ -206,7 +208,7 @@ export class LiveStreamComponent implements OnInit {
       streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamTypeCode.Live);
     }
     catch (err) {
-      this.alertService.error(JSON.stringify(err));
+      this.alertService.error(err.toString());
     }
 
     return <Live[]>streamsFilteredLocal;

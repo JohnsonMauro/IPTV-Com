@@ -11,7 +11,6 @@ export class DbService {
   constructor() {
   }
 
-
   findPlaylists(): Array<Playlist> {
     let storageResult = localStorage.getItem(this.getPlayListKey());
     let playlists = storageResult == null ? new Array<Playlist>() : JSON.parse(storageResult);
@@ -105,7 +104,7 @@ export class DbService {
     return settings != null ? JSON.parse(settings) : null;
   }
 
-  setAppSettings(appSettings: AppSettings) {
+  saveAppSettings(appSettings: AppSettings) {
     localStorage.setItem(this.getAppSettingsKey(), JSON.stringify(appSettings));
   }
 

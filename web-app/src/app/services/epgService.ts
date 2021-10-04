@@ -15,7 +15,28 @@ export class EpgService {
     constructor(
         private alertService: AlertService
         , private spinnerService: SpinnerService
-        , private httpClient: HttpClient) {
+        , private httpClient: HttpClient
+        , private dbService: DbService) {
+    }
+
+    findTemporarytLiveEpg(playlistId: string): Epg[] {
+
+        let epgFromDb = this.dbService.findEpg(playlistId);
+
+        if (epgFromDb != null) {
+            var expirationDate = new Date(epgFromDb.date);
+            expirationDate.setDate(expirationDate.getDate() + 1);
+
+            if (expirationDate >  new Date()) {
+                return epgFromDb.epg;
+            }
+        }
+
+        return [];
+    }
+
+    saveTemporaryLiveEpg(playlistId: string, epg: Epg[]) {
+        this.dbService.saveEpg(playlistId, epg);
     }
 
     getLiveEpgAsync(playlist: Playlist): Observable<Epg[]> {
@@ -35,20 +56,20 @@ export class EpgService {
     private epgMap(result: string): Epg[] {
         let epgs: Epg[] = [];
 
-        let convertToDateFunc = function(dateText: string, dateFormat: string): Date {
-                let yearIndex = dateFormat.indexOf("yyyy");
-                let monthIndex = dateFormat.indexOf("MM");
-                let dayIndex = dateFormat.indexOf("dd");
-        
-                let hourIndex = dateFormat.indexOf("hh");
-                let minuteIndex = dateFormat.indexOf("mm");
-                let secondsIndex = dateFormat.indexOf("ss");
-        
-                let zoneIndex = dateFormat.indexOf("Zhhmm");
-        
-                let dateFormated = `${dateText.substr(yearIndex, 4)}-${dateText.substr(monthIndex, 2)}-${dateText.substr(dayIndex, 2)} ${dateText.substr(hourIndex, 2)}:${dateText.substr(minuteIndex, 2)}:${dateText.substr(secondsIndex, 2)} GMT${dateText.substr(zoneIndex, 5)}`
-                return new Date(dateFormated);
-            };
+        let convertToDateFunc = function (dateText: string, dateFormat: string): Date {
+            let yearIndex = dateFormat.indexOf("yyyy");
+            let monthIndex = dateFormat.indexOf("MM");
+            let dayIndex = dateFormat.indexOf("dd");
+
+            let hourIndex = dateFormat.indexOf("hh");
+            let minuteIndex = dateFormat.indexOf("mm");
+            let secondsIndex = dateFormat.indexOf("ss");
+
+            let zoneIndex = dateFormat.indexOf("Zhhmm");
+
+            let dateFormated = `${dateText.substr(yearIndex, 4)}-${dateText.substr(monthIndex, 2)}-${dateText.substr(dayIndex, 2)} ${dateText.substr(hourIndex, 2)}:${dateText.substr(minuteIndex, 2)}:${dateText.substr(secondsIndex, 2)} GMT${dateText.substr(zoneIndex, 5)}`
+            return new Date(dateFormated);
+        };
 
         if (result != null && result != "") {
             let dateStringFormat = "yyyyMMddhhmmss Zhhmm";

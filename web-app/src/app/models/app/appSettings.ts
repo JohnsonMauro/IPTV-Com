@@ -7,4 +7,5 @@ seriesSimpleViewEnabled: boolean;
 startNextStreamEnabled: boolean;
 selectCategoryEnabled: boolean;
 startDate: Date;
+language: string;
 }

@@ -7,6 +7,7 @@ import { Playlist } from 'src/app/models/app/playlist';
 import { AlertService } from 'src/app/services/alertService';
 import { AppSettingsService } from 'src/app/services/appSettingsService';
 import { DbService } from 'src/app/services/dbServie';
+import { LanguageService } from 'src/app/services/languageService';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../services/spacialNavigationService';
 
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
     ,private route: Router
     ,private spinnerService: SpinnerService
     ,private appSettingsService: AppSettingsService
+    ,private languageService: LanguageService
     ) {
   }
 
@@ -97,10 +99,10 @@ export class HomeComponent implements OnInit {
     this.displaySettings(false);
   }
 
-  ngAfterViewInit() {
-    if(!this.isBack)
-    this.spatialNavigation.focus();
+  getLabel(key: string): string{
+    return this.languageService.getLabel(key);
   }
+
 
   subscriveToEvents(isSubscribe: boolean){
     if(isSubscribe)
@@ -111,6 +113,11 @@ export class HomeComponent implements OnInit {
       this.isAppAvailableSubscription.unsubscribe();
     }
     
+  }
+
+  ngAfterViewInit() {
+    if(!this.isBack)
+    this.spatialNavigation.focus();
   }
 
   ngOnDestroy() {

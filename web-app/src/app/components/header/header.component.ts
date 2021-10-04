@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter }
 import { ActivatedRoute, Router } from '@angular/router';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { SortCode } from 'src/app/models/app/sortCode';
+import { LanguageService } from 'src/app/services/languageService';
 
 
 @Component({
@@ -11,7 +12,8 @@ import { SortCode } from 'src/app/models/app/sortCode';
 })
 export class HeaderComponent implements OnInit {
   constructor(private router: Router
-    ,private activatedRoute: ActivatedRoute) { }
+    ,private activatedRoute: ActivatedRoute
+    ,private languageService: LanguageService) { }
 
   @ViewChild("headerBackButtonId")
 	private headerBackButtonElement: ElementRef;
@@ -47,6 +49,10 @@ export class HeaderComponent implements OnInit {
   executeTextKeyUp = MovableHelper.executeDefaultKeyUpForInputText;
 
   ngOnInit(): void {
+  }
+
+  getLabel(key: string): string{
+    return this.languageService.getLabel(key);
   }
 
   ngAfterViewInit(): void {

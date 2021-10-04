@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { LanguageService } from 'src/app/services/languageService';
 
 @Component({
   selector: 'app-page',
@@ -15,11 +16,15 @@ export class PageComponent implements OnInit {
   onMove = new EventEmitter<number>();
 
   constructor(
-  ) {
+  private languageService: LanguageService) {
   }
 
   ngOnInit() {
 
+  }
+
+  getLabel(key: string): string{
+    return this.languageService.getLabel(key);
   }
 
   move(count: number) {

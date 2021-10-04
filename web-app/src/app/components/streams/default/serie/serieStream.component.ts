@@ -18,6 +18,7 @@ import { SpinnerService } from 'src/app/services/spinnerService';
 import { StreamBase } from 'src/app/models/api/streamBase';
 import { StreamInfo } from 'src/app/models/api/streamInfo';
 import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
+import { LanguageService } from 'src/app/services/languageService';
 
 @Component({
   selector: 'app-serieStream',
@@ -48,7 +49,8 @@ export class SerieStreamComponent implements OnInit {
     , private apiService: ApiService
     , private spinnerService: SpinnerService
     , private searchService: SearchService
-    ,private router: Router) {
+    ,private router: Router
+    , private languageService: LanguageService) {
   }
 
   ngOnInit() {
@@ -97,7 +99,7 @@ export class SerieStreamComponent implements OnInit {
   }
 
   getFavoriteDescription(): string {
-    return this.currentCategory?.id == CategoryHelper.favoritesCategoryId ? "Remove from favorites" : "Add to favorites"
+    return this.getLabel(this.currentCategory?.id == CategoryHelper.favoritesCategoryId ? "RemoveFromFavorites" : "AddToFavorites");
   }
 
   manageFavorites() {
@@ -107,15 +109,15 @@ export class SerieStreamComponent implements OnInit {
 
       if (this.currentCategory.id == CategoryHelper.favoritesCategoryId) {
         this.dbService.removeFromFavorites(this.playlist._id, StreamTypeCode.Serie, this.stream.stream_id);
-        this.alertService.info('Removed from favorites');
+        this.alertService.info(this.getLabel("RemovedFromFavorites"));
       }
       else {
         this.dbService.addToFavorites(this.playlist._id, StreamTypeCode.Serie, this.stream.stream_id);
-        this.alertService.info('Added to favorites');
+        this.alertService.info(this.getLabel("AddedToFavorites"));
       }
     }
     catch (err) {
-      this.alertService.error(JSON.stringify(err));
+      this.alertService.error(err.toString());
     }
   }
 
@@ -123,6 +125,10 @@ export class SerieStreamComponent implements OnInit {
     if(this.stream == null)
     return;
     this.route.navigate(['seriedetailstream', this.playlist._id, this.stream.stream_id]);
+  }
+
+  getLabel(key: string): string{
+    return this.languageService.getLabel(key);
   }
 
   // ------------------------------------ Search and move ----------------------------------------
@@ -170,7 +176,7 @@ export class SerieStreamComponent implements OnInit {
       streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamTypeCode.Serie);
     }
     catch(err){
-      this.alertService.error(JSON.stringify(err));
+      this.alertService.error(err.toString());
     }
 
     return <Serie[]>streamsFilteredLocal;

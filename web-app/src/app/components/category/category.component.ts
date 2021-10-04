@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { Category } from 'src/app/models/app/category';
+import { LanguageService } from 'src/app/services/languageService';
 
 @Component({
   selector: 'app-category',
@@ -18,11 +19,20 @@ export class CategoryComponent implements OnInit {
   onMove = new EventEmitter<Category>();
 
   constructor(
-  ) {
+  private languageService: LanguageService) {
   }
 
   ngOnInit() {
     
+  }
+
+  getName(){
+    if(this.currentCategory.id == CategoryHelper.favoritesCategoryId)
+    return this.languageService.getLabel('Favorites');
+    else if(this.currentCategory.id == CategoryHelper.allCategoryId)
+    return this.languageService.getLabel('All');
+
+    return this.currentCategory.name;
   }
 
   move(count: number) {

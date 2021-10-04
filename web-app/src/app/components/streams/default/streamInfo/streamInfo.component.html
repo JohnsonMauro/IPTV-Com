@@ -7,7 +7,7 @@
 
     <div class="content-line-stream-info-details">
         <div class="content-line-stream-info-details-item">
-            Release
+            {{getLabel('ReleaseDate')}}
         </div>
         <div>
             {{streamInfo == null ? '...' : streamInfo.release_date}}
@@ -16,7 +16,7 @@
         </div>
 
         <div class="content-line-stream-info-details-item">
-            Duration
+            {{getLabel('Duration')}}
         </div>
         <div>
             {{streamInfo == null ? '...' : streamInfo.duration}}
@@ -25,7 +25,7 @@
         </div>
 
         <div class="content-line-stream-info-details-item">
-            Cast
+            {{getLabel('Cast')}}
         </div>
         <div>
             {{streamInfo == null ? '...' :streamInfo.cast}}
@@ -34,7 +34,7 @@
         </div>
 
         <div class="content-line-stream-info-details-item">
-            Description
+            {{getLabel('Description')}}
         </div>
         <div>
             {{streamInfo == null ? '...' : streamInfo.description}}

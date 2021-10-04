@@ -1,7 +1,7 @@
 <div class="content-manageplaylist">
 
     <div class="content-manageplaylist-title">
-        <label>Add playlist</label>
+        <label>Playlist</label>
     </div>
 
 
@@ -11,7 +11,7 @@
 
     <div class="content-main-line">
         <div class="content-manageplaylist-text">
-            <label>Name</label>
+            <label>{{getLabel('Name')}}</label>
         </div>
         <div class="content-manageplaylist-value">
                 <div [className]="'movable movable-txt content-manageplaylist-input ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
@@ -23,7 +23,7 @@
 
     <div class="content-main-line">
         <div class="content-manageplaylist-text">
-            <label>User</label>
+            <label>{{getLabel('User')}}</label>
         </div>
         <div class="content-manageplaylist-value">
                 <div [className]="'movable movable-txt content-manageplaylist-input ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
@@ -35,7 +35,7 @@
 
     <div class="content-main-line">
         <div class="content-manageplaylist-text">
-            <label>Password</label>
+            <label>{{getLabel('Password')}}</label>
         </div>
         <div class="content-manageplaylist-value">
                 <div [className]="'movable movable-txt content-manageplaylist-input ' +managePlaylistMovableClass" (keyup)="executeWrapperTextKeyUp($event)">
@@ -67,7 +67,7 @@
                             <img alt="icon" src="images/save.png" loading=lazy class="content-icon" />
                         </div>
                         <div class="content-button-text">
-                            Save
+                            {{getLabel('Save')}}
                         </div>
                     </div>
                 </button>
@@ -81,7 +81,7 @@
                             <img alt="icon" src="images/back.png" loading=lazy class="content-icon" />
                         </div>
                         <div class="content-button-text">
-                            Cancel
+                            {{getLabel('Back')}}
                         </div>
                     </div>
                 </button>

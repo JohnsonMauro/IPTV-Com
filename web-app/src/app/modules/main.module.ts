@@ -30,6 +30,7 @@ import { SerieDetailStreamComponent } from '../components/streams/default/serieD
 import { StreamInfoComponent } from '../components/streams/default/streamInfo/streamInfo.component';
 import { SettingsComponent } from '../components/settings/settings.component';
 import { EpgService } from '../services/epgService';
+import { LanguageService } from '../services/languageService';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,7 @@ import { EpgService } from '../services/epgService';
     FormsModule,
     HttpClientModule
   ],
-  providers: [SpacialNavigationService, AlertService, SpinnerService, DbService, ApiService, EpgService, SearchService, AppSettingsService],
+  providers: [SpacialNavigationService, AlertService, SpinnerService, DbService, ApiService, EpgService, SearchService, AppSettingsService, LanguageService],
   bootstrap: [MainComponent]
 })
 export class MainModule { }

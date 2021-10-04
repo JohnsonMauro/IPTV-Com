@@ -14,7 +14,7 @@
     <div class="content-header-right">
         <div class="content-header-item">
             <div class="movable movable-txt" style="width: 10vw;" (keyup)="executeWrapperTextKeyUp($event)">
-                <input type="text" placeholder="Search..." (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="searchText" />
+                <input type="text" [placeholder]="getLabel('Search')" (keydown)="executeTextKeyDown($event)" (keyup)="executeTextKeyUp($event)" [(ngModel)]="searchText" />
             </div>
         </div>
         <div class="content-header-item">
@@ -22,7 +22,7 @@
         </div>
         <div class="content-header-item">
             <select class="movable movable-select" style="width: 8vw;" placeholder="Sort" [(ngModel)]="sortCode" >
-                <option [value]="99">Sort...</option>
+                <option [value]="99">{{getLabel('Sort')}}</option>
 
                 <option [value]="0" class="select-option">
                     Name [asc]

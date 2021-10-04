@@ -4,6 +4,7 @@ import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { AppSettings } from 'src/app/models/app/appSettings';
 import { AlertService } from 'src/app/services/alertService';
 import { AppSettingsService } from 'src/app/services/appSettingsService';
+import { LanguageService } from 'src/app/services/languageService';
 import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
 
 @Component({
@@ -15,8 +16,10 @@ export class SettingsComponent implements OnInit {
 
   constructor(private spatialNavigation: SpacialNavigationService
     ,private alertService: AlertService
-    ,private settingsService: AppSettingsService) {
-  }
+    ,private settingsService: AppSettingsService
+    ,private languageService: LanguageService) {
+      
+    }
 
   appSettings: AppSettings;
   
@@ -51,6 +54,10 @@ export class SettingsComponent implements OnInit {
 
     this.settingsService.setAppSettings(this.appSettings);
     this.onSave.emit();
+  }
+
+  getLabel(key: string): string{
+    return this.languageService.getLabel(key);
   }
 
   generateDeviceKey(){
