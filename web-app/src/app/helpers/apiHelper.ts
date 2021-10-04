@@ -17,5 +17,9 @@ export class ApiHelper {
   static generateSerieEpisodeUrl(playlist: Playlist, id: string, extension: string):string{
     return `${playlist.url}/series/${playlist.user}/${playlist.password}/${id}.${extension}`
   }
+
+  static generateLiveEpgXmlUrl(playlist: Playlist):string{
+    return `${playlist.url}/xmltv.php?username=${playlist.user}&password=${playlist.password}`
+  }
 }
 

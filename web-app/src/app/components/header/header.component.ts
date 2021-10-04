@@ -27,8 +27,8 @@ export class HeaderComponent implements OnInit {
   onSearch = new EventEmitter<string>();
   @Output()
   onSort = new EventEmitter<SortCode>();
-  @Input()
-  backRoute: string;
+  @Output()
+  onBack = new EventEmitter<null>();
 
   home(){
     this.router.navigate(['']);
@@ -40,12 +40,6 @@ export class HeaderComponent implements OnInit {
 
   sort(){
     this.onSort.emit(this.sortCode);
-  }
-
-  back(){
-    if(this.backRoute == null)
-    return;
-    this.router.navigate([this.backRoute, {isBack: true}]);
   }
 
   executeWrapperTextKeyUp = MovableHelper.executeDefaultKeyUpForTextWrapper;

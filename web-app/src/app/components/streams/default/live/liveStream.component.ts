@@ -1,6 +1,6 @@
 
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
@@ -9,12 +9,14 @@ import { PageHelper } from 'src/app/helpers/pageHelper';
 import { Live } from 'src/app/models/api/live';
 import { StreamBase } from 'src/app/models/api/streamBase';
 import { Category } from 'src/app/models/app/category';
+import { Epg } from 'src/app/models/app/epg';
 import { Playlist } from 'src/app/models/app/playlist';
 import { SortCode } from 'src/app/models/app/sortCode';
 import { StreamTypeCode } from 'src/app/models/app/streamTypeCode';
 import { AlertService } from 'src/app/services/alertService';
 import { ApiService } from 'src/app/services/apiService';
 import { DbService } from 'src/app/services/dbServie';
+import { EpgService } from 'src/app/services/epgService';
 import { SearchService } from 'src/app/services/searchService';
 import { SpinnerService } from 'src/app/services/spinnerService';
 import { SpacialNavigationService } from '../../../../services/spacialNavigationService';
@@ -32,11 +34,13 @@ export class LiveStreamComponent implements OnInit {
   currentPage = 1;
   categories = CategoryHelper.getDefaultCategories();
   currentCategory = this.categories[1];
-  
+
   playlist: Playlist;
   streamsAll: Live[] = [];
   streams: Live[] = [];
   stream: Live;
+  epgAll: Epg[] = [];
+  epg: Epg[] = [];
 
   source: string;
   isFullscreen = false;
@@ -47,8 +51,9 @@ export class LiveStreamComponent implements OnInit {
     , private apiService: ApiService
     , private spatialNavigation: SpacialNavigationService
     , private spinnerService: SpinnerService
-    ,private searchService: SearchService
-  ) {
+    , private searchService: SearchService
+    , private epgService: EpgService
+  , private router: Router) {
   }
 
   ngOnInit() {
@@ -71,17 +76,39 @@ export class LiveStreamComponent implements OnInit {
         return;
 
       this.setPageOnStream(1, this.streamsAll);
-
-      this.apiService.findLiveCategoriesAsync(this.playlist).subscribe(result => {
-        result.forEach(x => this.categories.push(x));
-      });
     });
+
+    this.apiService.findLiveCategoriesAsync(this.playlist).subscribe(result => {
+      result.forEach(x => this.categories.push(x));
+    });
+
+    let currentDate = new Date();
+
+    let epgFromDb = this.dbService.findEpg(this.playlist._id);
+
+    if (epgFromDb != null) {
+        var expirationDate = new Date(epgFromDb.date);
+        expirationDate.setDate(expirationDate.getDate() + 1);
+
+        if (expirationDate > currentDate){
+          this.epgAll = epgFromDb.epg.filter(x => x.endDate >= currentDate);
+          return;
+        }
+            
+    }
+
+    this.epgService.getLiveEpgAsync(this.playlist).subscribe(result => {
+      if(result.length > 0){
+        this.dbService.saveEpg(this.playlist._id, result);  
+        this.epgAll = result.filter(x => x.endDate >= currentDate);
+      }   
+    });
+
   }
 
-
   onFullscreenTrigger(isFullScreen: boolean) {
-    if(this.stream == null)
-    return;
+    if (this.stream == null)
+      return;
 
     if (isFullScreen)
       this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
@@ -93,17 +120,22 @@ export class LiveStreamComponent implements OnInit {
 
   selectStream(stream: Live) {
     try {
-      if (this.stream == stream){
+      if (this.stream == stream) {
         this.onFullscreenTrigger(true);
-      }      
+      }
       else {
         this.source = ApiHelper.generateLiveUrl(this.playlist, stream.stream_id);;
         this.stream = stream;
+        this.setEpg(stream)
       }
     }
     catch (error: any) {
       this.alertService.error(JSON.stringify(error));
     }
+  }
+
+  setEpg(stream: Live){
+    this.epg = this.epgAll.filter(x => x.liveStreamName == stream.epg_channel_id).slice(0,4);
   }
 
   getFavoriteDescription(): string {
@@ -130,6 +162,9 @@ export class LiveStreamComponent implements OnInit {
   }
 
   // ------------------------------------ Search and move ----------------------------------------
+  onBackTrigger(){
+    this.router.navigate(["playlist/"+this.playlist._id, {isBack: true}]);
+  }
 
   onMoveCategoryTrigger(category: Category) {
     this.currentCategory = category;
@@ -167,16 +202,29 @@ export class LiveStreamComponent implements OnInit {
   findByGeneralSearch(category: Category, searchText: string, sortCode: SortCode, streamsToFilter: Live[]): Live[] {
     let streamsFilteredLocal: StreamBase[] = [];
 
-    try{
+    try {
       streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamTypeCode.Live);
     }
-    catch(err){
+    catch (err) {
       this.alertService.error(JSON.stringify(err));
     }
 
     return <Live[]>streamsFilteredLocal;
   }
 
+  @HostListener('window:keydown', ['$event'])
+	handleKeyDown(event: KeyboardEvent) {
+		if (this.isFullscreen) {
+			return;
+		}
+
+		switch (event.keyCode) {
+			case 461:
+					this.onBackTrigger();
+				break;
+			default: break;
+		}
+	}
 
   // -------------------------------------------- onDestroy ---------------------------------------------
   ngAfterViewInit() {

@@ -21,7 +21,8 @@ export class PlaylistComponent implements OnInit {
     , private dbService: DbService
     , private route: Router
     , private activatedRoute: ActivatedRoute
-    ,private spinnerService: SpinnerService) {
+    ,private spinnerService: SpinnerService
+    ,private router: Router) {
   }
 
   isDisplayEditPlaylist = false;
@@ -85,6 +86,10 @@ export class PlaylistComponent implements OnInit {
     }
     finally {
     }
+  }
+
+  onBackTrigger(){
+    this.router.navigate(["home", {isBack: true}]);
   }
 
   ngAfterViewInit() {

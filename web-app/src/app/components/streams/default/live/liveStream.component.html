@@ -1,6 +1,6 @@
 <div class="content-main-header">
     <app-header (onSearch)="onSearchTrigger($event)" (onSort)="onSortTrigger($event)"
-        [backRoute]="'playlist/'+playlist._id"></app-header>
+    (onBack)="onBackTrigger()"></app-header>
 </div>
 
 
@@ -74,38 +74,27 @@
             </div>
 
             <div class="content-main-line">
-                <div class="content-main-line-center">
-
-                    <div class="content-line-tv-epg-content">
-                        <table class="content-line-tv-epg"  cellspacing="0" >
-                            <tr>
-                                <td class="content-line-tv-epg-item-program">
-                                    Program
-                                </td>
-                                <td class="content-line-tv-epg-item-hour">
-                                    00:00 - 00:00
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="content-line-tv-epg-item-program">
-                                    Program
-                                </td>
-                                <td class="content-line-tv-epg-item-hour">
-                                    00:00 - 00:00
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="content-line-tv-epg-item-program">
-                                    Program
-                                </td>
-                                <td class="content-line-tv-epg-item-hour">
-                                    00:00 - 00:00
-                                </td>
-                            </tr>
-                        </table>
+                    <div class="content-line-tv-epg">
+                        <div class="content-line-tv-epg-center ">
+                            <table class="content-line-tv-epg-table"  cellspacing="0" >
+                                <tr *ngIf="epg.length == 0">
+                                    <td style="text-align: center;">
+                                        No epg found
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let epgItem of epg">                    
+                                    <td class="content-line-tv-epg-item-program">
+                                        {{epgItem.title}}
+                                    </td>
+                                    <td class="content-line-tv-epg-item-hour">
+                                        {{("0" + epgItem.startDate.getHours()).slice(-2)   + ":" + ("0" + epgItem.startDate.getMinutes()).slice(-2)}}
+                                        - 
+                                        {{("0" + epgItem.endDate.getHours()).slice(-2)   + ":" + ("0" + epgItem.endDate.getMinutes()).slice(-2)}}
+                                    </td>
+                                </tr>                               
+                            </table>
+                        </div>                   
                     </div>
-
-                </div>
             </div>   
             
 

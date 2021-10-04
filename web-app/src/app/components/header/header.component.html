@@ -42,7 +42,7 @@
             <input type="image"  src="images/sort.png" loading=lazy alt="icon" title="Execute sort" class="movable button content-header-image" (click)="sort()" />
         </div>
         <div class="content-header-item">
-            <input type="image" src="images/back.png" loading=lazy alt="icon" class="movable button content-header-image" (click)="back()" #headerBackButtonId />
+            <input type="image" src="images/back.png" loading=lazy alt="icon" class="movable button content-header-image" (click)="onBack.emit()" #headerBackButtonId />
         </div>
     </div>
 

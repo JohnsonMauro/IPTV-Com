@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppSettings } from '../models/app/appSettings';
+import { Epg } from '../models/app/epg';
 import { Playlist } from '../models/app/playlist';
 import { StreamTypeCode } from '../models/app/streamTypeCode';
 
@@ -47,6 +48,7 @@ export class DbService {
     localStorage.removeItem(this.getFavoriteKey(playlist._id, StreamTypeCode.Live));
     localStorage.removeItem(this.getFavoriteKey(playlist._id, StreamTypeCode.VOD));
     localStorage.removeItem(this.getFavoriteKey(playlist._id, StreamTypeCode.Serie));
+    localStorage.removeItem(this.getEpgKey(playlist._id));
 
     playlists.splice(playlists.indexOf(playlist), 1);
     localStorage.setItem(this.getPlayListKey(), JSON.stringify(playlists));
@@ -81,6 +83,22 @@ export class DbService {
     return this.findFavoritesByKey(this.getFavoriteKey(playlistId, streamType));
   }
 
+  findEpg(playlistId: string): DbEpg {
+    let dbEpgTxt = localStorage.getItem(this.getEpgKey(playlistId));
+    if(dbEpgTxt == null)
+    return null;
+
+    return JSON.parse(dbEpgTxt);
+  }
+
+  saveEpg(playlistId: string, epg: Epg[]) {
+    let dbEpg: DbEpg = {
+      date: new Date(),
+      epg : epg
+    };
+
+    localStorage.setItem(this.getEpgKey(playlistId), JSON.stringify(dbEpg));
+  }
 
   getAppSettings(): AppSettings {
     let settings = localStorage.getItem(this.getAppSettingsKey());
@@ -100,6 +118,11 @@ export class DbService {
   private getPlayListKey() {
     return "playlists";
   }
+
+  private getEpgKey(playlistId: string) {
+    return playlistId + "_epg";
+  }
+
   private getFavoriteKey(playlistId: string, streamType: StreamTypeCode) {
     return playlistId + "_streamCode" + streamType;
   }
@@ -107,4 +130,9 @@ export class DbService {
   private getAppSettingsKey(){
     return "app_settings";
   }
+}
+
+class DbEpg{
+date: Date;
+epg: Epg[];
 }

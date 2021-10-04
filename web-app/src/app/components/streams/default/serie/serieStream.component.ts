@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
@@ -39,7 +39,6 @@ export class SerieStreamComponent implements OnInit {
   source: string;
 
   isImageError = false;
-  isFullscreen = false;
 
   constructor(private activatedroute: ActivatedRoute
     ,private route: Router
@@ -49,7 +48,7 @@ export class SerieStreamComponent implements OnInit {
     , private apiService: ApiService
     , private spinnerService: SpinnerService
     , private searchService: SearchService
-    ) {
+    ,private router: Router) {
   }
 
   ngOnInit() {
@@ -127,6 +126,9 @@ export class SerieStreamComponent implements OnInit {
   }
 
   // ------------------------------------ Search and move ----------------------------------------
+  onBackTrigger(){
+    this.router.navigate(["playlist/"+this.playlist._id, {isBack: true}]);
+  }
 
   onMoveCategoryTrigger(category: Category) {
     this.currentCategory = category;
@@ -174,7 +176,15 @@ export class SerieStreamComponent implements OnInit {
     return <Serie[]>streamsFilteredLocal;
   }
 
-
+  @HostListener('window:keydown', ['$event'])
+	handleKeyDown(event: KeyboardEvent) {
+		switch (event.keyCode) {
+			case 461:
+					this.onBackTrigger();
+				break;
+			default: break;
+		}
+	}
   // -------------------------------------------- onDestroy ---------------------------------------------
   ngAfterViewInit() {
     this.spatialNavigation.focus();

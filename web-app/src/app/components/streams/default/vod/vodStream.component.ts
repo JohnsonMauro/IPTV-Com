@@ -1,6 +1,6 @@
 
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
@@ -48,7 +48,8 @@ export class VodStreamComponent implements OnInit {
     , private apiService: ApiService
     , private spatialNavigation: SpacialNavigationService
     , private spinnerService: SpinnerService
-    , private searchService: SearchService) {
+    , private searchService: SearchService
+    ,private router: Router) {
   }
 
   ngOnInit() {
@@ -142,6 +143,9 @@ export class VodStreamComponent implements OnInit {
   }
 
   // ------------------------------------ Search and move ----------------------------------------
+  onBackTrigger(){
+    this.router.navigate(["playlist/"+this.playlist._id, {isBack: true}]);
+  }
 
   onMoveCategoryTrigger(category: Category) {
     this.currentCategory = category;
@@ -190,7 +194,19 @@ export class VodStreamComponent implements OnInit {
     return <VOD[]>streamsFilteredLocal;
   }
 
+  @HostListener('window:keydown', ['$event'])
+	handleKeyDown(event: KeyboardEvent) {
+		if (this.isFullscreen) {
+			return;
+		}
 
+		switch (event.keyCode) {
+			case 461:
+					this.onBackTrigger();
+				break;
+			default: break;
+		}
+	}
   // -------------------------------------------- onDestroy ---------------------------------------------
   ngAfterViewInit() {
     this.spatialNavigation.focus();
