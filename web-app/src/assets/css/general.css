@@ -2,8 +2,9 @@
 
 .container-main {
     position: relative;
-    width: 100%;
+    width: 100vw;
     min-width: 800px;
+    min-height: 600px;
     height: 100vh;
 }
 
@@ -32,8 +33,8 @@
 }
 
 .content-main-wrapper {
-    margin: 1%;
-    margin-top: 1.5%;
+    margin: 10px;
+    margin-top: 12px;
 }
 
 .content-main-popup-shadow {
@@ -60,9 +61,10 @@
     text-align: left;
     text-decoration: none;
     width: 100%;
-    height: 8.5vh;
+    height: 8.9vh;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 .content-button {
@@ -140,7 +142,7 @@
 /* Content line */
 
 .content-main-line {
-    margin-bottom: 1%;
+    margin-bottom: 5px;
     width: 100%;
 }
 
@@ -157,13 +159,13 @@
 .content-main-line-bottom-left {
     position: absolute;
     bottom: 0;
-    width: 98%;
+    width: 97.5%;
 }
 
 .content-main-line-bottom-right {
     position: absolute;
     bottom: 0;
-    width: 99%;
+    width: 98.5%;
 }
 
 .content-main-line-navigation{

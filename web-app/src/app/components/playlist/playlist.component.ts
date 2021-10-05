@@ -35,7 +35,7 @@ export class PlaylistComponent implements OnInit {
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
     }
     catch (error: any) {
-      this.alertService.error(JSON.stringify(error));
+      this.alertService.error(error?.message ?? error?.error);
     }
     finally {
     }
@@ -67,7 +67,7 @@ export class PlaylistComponent implements OnInit {
       this.alertService.success("Playlist updated");
     }
     catch(error){
-      this.alertService.error(JSON.stringify(error));
+      this.alertService.error(error?.message ?? error?.error);
     }
     finally{
       this.spinnerService.hideSpinner();
@@ -81,7 +81,7 @@ export class PlaylistComponent implements OnInit {
       this.router.navigate(['']);
     }
     catch (error: any) {
-      this.alertService.error(JSON.stringify(error));
+      this.alertService.error(error?.message ?? error?.error);
     }
     finally {
     }

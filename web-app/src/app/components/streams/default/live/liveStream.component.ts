@@ -67,7 +67,7 @@ export class LiveStreamComponent implements OnInit {
       this.populateAllStreams();
     }
     catch (error: any) {
-      this.alertService.error(JSON.stringify(error));
+      this.alertService.error(error?.message ?? error?.error);
     }
   }
 
@@ -128,7 +128,7 @@ export class LiveStreamComponent implements OnInit {
       }
     }
     catch (error: any) {
-      this.alertService.error(JSON.stringify(error));
+      this.alertService.error(error?.message ?? error?.error);
     }
   }
 
@@ -154,8 +154,8 @@ export class LiveStreamComponent implements OnInit {
         this.alertService.info(this.getLabel("AddedToFavorites"));
       }
     }
-    catch (err) {
-      this.alertService.error(err.toString());
+    catch (error: any) {
+      this.alertService.error(error?.message ?? error?.error);
     }
   }
 
@@ -207,8 +207,8 @@ export class LiveStreamComponent implements OnInit {
     try {
       streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamTypeCode.Live);
     }
-    catch (err) {
-      this.alertService.error(err.toString());
+    catch (error: any) {
+      this.alertService.error(error?.message ?? error?.error);
     }
 
     return <Live[]>streamsFilteredLocal;

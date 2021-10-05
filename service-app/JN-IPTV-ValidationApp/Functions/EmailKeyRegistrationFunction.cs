@@ -65,7 +65,7 @@ namespace IPTV.Validation.App
         {
             var response = "<body style='background-color: #262626; font-family: Arial;'><div style='padding: 20px; font-size: 3vh; color: #efefef;'>"
                 + "<h1>JN-IPTV</h1><div><p>Type your email, device key and press submit</p></div><div>"
-                + "<form method='post' enctype='application/json'> Email <input required style='font-size: 3vh' name='"+ emailFormKey + "' type='text' width='100px'> <br><br> Device key <input required style='font-size: 3vh' name='"+ deviceFormKey + "' type='text' width='100px'> <br><br>"
+                + "<form method='post' enctype='application/json'> Email <input required style='font-size: 3vh' name='"+ emailFormKey + "' type='text' width='150px'> <br><br> Device key <input required style='font-size: 3vh' name='"+ deviceFormKey + "' type='text' width='150px'> <br><br>"
                 + "<input style='font-size: 3vh' type='submit' value='submit'>  </form></div></div></body>";
 
             return response;

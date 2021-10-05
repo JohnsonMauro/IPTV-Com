@@ -62,7 +62,7 @@ export class SerieStreamComponent implements OnInit {
       this.populateAllStreams();
     }
     catch (error: any) {
-      this.alertService.error(JSON.stringify(error));
+      this.alertService.error(error?.message ?? error?.error);
     }
   }
 
@@ -89,7 +89,7 @@ export class SerieStreamComponent implements OnInit {
       }
     }
     catch (error: any) {
-      this.alertService.error(JSON.stringify(error));
+      this.alertService.error(error?.message ?? error?.error);
     }
   }
 
@@ -116,8 +116,8 @@ export class SerieStreamComponent implements OnInit {
         this.alertService.info(this.getLabel("AddedToFavorites"));
       }
     }
-    catch (err) {
-      this.alertService.error(err.toString());
+    catch (error: any) {
+      this.alertService.error(error?.message ?? error?.error);
     }
   }
 
@@ -175,8 +175,8 @@ export class SerieStreamComponent implements OnInit {
     try{     
       streamsFilteredLocal = this.searchService.findByGeneralSearch(category, searchText, sortCode, this.playlist, streamsToFilter, StreamTypeCode.Serie);
     }
-    catch(err){
-      this.alertService.error(err.toString());
+    catch (error: any) {
+      this.alertService.error(error?.message ?? error?.error);
     }
 
     return <Serie[]>streamsFilteredLocal;

@@ -71,7 +71,7 @@ export class ApiService {
     return this.httpClient.get<T>(url)
       .pipe(
         map(res => mapFunction != null ? mapFunction(res) : res == null && isArray ? [] : res),
-        catchError(err => { console.log(err); this.alertService.error(err?.error ?? err?.message); return throwError(err) }),
+        catchError(error => { console.log(error); this.alertService.error(error?.message ?? error?.error); return throwError(error) }),
         finalize(() => this.spinnerService.hideSpinner())
       );
   }

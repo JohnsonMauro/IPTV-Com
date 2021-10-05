@@ -1,0 +1,21 @@
+.content-category-left {
+    float: left;
+    overflow: hidden;
+    width: 10%;
+    height: 100%;
+}
+
+.content-category-center {
+    float: left;
+    overflow: hidden;
+    width: 80%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-category-right{
+    float: right; overflow: hidden; width: 10%; height: 100%; text-align: right;
+}

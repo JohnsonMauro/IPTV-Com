@@ -57,6 +57,7 @@ export class AppSettingsService {
       this.isAppAvailableSubject.next(this.isAppAvailable);
       return;
     }
+
     else if(this.isExperimentalPeriodValid()){
       this.alertService.info("In trial period");
       this.isAppAvailable = true;

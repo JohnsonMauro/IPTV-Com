@@ -48,7 +48,7 @@ export class EpgService {
         return this.httpClient.get(url, { responseType: 'text' })
             .pipe(
                 map(res => mapFunction(res)),
-                catchError(err => { console.log(err); this.alertService.error(err?.error ?? err?.message); return throwError(err) }),
+                catchError(err => { console.log(err); this.alertService.error(err?.message ?? err?.error); return throwError(err) }),
                 finalize(() => this.spinnerService.hideSpinner())
             );
     }

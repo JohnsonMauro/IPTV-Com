@@ -183,12 +183,15 @@ export class PlayerComponent implements OnInit {
 			case 415:
 			case 19:
 				this.playOrPause();
+				this.displayOrHideFooter(true);
 				break;
 			case 412:
 				this.setTime(-10);
+				this.displayOrHideFooter(true);
 				break;
 			case 417:
 				this.setTime(10);
+				this.displayOrHideFooter(true);
 				break;
 			default: break;
 		}

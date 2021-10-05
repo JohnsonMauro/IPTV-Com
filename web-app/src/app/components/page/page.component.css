@@ -1,0 +1,16 @@
+.content-page-left {
+    float: left;
+    overflow: hidden;
+    width: 10%;
+    height: 100%;
+}
+
+.content-page-center {
+    float: left; overflow: hidden; width: 80%; height: 100%; text-align: center;  display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-page-right{
+    float: right; overflow: hidden; width: 10%; text-align: right; height: 100%;
+}

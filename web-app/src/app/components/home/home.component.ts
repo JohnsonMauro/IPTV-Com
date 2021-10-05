@@ -25,60 +25,59 @@ export class HomeComponent implements OnInit {
   isAppAvailableSubscription: Subscription;
 
   constructor(private spatialNavigation: SpacialNavigationService
-    ,private alertService: AlertService
-    ,private dbService: DbService
-    ,private route: Router
-    ,private spinnerService: SpinnerService
-    ,private appSettingsService: AppSettingsService
-    ,private languageService: LanguageService
-    ) {
+    , private alertService: AlertService
+    , private dbService: DbService
+    , private route: Router
+    , private spinnerService: SpinnerService
+    , private appSettingsService: AppSettingsService
+    , private languageService: LanguageService
+  ) {
   }
 
   playlists: Array<Playlist>;
 
   ngOnInit(): void {
-    try{
+    try {
       this.spinnerService.displaySpinner();
       this.playlists = this.dbService.findPlaylists();
       this.subscriveToEvents(true);
-      this.appSettingsService.validateApplication();
     }
-   catch(error: any){
-    this.alertService.error(JSON.stringify(error));
-   }   
-   finally{
-    this.spinnerService.hideSpinner();
-   }
+    catch (error: any) {
+      this.alertService.error(error?.message ?? error?.error);
+    }
+    finally {
+      this.spinnerService.hideSpinner();
+    }
   }
 
-  onSelectPlayslist(playlist: Playlist){
+  onSelectPlayslist(playlist: Playlist) {
     this.route.navigate(['/playlist', playlist._id]);
   }
 
-  displayAddPlayslist(display: boolean){
-    if(display){
+  displayAddPlayslist(display: boolean) {
+    if (display) {
       this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
       this.isDisplayAddPlaylist = true;
     }
-    else{
+    else {
       this.isDisplayAddPlaylist = false;
       this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
     }
   }
 
-  displaySettings(display: boolean){
-    if(display){
+  displaySettings(display: boolean) {
+    if (display) {
       this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
       this.isDisplaySettings = true;
     }
-    else{
+    else {
       this.isDisplaySettings = false;
       this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
     }
   }
 
-  addPlaylist(playlist: Playlist){
-    try{
+  addPlaylist(playlist: Playlist) {
+    try {
       this.spinnerService.displaySpinner();
       playlist.password = EncryptHelper.ecrypt(playlist.password);
       playlist = this.dbService.addPlaylist(playlist);
@@ -86,38 +85,39 @@ export class HomeComponent implements OnInit {
       this.displayAddPlayslist(false);
       this.alertService.success("Playlist added");
     }
-    catch(error){
-      this.alertService.error(JSON.stringify(error));
+    catch (error) {
+      this.alertService.error(error?.message ?? error?.error);
     }
-    finally{
+    finally {
       this.spinnerService.hideSpinner();
     }
   }
 
-  appSettingSave(){
+  appSettingSave() {
     this.alertService.info("Settings saved, please restart the app");
     this.displaySettings(false);
   }
 
-  getLabel(key: string): string{
+  getLabel(key: string): string {
     return this.languageService.getLabel(key);
   }
 
 
-  subscriveToEvents(isSubscribe: boolean){
-    if(isSubscribe)
-    {
+  subscriveToEvents(isSubscribe: boolean) {
+    if (isSubscribe) {
       this.isAppAvailableSubscription = this.appSettingsService.getIsAppAvailable().subscribe(x => this.isAppAvailable = x);
     }
-    else{
+    else {
       this.isAppAvailableSubscription.unsubscribe();
     }
-    
+
   }
 
   ngAfterViewInit() {
-    if(!this.isBack)
-    this.spatialNavigation.focus();
+    if (!this.isBack)
+      this.spatialNavigation.focus();
+
+    this.appSettingsService.validateApplication();
   }
 
   ngOnDestroy() {
