@@ -31,6 +31,8 @@ import { StreamInfoComponent } from '../components/streams/default/streamInfo/st
 import { SettingsComponent } from '../components/settings/settings.component';
 import { EpgService } from '../services/epgService';
 import { LanguageService } from '../services/languageService';
+import { StreamListComponent } from '../components/streams/default/streamList/streamList.component';
+import { InfoComponent } from '../components/info/info.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { LanguageService } from '../services/languageService';
     SerieDetailStreamComponent,
     SettingsComponent,
 
+    InfoComponent,
+    StreamListComponent,
     StreamInfoComponent,
     PlayerComponent,
     PageComponent,

@@ -19,10 +19,9 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 export class HomeComponent implements OnInit {
 
   isBack = false;
-  isDisplayAddPlaylist: boolean = false;
-  isDisplaySettings: boolean = false;
-  isAppAvailable = false;
-  isAppAvailableSubscription: Subscription;
+  isDisplayAddPlaylist = false;
+  isDisplaySettings = false;
+  isDisplayInfo = false;
 
   constructor(private spatialNavigation: SpacialNavigationService
     , private alertService: AlertService
@@ -40,7 +39,6 @@ export class HomeComponent implements OnInit {
     try {
       this.spinnerService.displaySpinner();
       this.playlists = this.dbService.findPlaylists();
-      this.subscriveToEvents(true);
     }
     catch (error: any) {
       this.alertService.error(error?.message ?? error?.error);
@@ -65,6 +63,17 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  displayInfo(display: boolean) {
+    if (display) {
+      this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
+      this.isDisplayInfo = true;
+    }
+    else {
+      this.isDisplayInfo = false;
+      this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
+    }
+  }
+
   displaySettings(display: boolean) {
     if (display) {
       this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
@@ -83,9 +92,9 @@ export class HomeComponent implements OnInit {
       playlist = this.dbService.addPlaylist(playlist);
       this.playlists.push(playlist);
       this.displayAddPlayslist(false);
-      this.alertService.success("Playlist added");
+      this.alertService.success(this.getLabel("PlaylistSaved"));
     }
-    catch (error) {
+    catch (error: any) {
       this.alertService.error(error?.message ?? error?.error);
     }
     finally {
@@ -94,7 +103,8 @@ export class HomeComponent implements OnInit {
   }
 
   appSettingSave() {
-    this.alertService.info("Settings saved, please restart the app");
+    this.alertService.success(this.getLabel("SettingsSaved"));
+    this.alertService.info(this.getLabel("PleaseRestart"));
     this.displaySettings(false);
   }
 
@@ -102,26 +112,46 @@ export class HomeComponent implements OnInit {
     return this.languageService.getLabel(key);
   }
 
+  getIsAppAvailable(){
+    return this.appSettingsService.isAppAvailable;
+  }
 
-  subscriveToEvents(isSubscribe: boolean) {
-    if (isSubscribe) {
-      this.isAppAvailableSubscription = this.appSettingsService.getIsAppAvailable().subscribe(x => this.isAppAvailable = x);
+  validateApplication() {
+    if (this.appSettingsService.isAlreadyVerified) {
+      return;
+    }
+
+    else if (this.appSettingsService.isExperimentalPeriodValid()) {
+      this.alertService.info(this.languageService.getLabel("TrialPeriod"));
+      this.appSettingsService.isAppAvailable = true;
     }
     else {
-      this.isAppAvailableSubscription.unsubscribe();
+      if (this.appSettingsService.getAppSettings().email == null || this.appSettingsService.getAppSettings().email == ""
+        || this.appSettingsService.getAppSettings().deviceKey == null || this.appSettingsService.getAppSettings().deviceKey == "") {
+        this.alertService.info(this.languageService.getLabel("TrialPeriodENded"));
+        this.alertService.warning(this.languageService.getLabel("EmailOrKeyEmpty"));
+      }
+      else {
+        this.appSettingsService.getEmailDeviceKeyStatusAsync().subscribe(
+          () => {
+            this.appSettingsService.isAppAvailable = true;
+          }
+        );
+      }
     }
 
+    this.appSettingsService.isAlreadyVerified = true;
   }
+
 
   ngAfterViewInit() {
     if (!this.isBack)
       this.spatialNavigation.focus();
 
-    this.appSettingsService.validateApplication();
+    this.validateApplication();
   }
 
   ngOnDestroy() {
     this.playlists.length = 0;
-    this.subscriveToEvents(false);
   }
 }

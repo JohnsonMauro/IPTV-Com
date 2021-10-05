@@ -4,7 +4,7 @@ label, p, a, button, body {
 
 input[type=password],
 input[type=text],
-select
+select, option
 {
     font-size: 3vh;
 }
@@ -40,6 +40,6 @@ html, body {
 }
 
 ::-webkit-scrollbar {
-    width: 0;  /* Remove scrollbar space */
-    background: transparent;  /* Optional: just make scrollbar invisible */
+    width: 20px;  /* Remove scrollbar space */
+    background: red;  /* Optional: just make scrollbar invisible */
 }

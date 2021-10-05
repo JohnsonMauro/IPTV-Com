@@ -15,9 +15,6 @@ export class HeaderComponent implements OnInit {
     ,private activatedRoute: ActivatedRoute
     ,private languageService: LanguageService) { }
 
-  @ViewChild("headerBackButtonId")
-	private headerBackButtonElement: ElementRef;
-
   searchText: string;
   sortCode = SortCode.Default;
 
@@ -56,10 +53,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    let isBackTriggered = this.activatedRoute.snapshot.paramMap.get("isBack");
-    if(isBackTriggered == "true"){
-      this.onIsBack.emit();
-      this.headerBackButtonElement.nativeElement.focus();
-    }
+
   }
 }

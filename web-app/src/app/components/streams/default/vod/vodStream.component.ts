@@ -5,7 +5,6 @@ import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
-import { PageHelper } from 'src/app/helpers/pageHelper';
 import { VOD } from 'src/app/models/api/vod';
 import { StreamInfo } from 'src/app/models/api/streamInfo';
 import { Category } from 'src/app/models/app/category';
@@ -20,6 +19,7 @@ import { SpacialNavigationService } from '../../../../services/spacialNavigation
 import { StreamBase } from 'src/app/models/api/streamBase';
 import { SearchService } from 'src/app/services/searchService';
 import { LanguageService } from 'src/app/services/languageService';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-vodStream',
@@ -83,8 +83,10 @@ export class VodStreamComponent implements OnInit {
   }
 
 
-  selectStream(stream: VOD) {
+  selectStream(streamBase: StreamBase) {
     try {
+      let stream = <VOD>streamBase;
+      console.log(stream);
       this.isImageError = false;
       if (this.stream == stream){
         this.onFullscreenTrigger(true);
@@ -150,13 +152,15 @@ export class VodStreamComponent implements OnInit {
 
   // ------------------------------------ Search and move ----------------------------------------
   onBackTrigger(){
-    this.router.navigate(["playlist/"+this.playlist._id, {isBack: true}]);
+    this.router.navigate(["playlist/"+this.playlist._id]);
   }
 
   onMoveCategoryTrigger(category: Category) {
     this.currentCategory = category;
-    this.stream = null;
-    this.streamInfo = null;
+    if(category.id == CategoryHelper.favoritesCategoryId){
+      this.stream = null;
+      this.streamInfo = null;
+    }    
     let streamsLocal = this.findByGeneralSearch(category, this.searchText, this.sortCode, this.streamsAll);
     this.setPageOnStream(1, streamsLocal);
   }
@@ -181,9 +185,9 @@ export class VodStreamComponent implements OnInit {
 
   setPageOnStream(page: number, streamsFiltered: VOD[]) {
     this.currentPage = page;
-    this.maxPage = Math.ceil(streamsFiltered.length / PageHelper.getNumberItemsOnPage())
-    let from = (page - 1) * PageHelper.getNumberItemsOnPage();
-    let to = from + PageHelper.getNumberItemsOnPage();
+    this.maxPage = Math.ceil(streamsFiltered.length / environment.numberOfItemsOnPage)
+    let from = (page - 1) * environment.numberOfItemsOnPage;
+    let to = from + environment.numberOfItemsOnPage;
     this.streams = streamsFiltered.slice(from, to);
   }
 

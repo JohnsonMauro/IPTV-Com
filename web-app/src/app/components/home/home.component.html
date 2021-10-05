@@ -15,9 +15,9 @@
             </div>
 
 
-            <div *ngFor="let playlist of playlists" class="content-main-line">
+            <div *ngFor="let playlist of playlists; let i = index" class="content-main-line">
 
-                <button type="button" class="movable content-folder" (click)="onSelectPlayslist(playlist)" [disabled]="!isAppAvailable">
+                <button *ngIf="getIsAppAvailable()" type="button" class="movable content-folder" (click)="onSelectPlayslist(playlist)" [custom-focus]="i == 0">
                     <div class="content-folder-left">
                         <div class="content-folder-icon ">
                             <img class="content-icon content-icon-serie" alt="icon" src="images/folder.png"
@@ -38,7 +38,7 @@
 
             <div class="content-main-line">
                 <div class="content-main-line-left">
-                    <button type="button" class="movable content-button" (click)="displayAddPlayslist(true)">
+                    <button type="button" class="movable content-button" (click)="displayAddPlayslist(true)" [custom-focus]="playlists.length == 0">
                         <div class="content-button-center">
                             <div class="content-button-icon">
                                 <img alt="icon" src="images/plus.png" loading=lazy class="content-icon" />
@@ -63,8 +63,27 @@
                     </button>
                 </div>
             </div>
+        
+            <div class="content-main-line">
+
+                    <button type="button" class="movable content-button" (click)="displayInfo(true)" [custom-focus]="playlists.length == 0">
+                        <div class="content-button-center">
+                            <div class="content-button-icon">
+                                <img alt="icon" src="images/info.png" loading=lazy class="content-icon" />
+                            </div>
+                            <div class="content-button-text">
+                                {{getLabel('Info')}}
+                            </div>
+                        </div>
+                    </button>
+            </div>
+        
+
+
         </div>
     </div>
+
+    
 
 
 </div>
@@ -84,5 +103,13 @@
     </div>
     <div class="content-home-addplaylist-position">
         <app-managePlaylist (onCancel)="displayAddPlayslist(false)" (onSave)="addPlaylist($event)"></app-managePlaylist>
+    </div>
+</div>
+
+<div *ngIf="isDisplayInfo">
+    <div class="content-main-popup-shadow">
+    </div>
+    <div class="content-home-addplaylist-position">
+        <app-info (onCancel)="displayInfo(false)"></app-info>
     </div>
 </div>

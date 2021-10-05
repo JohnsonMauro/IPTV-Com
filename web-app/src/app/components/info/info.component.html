@@ -1,0 +1,26 @@
+<div class="content-settings">
+
+    <div class="content-settings-title">
+        <label>{{getLabel('Info')}}</label>
+    </div>
+
+
+    <div class="content-main-line" style="height: 7vh;">
+        
+    </div>
+
+
+        <div class="content-main-line-right">
+            <button type="button" [className]="'movable content-button ' + infoMovableClass"
+                (click)="onCancel.emit()">
+                <div class="content-button-center">
+                    <div class="content-button-icon">
+                        <img alt="icon" src="images/back.png" loading=lazy class="content-icon" />
+                    </div>
+                    <div class="content-button-text">
+                        {{getLabel('Back')}}
+                    </div>
+                </div>
+            </button>
+        </div>
+    </div>

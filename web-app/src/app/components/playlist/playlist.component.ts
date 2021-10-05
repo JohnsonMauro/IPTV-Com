@@ -64,9 +64,9 @@ export class PlaylistComponent implements OnInit {
       this.playlist.password = EncryptHelper.decrypt(this.playlist.password);
       this.playlist = playlist;
       this.displayEditPlayslist(false);
-      this.alertService.success("Playlist updated");
+      this.alertService.success(this.getLabel("PlaylistSaved"));
     }
-    catch(error){
+    catch(error: any){
       this.alertService.error(error?.message ?? error?.error);
     }
     finally{
@@ -77,7 +77,7 @@ export class PlaylistComponent implements OnInit {
   deletePlaylist() {
     try {
       this.dbService.deletePlaylist(this.playlist);
-      this.alertService.success('Playlist deleted');
+      this.alertService.success(this.getLabel("PlaylistRemoved"));
       this.router.navigate(['']);
     }
     catch (error: any) {
@@ -92,7 +92,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   onBackTrigger(){
-    this.router.navigate(["home", {isBack: true}]);
+    this.router.navigate(["home"]);
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -110,7 +110,6 @@ export class PlaylistComponent implements OnInit {
 	}
 
   ngAfterViewInit() {
-    if(!this.isBack)
-    this.spatialNavigation.focus();
+
   }
 }

@@ -5,7 +5,6 @@ import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
-import { PageHelper } from 'src/app/helpers/pageHelper';
 import { VOD } from 'src/app/models/api/vod';
 import { StreamInfo } from 'src/app/models/api/streamInfo';
 import { Category } from 'src/app/models/app/category';

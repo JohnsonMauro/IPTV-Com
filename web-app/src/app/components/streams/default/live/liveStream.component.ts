@@ -5,7 +5,6 @@ import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
-import { PageHelper } from 'src/app/helpers/pageHelper';
 import { Live } from 'src/app/models/api/live';
 import { StreamBase } from 'src/app/models/api/streamBase';
 import { Category } from 'src/app/models/app/category';
@@ -20,6 +19,7 @@ import { EpgService } from 'src/app/services/epgService';
 import { LanguageService } from 'src/app/services/languageService';
 import { SearchService } from 'src/app/services/searchService';
 import { SpinnerService } from 'src/app/services/spinnerService';
+import { environment } from 'src/environments/environment';
 import { SpacialNavigationService } from '../../../../services/spacialNavigationService';
 
 @Component({
@@ -84,8 +84,6 @@ export class LiveStreamComponent implements OnInit {
       result.forEach(x => this.categories.push(x));
     });
 
-    
-
     let tempEpg = this.epgService.findTemporarytLiveEpg(this.playlist._id);
 
     if(tempEpg.length > 0)
@@ -93,15 +91,15 @@ export class LiveStreamComponent implements OnInit {
       let currentDate = new Date();
       this.epgAll = tempEpg.filter(x => x.endDate > currentDate);
     }
-
-    this.epgService.getLiveEpgAsync(this.playlist).subscribe(result => {
-      if(result.length > 0){
-        let currentDate = new Date();
-        this.epgService.saveTemporaryLiveEpg(this.playlist._id, result);
-        this.epgAll = tempEpg.filter(x => x.endDate > currentDate);
-      }   
-    });
-
+    else{
+      this.epgService.getLiveEpgAsync(this.playlist).subscribe(result => {
+        if(result.length > 0){
+          let currentDate = new Date();
+          this.epgService.saveTemporaryLiveEpg(this.playlist._id, result);
+          this.epgAll = tempEpg.filter(x => x.endDate > currentDate);
+        }   
+      });
+    }
   }
 
   onFullscreenTrigger(isFullScreen: boolean) {
@@ -116,8 +114,9 @@ export class LiveStreamComponent implements OnInit {
     this.isFullscreen = isFullScreen;
   }
 
-  selectStream(stream: Live) {
+  selectStream(streamBase: StreamBase) {
     try {
+      let stream = <Live>streamBase;
       if (this.stream == stream) {
         this.onFullscreenTrigger(true);
       }
@@ -165,12 +164,14 @@ export class LiveStreamComponent implements OnInit {
 
   // ------------------------------------ Search and move ----------------------------------------
   onBackTrigger(){
-    this.router.navigate(["playlist/"+this.playlist._id, {isBack: true}]);
+    this.router.navigate(["playlist/"+this.playlist._id]);
   }
 
   onMoveCategoryTrigger(category: Category) {
     this.currentCategory = category;
-    this.stream = null;
+    if(category.id == CategoryHelper.favoritesCategoryId){
+      this.stream = null;
+    }
     let streamsLocal = this.findByGeneralSearch(category, this.searchText, this.sortCode, this.streamsAll);
     this.setPageOnStream(1, streamsLocal);
   }
@@ -195,9 +196,9 @@ export class LiveStreamComponent implements OnInit {
 
   setPageOnStream(page: number, streamsFiltered: Live[]) {
     this.currentPage = page;
-    this.maxPage = Math.ceil(streamsFiltered.length / PageHelper.getNumberItemsOnPage())
-    let from = (page - 1) * PageHelper.getNumberItemsOnPage();
-    let to = from + PageHelper.getNumberItemsOnPage();
+    this.maxPage = Math.ceil(streamsFiltered.length / environment.numberOfItemsOnPage)
+    let from = (page - 1) * environment.numberOfItemsOnPage;
+    let to = from + environment.numberOfItemsOnPage;
     this.streams = streamsFiltered.slice(from, to);
   }
 

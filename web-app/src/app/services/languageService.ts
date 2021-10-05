@@ -23,7 +23,7 @@ export class LanguageService {
     } 
 
   private getLanguage(): string {
-  return this.appSettings.getAppSettings().language ?? "1033";
+  return this.appSettings.getAppSettings().language ?? environment.defaultLanguage;
   }
 
   getLabel(labelKey: string): string {

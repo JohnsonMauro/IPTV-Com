@@ -11,7 +11,7 @@
     <div class="content-videoplayer-footer" *ngIf="isFullscreen" [style.zIndex]="isDisplayFooter ? 1 : -99">
 
         <div style="margin-bottom: 20px; margin-top: 20px;">
-            <button #buttonHideFooterElement class='movable content-button content-videoplayer-footer-controls' (click)="displayOrHideFooter()" custom-focus >
+            <button #buttonHideFooterElement class='movable content-button content-videoplayer-footer-controls' (click)="displayOrHideFooter()" [custom-focus]="true" >
                 <div class="content-button-center">
                     <img alt="icon" src="images/minimize.png" loading=lazy class="content-videoplayer-footer-controls-icon" />
                 </div>

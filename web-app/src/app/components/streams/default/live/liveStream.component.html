@@ -14,19 +14,7 @@
                     (onMove)="onMoveCategoryTrigger($event)"></app-category>
             </div>
 
-            <div *ngFor="let streamItem of streams" class="content-main-line">
-                <button type="button" class="movable content-folder" (click)="selectStream(streamItem)">
-                    <div class="content-folder-left">
-                        <div class="content-folder-icon ">
-                            <img class="content-icon" alt="icon" [src]="streamItem.stream_image"
-                                onerror="this.src='images/tv.png';" loading=lazy />
-                        </div>
-                        <div class="content-folder-text">
-                            {{streamItem.name.trim()}}
-                        </div>
-                    </div>
-                </button>
-            </div>
+            <app-streamList [streams]="streams" [fallbackImage]="'images/tv.png'" (onStreamSelect)="selectStream($event)" (isLiveStream)="true" ></app-streamList>
 
             <div class="content-main-line content-main-line-navigation content-main-line-bottom-left">
                 <app-page [maxPage]="maxPage" [currentPage]="currentPage" (onMove)="onMovePageTrigger($event)">

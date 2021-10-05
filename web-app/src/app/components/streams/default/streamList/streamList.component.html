@@ -1,0 +1,21 @@
+
+
+<div *ngFor="let streamItem of streams; let i = index" class="content-main-line">
+    <button type="button" class="movable content-folder" (click)="selectStream(streamItem)" [custom-focus]="i == 0 && !isLoaded" >
+        <div class="content-folder-left">
+            <div class="content-folder-icon ">
+                <img [className]="isLiveStream ? 'content-icon' : 'content-icon content-icon-poster'" alt="icon" [src]="streamItem.stream_image"
+                   (error)="onError($event)" loading=lazy />
+            </div>
+            <div class="content-folder-text">
+                {{streamItem.name.trim()}}
+            </div>
+        </div>
+    </button>
+
+    <ng-container *ngIf="i > 0">
+        {{ setIsLoaded() }}
+     </ng-container>
+
+</div>
+

@@ -12,6 +12,7 @@
     "User":  "Usuario",
     "Password":  "Senha",
     "Name":  "Nome",
+    "Date":"Data",
     "Watch":  "Assistir",
     "Fullscreen":  "Tela cheia",
     "Search":  "Procurar...",
@@ -33,6 +34,13 @@
     "Description": "Descricao",
     "ReleaseDate": "Data lancamento",
     "Cast": "Elenco",
-    "NoPlaylistFound":"Nenhuma playlist encontrada"
+    "NoPlaylistFound":"Nenhuma playlist encontrada",
+    "Info": "Informacoes",
+    "PlaylistRemoved": "Playlist removida",
+    "SettingsSaved": "Configuracoes salvas",
+    "PleaseRestart": "Favor, reiniciar",
+    "TrialPeriod":"Em periodo de avaliacao",
+    "TrialPeriodEnded": "Periodo de avalicao terminou",
+    "EmailOrKeyEmpty":"A aplicacao nao pode ser validada, email ou chave estao vazios"
 }
 }

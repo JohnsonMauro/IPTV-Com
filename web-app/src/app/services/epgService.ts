@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, finalize, map } from "rxjs/operators";
+import { environment } from "src/environments/environment";
 import { ApiHelper } from "../helpers/apiHelper";
 import { Epg } from "../models/app/epg";
 import { Playlist } from "../models/app/playlist";
@@ -25,7 +26,7 @@ export class EpgService {
 
         if (epgFromDb != null) {
             var expirationDate = new Date(epgFromDb.date);
-            expirationDate.setDate(expirationDate.getDate() + 1);
+            expirationDate.setDate(expirationDate.getDate() + environment.daysToKeepEpg);
 
             if (expirationDate >  new Date()) {
                 return epgFromDb.epg;

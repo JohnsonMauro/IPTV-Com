@@ -4,7 +4,6 @@ import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
-import { PageHelper } from 'src/app/helpers/pageHelper';
 import { SearchService } from 'src/app/services/searchService';
 import { Category } from 'src/app/models/app/category';
 import { Playlist } from 'src/app/models/app/playlist';
@@ -19,10 +18,12 @@ import { StreamBase } from 'src/app/models/api/streamBase';
 import { SerieEpisode } from 'src/app/models/api/serieDetail';
 import { StreamInfo } from 'src/app/models/api/streamInfo';
 import { LanguageService } from 'src/app/services/languageService';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-serieDetailStream',
-  templateUrl: './serieDetailStream.component.html'})
+  templateUrl: './serieDetailStream.component.html'
+})
 export class SerieDetailStreamComponent implements OnInit {
 
   sortCode: SortCode;
@@ -49,8 +50,8 @@ export class SerieDetailStreamComponent implements OnInit {
     , private spatialNavigation: SpacialNavigationService
     , private spinnerService: SpinnerService
     , private searchService: SearchService
-  ,private router: Router
-  , private languageService: LanguageService) {
+    , private router: Router
+    , private languageService: LanguageService) {
   }
 
   ngOnInit() {
@@ -86,8 +87,9 @@ export class SerieDetailStreamComponent implements OnInit {
   }
 
 
-  selectStream(stream: SerieEpisode) {
+  selectStream(streamBase: StreamBase) {
     try {
+      let stream = <SerieEpisode>streamBase;
       this.isImageError = false;
       if (this.stream == stream) {
         this.onFullscreenTrigger(true);
@@ -156,17 +158,19 @@ export class SerieDetailStreamComponent implements OnInit {
     this.selectStream(this.streams[0]);
   }
 
-  getLabel(key: string): string{
+  getLabel(key: string): string {
     return this.languageService.getLabel(key);
   }
 
   // ------------------------------------ Search and move ----------------------------------------
-  onBackTrigger(){
-    this.router.navigate(["seriestream/"+this.playlist._id, {isBack: true}]);
+  onBackTrigger() {
+    this.router.navigate(["seriestream/" + this.playlist._id]);
   }
   onMoveCategoryTrigger(category: Category) {
     this.currentCategory = category;
-    this.stream = null;
+    if (category.id == CategoryHelper.favoritesCategoryId) {
+      this.stream = null;
+    } 
     let streamsLocal = this.findByGeneralSearch(category, this.searchText, this.sortCode, this.streamsAll);
     this.setPageOnStream(1, streamsLocal);
   }
@@ -191,9 +195,9 @@ export class SerieDetailStreamComponent implements OnInit {
 
   setPageOnStream(page: number, streamsFiltered: SerieEpisode[]) {
     this.currentPage = page;
-    this.maxPage = Math.ceil(streamsFiltered.length / PageHelper.getNumberItemsOnPage())
-    let from = (page - 1) * PageHelper.getNumberItemsOnPage();
-    let to = from + PageHelper.getNumberItemsOnPage();
+    this.maxPage = Math.ceil(streamsFiltered.length / environment.numberOfItemsOnPage)
+    let from = (page - 1) * environment.numberOfItemsOnPage;
+    let to = from + environment.numberOfItemsOnPage;
     this.streams = streamsFiltered.slice(from, to);
   }
 
@@ -211,18 +215,18 @@ export class SerieDetailStreamComponent implements OnInit {
   }
 
   @HostListener('window:keydown', ['$event'])
-	handleKeyDown(event: KeyboardEvent) {
-		if (this.isFullscreen) {
-			return;
-		}
+  handleKeyDown(event: KeyboardEvent) {
+    if (this.isFullscreen) {
+      return;
+    }
 
-		switch (event.keyCode) {
-			case 461:
-					this.onBackTrigger();
-				break;
-			default: break;
-		}
-	}
+    switch (event.keyCode) {
+      case 461:
+        this.onBackTrigger();
+        break;
+      default: break;
+    }
+  }
   // -------------------------------------------- onDestroy ---------------------------------------------
   ngAfterViewInit() {
     this.spatialNavigation.focus();

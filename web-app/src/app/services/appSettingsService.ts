@@ -7,15 +7,15 @@ import { AppSettings } from '../models/app/appSettings';
 import { EmailDeviceKey } from '../models/app/emailDeviceKey';
 import { AlertService } from './alertService';
 import { DbService } from './dbServie';
+import { LanguageService } from './languageService';
 import { SpinnerService } from './spinnerService';
 
 
 @Injectable()
 export class AppSettingsService {
 
-  private isAlreadyVerified = false;
-  private isAppAvailable = false;
-  private isAppAvailableSubject = new Subject<boolean>();
+  public isAlreadyVerified = false;
+  public isAppAvailable = false;
   private appSettings: AppSettings;
 
   constructor(
@@ -43,8 +43,8 @@ export class AppSettingsService {
   return this.appSettings;
   }
 
-  getIsAppAvailable(): Subject<boolean> {
-    return this.isAppAvailableSubject;
+  getIsAppAvailable(): boolean {
+    return this.isAppAvailable;
     }
 
   setAppSettings(appSettings: AppSettings) {
@@ -52,47 +52,18 @@ export class AppSettingsService {
     this.appSettings = appSettings;
     }
 
-  validateApplication(){
-    if(this.isAlreadyVerified){
-      this.isAppAvailableSubject.next(this.isAppAvailable);
-      return;
-    }
 
-    else if(this.isExperimentalPeriodValid()){
-      this.alertService.info("In trial period");
-      this.isAppAvailable = true;
-      this.isAppAvailableSubject.next(this.isAppAvailable);
-    }
-    else {
-      if(this.appSettings.email == null || this.appSettings.email == "" 
-      || this.appSettings.deviceKey == null || this.appSettings.deviceKey == "")
-      {
-        this.alertService.warning("Email or Device Key are empty and cannot be validated");
-      }
-      else{
-        this.getEmailDeviceKeyStatusAsync().subscribe(
-          ()=> { 
-            this.isAppAvailable = true;
-            this.isAppAvailableSubject.next(this.isAppAvailable);
-          }
-        );
-      } 
-    }
-    
-    this.isAlreadyVerified = true;
-  }
-
-  private isExperimentalPeriodValid():boolean{
+  isExperimentalPeriodValid():boolean{
     let expirationDate = new Date(this.appSettings.startDate);
-    expirationDate.setDate(expirationDate.getDate() +1);
+    expirationDate.setDate(expirationDate.getDate() + environment.daysToTrialPeriod);
     return expirationDate > new Date();
   }
 
-  private getEmailDeviceKeyStatusAsync():Observable<any> {
+  getEmailDeviceKeyStatusAsync():Observable<any> {
     let emailDeviceKey = new EmailDeviceKey();
     emailDeviceKey.email = this.appSettings.email;
     emailDeviceKey.deviceKey = this.appSettings.deviceKey;
-    
+
     return this.createDefaultPipePost<any>(environment.validateDeviceKeyUrl, JSON.stringify(emailDeviceKey));
   }
 

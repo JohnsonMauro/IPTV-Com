@@ -4,7 +4,6 @@ import { ApiHelper } from 'src/app/helpers/apiHelper';
 import { CategoryHelper } from 'src/app/helpers/categoryHelper';
 import { EncryptHelper } from 'src/app/helpers/encryptHelper';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
-import { PageHelper } from 'src/app/helpers/pageHelper';
 import { SearchService } from 'src/app/services/searchService';
 import { Serie } from 'src/app/models/api/serie';
 import { Category } from 'src/app/models/app/category';
@@ -19,6 +18,7 @@ import { StreamBase } from 'src/app/models/api/streamBase';
 import { StreamInfo } from 'src/app/models/api/streamInfo';
 import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
 import { LanguageService } from 'src/app/services/languageService';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-serieStream',
@@ -77,26 +77,22 @@ export class SerieStreamComponent implements OnInit {
   }
 
 
-  selectStream(stream: Serie) {
+  selectStream(streamBase: StreamBase) {
     try {
+      let stream = <Serie>streamBase;
       this.isImageError = false;
       if (this.stream == stream){
         this.moveToSerieDetail();
       }      
       else {
         this.stream = stream;
-        this.populateStreamDetail(stream);
-      }
+        this.streamInfo = stream.streamInfo;      }
     }
     catch (error: any) {
       this.alertService.error(error?.message ?? error?.error);
     }
   }
 
-
-  populateStreamDetail(stream: Serie) {
-    this.streamInfo = stream.streamInfo;
-  }
 
   getFavoriteDescription(): string {
     return this.getLabel(this.currentCategory?.id == CategoryHelper.favoritesCategoryId ? "RemoveFromFavorites" : "AddToFavorites");
@@ -133,12 +129,15 @@ export class SerieStreamComponent implements OnInit {
 
   // ------------------------------------ Search and move ----------------------------------------
   onBackTrigger(){
-    this.router.navigate(["playlist/"+this.playlist._id, {isBack: true}]);
+    this.router.navigate(["playlist/"+this.playlist._id]);
   }
 
   onMoveCategoryTrigger(category: Category) {
     this.currentCategory = category;
-    this.stream = null;
+    if(category.id == CategoryHelper.favoritesCategoryId){
+      this.stream = null;
+      this.streamInfo = null
+    }    
     let streamsLocal = this.findByGeneralSearch(category, this.searchText, this.sortCode, this.streamsAll);
     this.setPageOnStream(1, streamsLocal);
   }
@@ -163,9 +162,9 @@ export class SerieStreamComponent implements OnInit {
 
   setPageOnStream(page: number, streamsFiltered: Serie[]) {
     this.currentPage = page;
-    this.maxPage = Math.ceil(streamsFiltered.length / PageHelper.getNumberItemsOnPage())
-    let from = (page - 1) * PageHelper.getNumberItemsOnPage();
-    let to = from + PageHelper.getNumberItemsOnPage();
+    this.maxPage = Math.ceil(streamsFiltered.length / environment.numberOfItemsOnPage)
+    let from = (page - 1) * environment.numberOfItemsOnPage;
+    let to = from + environment.numberOfItemsOnPage;
     this.streams = streamsFiltered.slice(from, to);
   }
 

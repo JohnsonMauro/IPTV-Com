@@ -12,6 +12,7 @@
     "User":  "User",
     "Password":  "Password",
     "Name":  "Name",
+    "Date":"Date",
     "Watch":  "Watch",
     "Fullscreen":  "Fullscreen",
     "Search":  "Search...",
@@ -33,6 +34,13 @@
     "Description": "Description",
     "ReleaseDate": "Release date",
     "Cast": "Cast",
-    "NoPlaylistFound":"No playlist found"
+    "NoPlaylistFound":"No playlist found",
+    "Info": "Information",
+    "PlaylistRemoved": "Playlist removed",
+    "SettingsSaved": "Settings saved",
+    "PleaseRestart": "Please, restart",
+    "TrialPeriod":"In trial period",
+    "TrialPeriodEnded": "Trial period has ended",
+    "EmailOrKeyEmpty":"The app could not be validated, email or device key are empty"
 }
 }
