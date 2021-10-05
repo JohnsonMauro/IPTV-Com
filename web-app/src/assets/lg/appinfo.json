@@ -1,12 +1,14 @@
 {
     "vendor": "JN",
     "icon": "icon.png",
-    "largeIcon": "largeIcon.png",
+    "largeIcon": "icon.png",
     "main": "index.html",
     "id": "com.jn.app.joy-iptv",
     "title": "JOY-IPTV",
     "type": "web",
     "version": "0.0.1",
     "disableBackHistoryAPI": true,
-    "iconColor": "#262626"
+    "iconColor": "#262626",
+    "bgImage": "iconLarge.png",
+    "splashBackground": "iconLarge.png"
 }
