@@ -84,19 +84,17 @@ export class LiveStreamComponent implements OnInit {
       result.forEach(x => this.categories.push(x));
     });
 
+    let currentDate = Date.now();
     let tempEpg = this.epgService.findTemporarytLiveEpg(this.playlist._id);
-
     if(tempEpg.length > 0)
-    {
-      let currentDate = new Date();
+    {    
       this.epgAll = tempEpg.filter(x => x.endDate > currentDate);
     }
     else{
-      this.epgService.getLiveEpgAsync(this.playlist).subscribe(result => {
-        if(result.length > 0){
-          let currentDate = new Date();
-          this.epgService.saveTemporaryLiveEpg(this.playlist._id, result);
-          this.epgAll = tempEpg.filter(x => x.endDate > currentDate);
+      this.epgService.getLiveEpgAsync(this.playlist).subscribe(epgResult => {
+        if(epgResult.length > 0){
+          this.epgService.saveTemporaryLiveEpg(this.playlist._id, epgResult);
+          this.epgAll = epgResult.filter(x => x.endDate > currentDate);
         }   
       });
     }

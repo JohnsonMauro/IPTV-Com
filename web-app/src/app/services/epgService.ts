@@ -21,14 +21,12 @@ export class EpgService {
     }
 
     findTemporarytLiveEpg(playlistId: string): Epg[] {
-
         let epgFromDb = this.dbService.findEpg(playlistId);
-
         if (epgFromDb != null) {
             var expirationDate = new Date(epgFromDb.date);
             expirationDate.setDate(expirationDate.getDate() + environment.daysToKeepEpg);
 
-            if (expirationDate >  new Date()) {
+            if (expirationDate > new Date()) {
                 return epgFromDb.epg;
             }
         }
@@ -57,7 +55,7 @@ export class EpgService {
     private epgMap(result: string): Epg[] {
         let epgs: Epg[] = [];
 
-        let convertToDateFunc = function (dateText: string, dateFormat: string): Date {
+        let convertToDateFunc = function (dateText: string, dateFormat: string): number {
             let yearIndex = dateFormat.indexOf("yyyy");
             let monthIndex = dateFormat.indexOf("MM");
             let dayIndex = dateFormat.indexOf("dd");
@@ -66,14 +64,14 @@ export class EpgService {
             let minuteIndex = dateFormat.indexOf("mm");
             let secondsIndex = dateFormat.indexOf("ss");
 
-            let zoneIndex = dateFormat.indexOf("Zhhmm");
+            let zoneIndex = dateFormat.indexOf("zzzzz");
 
             let dateFormated = `${dateText.substr(yearIndex, 4)}-${dateText.substr(monthIndex, 2)}-${dateText.substr(dayIndex, 2)} ${dateText.substr(hourIndex, 2)}:${dateText.substr(minuteIndex, 2)}:${dateText.substr(secondsIndex, 2)} GMT${dateText.substr(zoneIndex, 5)}`
-            return new Date(dateFormated);
+            return Date.parse(dateFormated);
         };
 
         if (result != null && result != "") {
-            let dateStringFormat = "yyyyMMddhhmmss Zhhmm";
+            let dateStringFormat = "yyyyMMddhhmmss zzzzz";
 
             let responseXml = new DOMParser().parseFromString(result, "text/xml");
             let programmes = responseXml.getElementsByTagName("programme");
@@ -85,12 +83,13 @@ export class EpgService {
                 let start = programme.attributes.getNamedItem('start').nodeValue;
                 let stop = programme.attributes.getNamedItem('stop').nodeValue;
 
-                epgs.push({
-                    liveStreamName: liveName,
-                    title: title,
-                    startDate: convertToDateFunc(start, dateStringFormat),
-                    endDate: convertToDateFunc(stop, dateStringFormat),
-                });
+                let epg = new Epg();
+                epg.liveStreamName = liveName;
+                epg.title = title;
+                epg.startDate = convertToDateFunc(start, dateStringFormat);
+                epg.endDate = convertToDateFunc(stop, dateStringFormat);
+
+                epgs.push(epg);
             }
         }
 
