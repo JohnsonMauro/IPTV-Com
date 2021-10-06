@@ -17,7 +17,7 @@
            <app-streamList [streams]="streams" [fallbackImage]="'images/movie.png'" (onStreamSelect)="selectStream($event)" (isLiveStream)="false" ></app-streamList>
     
             <div class="content-main-line content-main-line-navigation content-main-line-bottom-left">
-                <app-page [maxPage]="maxPage" [currentPage]="currentPage" (onMove)="onMovePageTrigger($event)"></app-page>
+                <app-page [isFullscreen]="isFullscreen" [maxPage]="maxPage" [currentPage]="currentPage" (onMove)="onMovePageTrigger($event)"></app-page>
             </div>
 
         </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { LanguageService } from 'src/app/services/languageService';
 
 @Component({
@@ -7,7 +7,9 @@ import { LanguageService } from 'src/app/services/languageService';
   styleUrls: ['./page.component.css']
 })
 export class PageComponent implements OnInit {
-
+  
+  @Input()
+  isFullscreen = false;
   @Input()
   currentPage: number = 1;
   @Input()
@@ -41,4 +43,21 @@ export class PageComponent implements OnInit {
       this.currentPage = pageRequested <= 0 ? this.maxPage : 1;
     } 
   }
+
+  @HostListener('window:keydown', ['$event'])
+	handleKeyDown(event: KeyboardEvent) {
+		if (!this.isFullscreen) {
+			return;
+		}
+
+    switch (event.keyCode) {
+			case 412:
+				this.move(-1);
+				break;
+			case 417:
+			this.move(1);
+				break;
+			default: break;
+		}
+	}
 }
