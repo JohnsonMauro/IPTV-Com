@@ -70,9 +70,9 @@
                                         {{epg[i] == null ? '...' : epg[i].title}}
                                     </td>
                                     <td class="content-line-tv-epg-item-hour">
-                                        <!-- {{("0" + epg[i]?.startDateDate.getHours()).slice(-2)   + ":" + ("0" + epg[i]?.startDateDate.getMinutes()).slice(-2)}}
+                                        {{getTime(epg[i]?.startDate)}}
                                         - 
-                                        {{("0" + epg[i]?.endDateDate.getHours()).slice(-2)   + ":" + ("0" + epg[i]?.endDateDate.getMinutes()).slice(-2)}} -->
+                                        {{getTime(epg[i]?.endDate)}}
                                     </td>
                                 </tr>                               
                             </table>

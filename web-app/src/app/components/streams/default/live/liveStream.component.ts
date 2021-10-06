@@ -133,6 +133,14 @@ export class LiveStreamComponent implements OnInit {
     this.epg = this.epgAll.filter(x => x.liveStreamName == stream.epg_channel_id).slice(0,4);
   }
 
+  getTime(dateNumber: number): string{
+    if(dateNumber == null){
+      return "...";
+    }
+    let date = new Date(dateNumber);
+    return ("0" + date.getHours()).slice(-2)   + ":" + ("0" + date.getMinutes()).slice(-2);
+  }
+
   getFavoriteDescription(): string {
     return this.getLabel(this.currentCategory?.id == CategoryHelper.favoritesCategoryId ? "RemoveFromFavorites" : "AddToFavorites");
   }
