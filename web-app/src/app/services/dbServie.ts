@@ -92,7 +92,7 @@ export class DbService {
 
   saveEpg(playlistId: string, epg: Epg[]) {
     let dbEpg: DbEpg = {
-      date: new Date(),
+      date: Date.now(),
       epg : epg
     };
 
@@ -132,6 +132,6 @@ export class DbService {
 }
 
 class DbEpg{
-date: Date;
+date: number;
 epg: Epg[];
 }

@@ -64,7 +64,7 @@
             <div class="content-main-line">
                     <div class="content-line-tv-epg">
                         <div class="content-line-tv-epg-center">
-                            <table class="content-line-tv-epg-table" style="height: 100%;" cellspacing="0" >
+                            <table class="content-line-tv-epg-table" cellspacing="0" >
                                 <tr *ngFor="let item of [].constructor(3); let i = index">                 
                                     <td class="content-line-tv-epg-item-program">
                                         {{epg[i] == null ? '...' : epg[i].title}}

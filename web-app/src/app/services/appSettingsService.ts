@@ -27,12 +27,12 @@ export class AppSettingsService {
     if(appSettings == null)
     {
       appSettings = new AppSettings();
-      appSettings.startDate = new Date();
+      appSettings.startDate = Date.now();
       this.dbService.saveAppSettings(appSettings);
     }
     else if(appSettings.startDate == null)
     {
-      appSettings.startDate = new Date();
+      appSettings.startDate = Date.now();
       this.dbService.saveAppSettings(appSettings);
     }
 

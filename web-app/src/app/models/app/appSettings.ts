@@ -6,6 +6,6 @@ vodSimpleViewEnabled: boolean;
 seriesSimpleViewEnabled: boolean;
 startNextStreamEnabled: boolean;
 selectCategoryEnabled: boolean;
-startDate: Date;
+startDate: number;
 language: string;
 }
