@@ -139,8 +139,10 @@ export class VodStreamComponent implements OnInit {
     return;
     if (isFullScreen)
       this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
-    else
+    else{
       this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
+      this.spatialNavigation.focus(MovableHelper.getMovableSectionIdGeneral());
+    }
 
     this.isFullscreen = isFullScreen;
   }

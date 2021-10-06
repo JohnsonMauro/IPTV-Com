@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MovableHelper } from 'src/app/helpers/movableHelper';
 import { SortCode } from 'src/app/models/app/sortCode';
 import { LanguageService } from 'src/app/services/languageService';
+import { SpacialNavigationService } from 'src/app/services/spacialNavigationService';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { LanguageService } from 'src/app/services/languageService';
 })
 export class HeaderComponent implements OnInit {
   constructor(private router: Router
-    ,private activatedRoute: ActivatedRoute
+    ,private spatialNavigation: SpacialNavigationService
     ,private languageService: LanguageService) { }
 
   searchText: string;
@@ -44,6 +45,7 @@ export class HeaderComponent implements OnInit {
   executeTextKeyUp = MovableHelper.executeDefaultKeyUpForInputText;
 
   ngOnInit(): void {
+    this.spatialNavigation.focus();
   }
 
   getLabel(key: string): string{

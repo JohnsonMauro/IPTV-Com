@@ -33,8 +33,11 @@ export class SpacialNavigationService {
     this.spatialNavigation.makeFocusable();
     this.focus();
   }
-  focus() {
-    this.spatialNavigation.makeFocusable();
+  focus(sectionId: string = null) {
+    if(sectionId == null)
     this.spatialNavigation.focus();
+    else 
+    this.spatialNavigation.focus(sectionId);
+
   }
 }

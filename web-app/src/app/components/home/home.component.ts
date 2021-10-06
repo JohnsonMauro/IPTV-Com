@@ -106,7 +106,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  appSettingSave() {
+  saveAppSettings() {
     this.alertService.success(this.getLabel("SettingsSaved"));
     this.alertService.info(this.getLabel("PleaseRestart"));
     this.displaySettings(false);
@@ -152,8 +152,6 @@ export class HomeComponent implements OnInit {
 
 
   ngAfterViewInit() {
-      this.spatialNavigation.focus();
-
     this.validateApplication();
   }
 

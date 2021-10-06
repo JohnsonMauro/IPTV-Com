@@ -7,7 +7,7 @@ export const environment = {
   ,encryptSecret: "encryptSecret"
   ,defaultLanguage: "1033"
   ,daysToKeepEpg: 1
-  ,daysToTrialPeriod: 1
+  ,daysToValidate: 1
   ,numberOfItemsOnPage: 8
   ,validateDeviceKeyUrl: ""
 };

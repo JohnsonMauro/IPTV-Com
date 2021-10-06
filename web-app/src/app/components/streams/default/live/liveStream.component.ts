@@ -106,8 +106,10 @@ export class LiveStreamComponent implements OnInit {
 
     if (isFullScreen)
       this.spatialNavigation.disable(MovableHelper.getMovableSectionIdGeneral());
-    else
-      this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
+      else{
+        this.spatialNavigation.enable(MovableHelper.getMovableSectionIdGeneral());
+        this.spatialNavigation.focus(MovableHelper.getMovableSectionIdGeneral());
+      }
 
     this.isFullscreen = isFullScreen;
   }
