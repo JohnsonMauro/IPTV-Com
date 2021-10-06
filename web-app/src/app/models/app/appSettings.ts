@@ -7,5 +7,6 @@ seriesSimpleViewEnabled: boolean;
 startNextStreamEnabled: boolean;
 selectCategoryEnabled: boolean;
 startDate: number;
+lastValidationDate: number;
 language: string;
 }

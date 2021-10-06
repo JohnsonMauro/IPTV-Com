@@ -41,6 +41,7 @@
     "PleaseRestart": "Please, restart",
     "TrialPeriod":"In trial period",
     "TrialPeriodEnded": "Trial period has ended",
+    "AppNotAvailable": "App not available",
     "EmailOrKeyEmpty":"The app could not be validated, email or device key are empty"
 }
 }

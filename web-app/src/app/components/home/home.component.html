@@ -1,5 +1,5 @@
 <div class="content-main-header">
-    <app-header (isBack)="isBack = true"></app-header>
+    <app-header ></app-header>
 </div>
 
 
@@ -16,7 +16,7 @@
 
             <div *ngFor="let playlist of playlists; let i = index" class="content-main-line">
 
-                <button type="button" class="movable content-folder" (click)="onSelectPlayslist(playlist)" [disabled]="!getIsAppAvailable()" [custom-focus]="i == 0 && getIsAppAvailable()">
+                <button type="button" class="movable content-folder" (click)="onSelectPlayslist(playlist)" [custom-focus]="i == 0">
                     <div class="content-folder-left">
                         <div class="content-folder-icon ">
                             <img class="content-icon content-icon-serie" alt="icon" src="images/folder.png"

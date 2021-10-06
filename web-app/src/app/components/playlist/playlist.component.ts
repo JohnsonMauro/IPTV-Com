@@ -25,7 +25,6 @@ export class PlaylistComponent implements OnInit {
   }
 
   isDisplayEditPlaylist = false;
-  isBack = false;
   playlist: Playlist;
 
   ngOnInit(): void {

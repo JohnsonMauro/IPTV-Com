@@ -46,7 +46,7 @@ export class PageComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
 	handleKeyDown(event: KeyboardEvent) {
-		if (!this.isFullscreen) {
+		if (this.isFullscreen) {
 			return;
 		}
 

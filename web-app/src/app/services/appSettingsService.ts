@@ -14,8 +14,8 @@ import { SpinnerService } from './spinnerService';
 @Injectable()
 export class AppSettingsService {
 
-  public isAlreadyVerified = false;
-  public isAppAvailable = false;
+  private isAlreadyVerified = false;
+  private isAppAvailable = false;
   private appSettings: AppSettings;
 
   constructor(
@@ -24,14 +24,12 @@ export class AppSettingsService {
     , private alertService: AlertService
     , private dbService: DbService) {
     let appSettings = this.dbService.getAppSettings();
-    if(appSettings == null)
-    {
+    if (appSettings == null) {
       appSettings = new AppSettings();
       appSettings.startDate = Date.now();
       this.dbService.saveAppSettings(appSettings);
     }
-    else if(appSettings.startDate == null)
-    {
+    else if (appSettings.startDate == null) {
       appSettings.startDate = Date.now();
       this.dbService.saveAppSettings(appSettings);
     }
@@ -40,26 +38,49 @@ export class AppSettingsService {
   }
 
   getAppSettings() {
-  return this.appSettings;
+    return this.appSettings;
   }
 
   getIsAppAvailable(): boolean {
     return this.isAppAvailable;
-    }
+  }
+  setIsAppAvailable(isAppAvailable: boolean) {
+    this.isAppAvailable = isAppAvailable;
+  }
+
+  getIsAlreadyVerified(): boolean {
+    return this.isAlreadyVerified;
+  }
+
+  setIsAlreadyVerified(isAlreadyVerified: boolean) {
+    this.isAlreadyVerified = isAlreadyVerified;
+  }
 
   setAppSettings(appSettings: AppSettings) {
     this.dbService.saveAppSettings(appSettings);
     this.appSettings = appSettings;
-    }
+  }
 
+  getIsOnlineValidationNeeded() {
+    if (this.appSettings.lastValidationDate == null)
+      return true;
+    let expirationDate = new Date(this.appSettings.lastValidationDate);
+    expirationDate.setDate(expirationDate.getDate() + environment.daysToValidate);
+    return expirationDate < new Date();
+  }
 
-  isExperimentalPeriodValid():boolean{
+  setLastValidationDate() {
+    this.appSettings.lastValidationDate = Date.now();
+    this.dbService.saveAppSettings(this.appSettings);
+  }
+
+  getIsExperimentalPeriodValid(): boolean {
     let expirationDate = new Date(this.appSettings.startDate);
-    expirationDate.setDate(expirationDate.getDate() + environment.daysToTrialPeriod);
+    expirationDate.setDate(expirationDate.getDate() - 3 + environment.daysToValidate);
     return expirationDate > new Date();
   }
 
-  getEmailDeviceKeyStatusAsync():Observable<any> {
+  getEmailDeviceKeyStatusAsync(): Observable<any> {
     let emailDeviceKey = new EmailDeviceKey();
     emailDeviceKey.email = this.appSettings.email;
     emailDeviceKey.deviceKey = this.appSettings.deviceKey;
@@ -72,7 +93,7 @@ export class AppSettingsService {
     return this.httpClient.post<T>(url, data)
       .pipe(
         catchError(err => { console.log(err); this.alertService.error(err?.error ?? err?.message); return throwError(err) }),
-        finalize(() => {this.spinnerService.hideSpinner();})
+        finalize(() => { this.spinnerService.hideSpinner(); })
       );
   }
 }

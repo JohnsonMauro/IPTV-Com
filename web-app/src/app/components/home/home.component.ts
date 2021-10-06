@@ -18,7 +18,6 @@ import { SpacialNavigationService } from '../../services/spacialNavigationServic
 })
 export class HomeComponent implements OnInit {
 
-  isBack = false;
   isDisplayAddPlaylist = false;
   isDisplaySettings = false;
   isDisplayInfo = false;
@@ -49,6 +48,11 @@ export class HomeComponent implements OnInit {
   }
 
   onSelectPlayslist(playlist: Playlist) {
+    if(!this.appSettingsService.getIsAppAvailable()){
+      this.alertService.warning(this.getLabel("AppNotAvailable"));
+      return;
+    }
+
     this.route.navigate(['/playlist', playlist._id]);
   }
 
@@ -112,18 +116,14 @@ export class HomeComponent implements OnInit {
     return this.languageService.getLabel(key);
   }
 
-  getIsAppAvailable(){
-    return this.appSettingsService.isAppAvailable;
-  }
-
   validateApplication() {
-    if (this.appSettingsService.isAlreadyVerified) {
+    if (this.appSettingsService.getIsAlreadyVerified()) {
       return;
     }
 
-    else if (this.appSettingsService.isExperimentalPeriodValid()) {
+    else if (this.appSettingsService.getIsExperimentalPeriodValid()) {
       this.alertService.info(this.languageService.getLabel("TrialPeriod"));
-      this.appSettingsService.isAppAvailable = true;
+      this.appSettingsService.setIsAppAvailable(true);
     }
     else {
       if (this.appSettingsService.getAppSettings().email == null || this.appSettingsService.getAppSettings().email == ""
@@ -132,20 +132,26 @@ export class HomeComponent implements OnInit {
         this.alertService.warning(this.languageService.getLabel("EmailOrKeyEmpty"));
       }
       else {
-        this.appSettingsService.getEmailDeviceKeyStatusAsync().subscribe(
-          () => {
-            this.appSettingsService.isAppAvailable = true;
-          }
-        );
+        if(this.appSettingsService.getIsOnlineValidationNeeded())
+        {
+          this.appSettingsService.getEmailDeviceKeyStatusAsync().subscribe(
+            () => {
+              this.appSettingsService.setLastValidationDate();
+              this.appSettingsService.setIsAppAvailable(true);
+            }
+          );
+        }
+        else{
+          this.appSettingsService.setIsAppAvailable(true);
+        }
       }
     }
 
-    this.appSettingsService.isAlreadyVerified = true;
+    this.appSettingsService.setIsAlreadyVerified(true);
   }
 
 
   ngAfterViewInit() {
-    if (!this.isBack)
       this.spatialNavigation.focus();
 
     this.validateApplication();

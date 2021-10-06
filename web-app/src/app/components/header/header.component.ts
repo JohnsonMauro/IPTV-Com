@@ -21,8 +21,6 @@ export class HeaderComponent implements OnInit {
   sortCodesName = Object.values(SortCode).filter(f => isNaN(Number(f)));
 
   @Output()
-  onIsBack = new EventEmitter<null>();
-  @Output()
   onSearch = new EventEmitter<string>();
   @Output()
   onSort = new EventEmitter<SortCode>();

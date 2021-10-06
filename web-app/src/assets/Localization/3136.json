@@ -41,6 +41,7 @@
     "PleaseRestart": "Favor, reiniciar",
     "TrialPeriod":"Em periodo de avaliacao",
     "TrialPeriodEnded": "Periodo de avalicao terminou",
+    "AppNotAvailable": "Aplicativo nao esta disponivel",
     "EmailOrKeyEmpty":"A aplicacao nao pode ser validada, email ou chave estao vazios"
 }
 }
