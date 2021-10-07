@@ -1,0 +1,142 @@
+<div class="content-main-header">
+  <app-header></app-header>
+</div>
+
+<div class="content-main">
+  <div class="content-main-left">
+    <div class="content-main-wrapper">
+      <div
+        *ngIf="playlists == null || playlists.length == 0"
+        class="content-main-line"
+      >
+        {{ getLabel("NoPlaylistFound") }}
+      </div>
+
+      <div
+        *ngFor="let playlist of playlists; let i = index"
+        class="content-main-line"
+      >
+        <button
+          type="button"
+          class="movable content-folder"
+          (click)="onSelectPlayslist(playlist)"
+          [custom-focus]="i == 0"
+        >
+          <div class="content-folder-left">
+            <div class="content-folder-icon">
+              <img
+                class="content-icon content-icon-serie"
+                alt="icon"
+                src="images/folder.png"
+                loading="lazy"
+              />
+            </div>
+            <div class="content-folder-text">
+              {{ playlist.name.trim() }}
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-main-right">
+    <div class="content-main-wrapper">
+      <div class="content-main-line">
+        <div class="content-main-line-left">
+          <button
+            type="button"
+            class="movable content-button"
+            (click)="displayAddPlayslist(true)"
+            [custom-focus]="playlists.length == 0"
+          >
+            <div class="content-button-center">
+              <div class="content-button-icon">
+                <img
+                  alt="icon"
+                  src="images/plus.png"
+                  loading="lazy"
+                  class="content-icon"
+                />
+              </div>
+              <div class="content-button-text">
+                {{ getLabel("AddPlaylist") }}
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <div class="content-main-line-right">
+          <button
+            type="button"
+            class="movable content-button"
+            (click)="displaySettings(true)"
+          >
+            <div class="content-button-center">
+              <div class="content-button-icon">
+                <img
+                  alt="icon"
+                  src="images/settings.png"
+                  loading="lazy"
+                  class="content-icon"
+                />
+              </div>
+              <div class="content-button-text">
+                {{ getLabel("Settings") }}
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div class="content-main-line">
+        <button
+          type="button"
+          class="movable content-button"
+          (click)="displayInfo(true)"
+        >
+          <div class="content-button-center">
+            <div class="content-button-icon">
+              <img
+                alt="icon"
+                src="images/info.png"
+                loading="lazy"
+                class="content-icon"
+              />
+            </div>
+            <div class="content-button-text">
+              {{ getLabel("Info") }}
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isDisplaySettings">
+  <div class="content-main-popup-shadow"></div>
+  <div class="content-home-addplaylist-position">
+    <app-settings
+      (onCancel)="displaySettings(false)"
+      (onSave)="saveAppSettings()"
+    ></app-settings>
+  </div>
+</div>
+
+<div *ngIf="isDisplayAddPlaylist">
+  <div class="content-main-popup-shadow"></div>
+  <div class="content-home-addplaylist-position">
+    <app-managePlaylist
+      (onCancel)="displayAddPlayslist(false)"
+      (onSave)="addPlaylist($event)"
+    ></app-managePlaylist>
+  </div>
+</div>
+
+<div *ngIf="isDisplayInfo">
+  <div class="content-main-popup-shadow"></div>
+  <div class="content-home-addplaylist-position">
+    <app-info (onCancel)="displayInfo(false)"></app-info>
+  </div>
+</div>
