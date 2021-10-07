@@ -27,18 +27,23 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               { "glob": "**/*", "input": "src/assets/lg", "output": "./" },
-              { "glob": "**/*", "input": "src/assets/images", "output": "./images" },
-              { "glob": "**/*", "input": "src/assets/localization", "output": "./localization" }
-              
+              {
+                "glob": "**/*",
+                "input": "src/assets/images",
+                "output": "./images"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/localization",
+                "output": "./localization"
+              }
             ],
             "styles": [
               "src/assets/css/general.css",
               "src/assets/css/movable.css",
               "src/assets/css/elements.css"
             ],
-            "scripts": [
-              "src/assets/js/spatialNavigation.js"
-            ]
+            "scripts": ["src/assets/js/spatialNavigation.js"]
           },
           "configurations": {
             "production": {

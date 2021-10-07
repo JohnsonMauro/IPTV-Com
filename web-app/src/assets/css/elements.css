@@ -1,45 +1,50 @@
-label, p, a, button, body {
-    font-size: 3.2vh;
+label,
+p,
+a,
+button,
+body {
+  font-size: 3.2vh;
 }
 
-input[type=password],
-input[type=text],
-select, option
-{
-    font-size: 3vh;
+input[type="password"],
+input[type="text"],
+select,
+option {
+  font-size: 3vh;
 }
 
 a {
-    font-weight: normal;
-    display: block;
-    text-decoration: none;
-    border: 3px solid transparent;
+  font-weight: normal;
+  display: block;
+  text-decoration: none;
+  border: 3px solid transparent;
 }
 
 select option {
-    background-color: white;
+  background-color: white;
 }
 
 select {
-    appearance: none;
-    padding-right: 1.6vh !important;
-    background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMjFsLTEyLTE4aDI0eiIvPjwvc3ZnPg==");
-    background-position: right;
-    background-repeat: no-repeat;
-    background-color: white;
-    background-size: 1.5vh;
+  appearance: none;
+  padding-right: 1.6vh !important;
+  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMjFsLTEyLTE4aDI0eiIvPjwvc3ZnPg==");
+  background-position: right;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-size: 1.5vh;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    color: #efefef;
-    font-family: Verdana;
-    background-color: #262626;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  color: #efefef;
+  font-family: Verdana;
+  background-color: #262626;
 }
 
 ::-webkit-scrollbar {
-    width: 20px;  /* Remove scrollbar space */
-    background: red;  /* Optional: just make scrollbar invisible */
+  width: 20px; /* Remove scrollbar space */
+  background: red; /* Optional: just make scrollbar invisible */
 }
